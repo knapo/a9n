@@ -115,12 +115,25 @@ describe A9n do
     end
 
     context 'when file exists' do
-      before { described_class.should_receive(:env).and_return('test') }
       let(:file_path) { 'fixtures/configuration.yml'}
+      before { described_class.should_receive(:env).twice.and_return(env) }
 
-      it 'returns non-empty hash' do
-        subject.should be_kind_of(Hash)
-        subject.keys.should_not be_empty
+      context 'and has data' do
+        let(:env) { 'test' }
+
+        it 'returns non-empty hash' do
+          subject.should be_kind_of(Hash)
+          subject.keys.should_not be_empty
+        end
+      end
+      context 'and has no data' do
+        let(:env) { 'production' }
+
+        it 'raises expection'  do
+          expect {
+            subject
+          }.to raise_error(described_class::MissingConfigurationData)
+        end
       end
     end
   end

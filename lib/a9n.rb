@@ -4,6 +4,7 @@ require 'a9n/store'
 module A9n
   class ConfigurationNotLoaded < StandardError; end
   class MissingConfigurationFile < StandardError; end
+  class MissingConfigurationData < StandardError; end
   class MissingConfigurationVariables < StandardError; end
   class NoSuchConfigurationVariable < StandardError; end
   
@@ -45,7 +46,13 @@ module A9n
     def load_yml(file)
       path = File.join(local_app.root, file)
       return unless File.exists?(path)
-      YAML.load_file(path)[self.env]
+      yml = YAML.load_file(path)
+      
+      if yml.key?(self.env)
+        return yml[self.env]
+      else
+        raise MissingConfigurationData.new("Configuration data for #{self.env} was not found in #{file}")
+      end
     end
 
     private
