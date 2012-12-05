@@ -6,7 +6,7 @@ describe A9n do
       it 'raises error' do
         expect {
           described_class.local_app
-        }.to raise_error(NameError, 'uninitialized constant Module::Rails')
+        }.to raise_error(NameError)
       end
     end
     
