@@ -102,18 +102,22 @@ describe A9n do
     subject {  described_class.load_yml(file_path) }
 
     before do
-      described_class.should_receive(:local_app).at_least(:once).and_return(stub(:env => 'test', :root => root))
+      described_class.should_receive(:local_app).at_least(:once).and_return(stub(:root => root))
     end
 
     context 'when file not exists' do
+      before { described_class.should_receive(:env).never }
       let(:file_path) { 'file_not_existing_in_universe.yml' }
+      
       it 'returns nil' do
         subject.should be_nil
       end
     end
 
     context 'when file exists' do
+      before { described_class.should_receive(:env).and_return('test') }
       let(:file_path) { 'fixtures/configuration.yml'}
+
       it 'returns non-empty hash' do
         subject.should be_kind_of(Hash)
         subject.keys.should_not be_empty

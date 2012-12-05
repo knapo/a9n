@@ -15,6 +15,10 @@ module A9n
       raise ConfigurationNotLoaded.new("Configuration does not seem to be loaded. Plase call A9n.load.")
     end
 
+    def env
+      @@env ||= ENV['RAILS_ENV'] || ENV['RACK_ENV'] || ENV['APP_ENV']
+    end
+
     def local_app
       @@local_app ||= Rails
     end
@@ -41,7 +45,7 @@ module A9n
     def load_yml(file)
       path = File.join(local_app.root, file)
       return unless File.exists?(path)
-      YAML.load_file(path)[local_app.env]
+      YAML.load_file(path)[self.env]
     end
 
     private
