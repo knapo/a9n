@@ -13,19 +13,19 @@ module A9n
     def cfg
       @@configuration
     rescue NameError
-      raise ConfigurationNotLoaded.new("Configuration does not seem to be loaded. Plase call A9n.load.")
+      raise ConfigurationNotLoaded.new("Configuration does not seem to be loaded. Plase call `A9n.load`.")
     end
 
     def env
-      @@env ||= ENV['RAILS_ENV'] || ENV['RACK_ENV'] || ENV['APP_ENV']
+      @env ||= ENV['RAILS_ENV'] || ENV['RACK_ENV'] || ENV['APP_ENV']
     end
-
+    
     def local_app
-      @@local_app ||= Rails
+      @local_app ||= Rails
     end
 
     def local_app=(local_app)
-      @@local_app = local_app
+      @local_app = local_app
     end
 
     def load

@@ -12,10 +12,12 @@ describe A9n do
     
     context 'when custom non-rails app is being used' do
       let(:local_app) { stub(:env => 'test', :root => 'local_app') }
-      before { described_class.local_app = local_app}
+      before { described_class.local_app = local_app }
 
       specify { described_class.local_app.should == local_app }
     end
+
+    after { described_class.local_app = nil }
   end
     
   describe '.load' do
