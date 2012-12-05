@@ -1,6 +1,6 @@
 # A9n
 
-[![Build status](https://secure.travis-ci.org/knapo/a9n.png)](https://secure.travis-ci.org/knapo/a9n)
+[![Build status](https://secure.travis-ci.org/knapo/a9n.png)](https://travis-ci.org/knapo/a9n)
 
 TODO: Write a gem description
 
