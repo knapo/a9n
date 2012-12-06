@@ -2,7 +2,7 @@
 
 [![Build status](https://secure.travis-ci.org/knapo/a9n.png)](https://travis-ci.org/knapo/a9n)
 
-TODO: Write a gem description
+Simple tool for managing ruby/rails application configurations.
 
 ## Installation
 
@@ -14,9 +14,9 @@ And then execute:
 
     $ bundle
 
-Or install it yourself as:
+In your `application.rb` load configuration with:
 
-    $ gem install a9n
+    A9n.load
 
 ## Usage
 
