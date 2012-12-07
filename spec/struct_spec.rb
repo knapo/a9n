@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe A9n::Store do
+describe A9n::Struct do
   subject { described_class.new(:app_host => 'http://127.0.0.1:3000') }
 
   it 'gets value' do

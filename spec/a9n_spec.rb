@@ -27,7 +27,7 @@ describe A9n do
     let(:local_sample_config){
       { :app_host => '127.0.0.1:3000' }
     }
-    subject { described_class.cfg }
+    subject { described_class.config }
 
     context 'when no configuration file exists' do
       before do

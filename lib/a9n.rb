@@ -1,5 +1,5 @@
 require 'a9n/version'
-require 'a9n/store'
+require 'a9n/struct'
 
 module A9n
   class ConfigurationNotLoaded < StandardError; end
@@ -10,7 +10,7 @@ module A9n
   
   class << self
 
-    def cfg
+    def config
       @@configuration
     rescue NameError
       raise ConfigurationNotLoaded.new("Configuration does not seem to be loaded. Plase call `A9n.load`.")
@@ -40,7 +40,7 @@ module A9n
         verify!(base, local)
       end
 
-      @@configuration = Store.new(local || base)
+      @@configuration = Struct.new(local || base)
     end
 
     def load_yml(file)

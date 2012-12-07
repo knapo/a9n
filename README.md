@@ -14,13 +14,15 @@ And then execute:
 
     $ bundle
 
+Add `configuration.yml.example` and/or `configuration.yml` file to config directory.
+
 In your `application.rb` load configuration with:
 
     A9n.load
 
 ## Usage
 
-TODO: Write usage instructions here
+    A9n.app_host
 
 ## Contributing
 

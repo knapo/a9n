@@ -1,7 +1,11 @@
 require 'ostruct'
 
 module A9n
-  class Store < OpenStruct
+  class Struct < OpenStruct
+    def keys
+      @table.keys
+    end
+
     def method_missing(name, *args)
       value = @table[name]
       if value.nil?
