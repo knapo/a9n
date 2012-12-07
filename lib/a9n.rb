@@ -11,9 +11,7 @@ module A9n
   class << self
 
     def config
-      @@configuration
-    rescue NameError
-      raise ConfigurationNotLoaded.new("Configuration does not seem to be loaded. Plase call `A9n.load`.")
+      @@configuration ||= load
     end
 
     def env
@@ -53,6 +51,15 @@ module A9n
       else
         raise MissingConfigurationData.new("Configuration data for #{self.env} was not found in #{file}")
       end
+    end
+
+    # Fixes rspec issue
+    def to_ary
+      nil
+    end
+
+    def method_missing(name, *args)
+      config.send(name, *args)
     end
 
     private

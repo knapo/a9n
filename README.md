@@ -16,11 +16,14 @@ And then execute:
 
 Add `configuration.yml.example` and/or `configuration.yml` file to config directory.
 
-In your `application.rb` load configuration with:
-
-    A9n.load
-
 ## Usage
+
+You can access any variable defined in `configuration.yml` file but delegating it to A9n. E.g:
+
+    production:
+      app_host: 'http://knapo.net'
+
+is accessible by
 
     A9n.app_host
 

@@ -27,7 +27,7 @@ describe A9n do
     let(:local_sample_config){
       { :app_host => '127.0.0.1:3000' }
     }
-    subject { described_class.config }
+    subject { described_class }
 
     context 'when no configuration file exists' do
       before do
@@ -49,7 +49,7 @@ describe A9n do
         described_class.should_receive(:verify!).never
         described_class.load
       end
-      it { should_not be_nil }
+      
       its(:app_url) { should_not be_nil }
       specify {
         expect { subject.app_host }.to raise_error(described_class::NoSuchConfigurationVariable)
@@ -63,8 +63,7 @@ describe A9n do
         described_class.should_receive(:verify!).never
         described_class.load
       end
-
-      it { should_not be_nil }
+      
       its(:app_host) { should_not be_nil }
       specify {
         expect { subject.app_url }.to raise_error(described_class::NoSuchConfigurationVariable)
@@ -78,7 +77,7 @@ describe A9n do
           described_class.should_receive(:load_yml).with('config/configuration.yml').and_return(base_sample_config)
           described_class.load
         end
-        it { should_not be_nil }
+        
         its(:app_url) { should_not be_nil }
         specify {
           expect { subject.app_host }.to raise_error(described_class::NoSuchConfigurationVariable)
