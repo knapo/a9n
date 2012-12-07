@@ -19,7 +19,7 @@ module A9n
     end
     
     def local_app
-      @local_app ||= Rails
+      @local_app ||= get_rails
     end
 
     def local_app=(local_app)
@@ -69,6 +69,10 @@ module A9n
       if missing_keys.any?
         raise MissingConfigurationVariables.new("Following variables are missing in your configuration file: #{missing_keys.join(',')}")
       end
+    end
+
+    def get_rails
+      defined?(Rails) ? Rails : nil
     end
   end
 end

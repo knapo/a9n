@@ -7,12 +7,11 @@ module A9n
     end
 
     def method_missing(name, *args)
-      value = @table[name]
-      if value.nil?
+      unless @table.key?(name.to_sym)
         raise NoSuchConfigurationVariable.new(name)
-      else
-        return value
       end
+
+      return @table[name.to_sym]
     end
   end
 end

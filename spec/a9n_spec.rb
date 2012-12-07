@@ -2,12 +2,10 @@ require 'spec_helper'
 
 describe A9n do
   describe '.local_app' do
-    context 'when no rails found' do
-      it 'raises error' do
-        expect {
-          described_class.local_app
-        }.to raise_error(NameError)
-      end
+    context 'when rails not found' do
+      specify {
+        described_class.local_app.should be_nil
+      }
     end
     
     context 'when custom non-rails app is being used' do
