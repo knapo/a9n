@@ -22,12 +22,18 @@ all keys existing in example file must exist in base file - in case of missing
 keys`A9n::MissingConfigurationVariables` is thrown with information about 
 missing keys.
 
-Load configuration by adding to youre `application.rb` or `environment.rb`
+Load configuration by adding to your `application.rb` or `environment.rb` right
+after budler requires:
 
     A9n.load
 
 This step is not required, but recommended, as it configuration is loaded and
 verified on evironment load.
+
+It works with `Rails` by default. If you want to use `A9n` with non-rails app
+you need to tell it A9n:
+
+    A9n.local_app = MyApp
 
 ## Usage
 

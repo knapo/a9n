@@ -3,6 +3,9 @@ require 'spec_helper'
 describe A9n do
   describe '.local_app' do
     context 'when rails not found' do
+      before {
+        described_class.should_receive(:get_rails).and_return(nil)
+      }
       specify {
         described_class.local_app.should be_nil
       }
