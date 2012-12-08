@@ -14,9 +14,20 @@ And then execute:
 
     $ bundle
 
-Add `configuration.yml.example` and/or `configuration.yml` file into the config directory.
-When none fo these files exists, `A9n::MissingConfigurationFile` exception is thrown.
-If both file exists, their content is validated and all keys existing in example file must exist in base file.
+Add `configuration.yml.example` and/or `configuration.yml` file into the config
+directory. When none fo these files exists, `A9n::MissingConfigurationFile`
+exception is thrown.
+If both file exist, content of `configuration.yml` is validated. It means that
+all keys existing in example file must exist base file - in case of missing keys
+`A9n::MissingConfigurationVariables` is thrown with information which keys are
+missing.
+
+Load configuration by adding to youre `application.rb` or `environment.rb`
+
+   A9n.load
+
+This step is not required, but recommended as it loads and verifies configuration
+before app is actually loaded.
 
 ## Usage
 
