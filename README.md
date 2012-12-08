@@ -14,16 +14,18 @@ And then execute:
 
     $ bundle
 
-Add `configuration.yml.example` and/or `configuration.yml` file to config directory.
+Add `configuration.yml.example` and/or `configuration.yml` file into the config directory.
+When none fo these files exists, `A9n::MissingConfigurationFile` exception is thrown.
+If both file exists, their content is validated and all keys existing in example file must exist in base file.
 
 ## Usage
 
-You can access any variable defined in `configuration.yml` file but delegating it to A9n. E.g:
+You can access any variable defined in configuration files but delegating it to A9n. E.g:
 
     production:
       app_host: 'http://knapo.net'
 
-is accessible by
+is accessible by:
 
     A9n.app_host
 

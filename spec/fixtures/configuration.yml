@@ -1,5 +1,16 @@
 development:
-  app_url: 'http://127.0.0.1:3000'
-
+  nil_dwarf: ~
+  false_dwarf: false
+  true_dwarf: true
+  string_dwarf: "dwarf"
+  hash_dwarf:
+    dwarf_1: "hello 1"
+    dwarf_2: "hello 2"
 test:
-  app_url: 'http://127.0.0.1:3000'
+  nil_dwarf: ~
+  false_dwarf: false
+  true_dwarf: true
+  string_dwarf: "dwarf"
+  hash_dwarf:
+    dwarf_1: "hello 1"
+    dwarf_2: "hello 2"

@@ -1,5 +1,6 @@
 require 'a9n/version'
 require 'a9n/struct'
+require 'a9n/core_ext/hash'
 
 module A9n
   class ConfigurationNotLoaded < StandardError; end
@@ -46,8 +47,8 @@ module A9n
       return unless File.exists?(path)
       yml = YAML.load_file(path)
       
-      if yml.key?(self.env)
-        return yml[self.env]
+      if yml[self.env].is_a?(Hash)
+        return yml[self.env].deep_symbolize_keys
       else
         raise MissingConfigurationData.new("Configuration data for #{self.env} was not found in #{file}")
       end

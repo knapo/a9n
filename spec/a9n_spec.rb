@@ -124,7 +124,14 @@ describe A9n do
           subject.should be_kind_of(Hash)
           subject.keys.should_not be_empty
         end
+
+        it 'has symbolized keys' do
+          subject.keys.first.should be_kind_of(Symbol)
+          subject[:hash_dwarf].should be_kind_of(Hash)
+          subject[:hash_dwarf].keys.first.should be_kind_of(Symbol)
+        end
       end
+      
       context 'and has no data' do
         let(:env) { 'production' }
 

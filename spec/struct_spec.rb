@@ -6,7 +6,8 @@ describe A9n::Struct do
         :non_empty_dwarf => 'dwarf',
         :nil_dwarf       => nil,
         :false_dwarf     => false,
-        :true_dwarf      => true
+        :true_dwarf      => true,
+        :hash_dwarf      => { :dwarf => 'hello' }
       })
   }
 
@@ -24,6 +25,10 @@ describe A9n::Struct do
   
   it 'gets false value' do
     subject.false_dwarf.should == false
+  end
+
+  it 'gets hash value' do
+    subject.hash_dwarf.should be_kind_of(Hash)
   end
 
   it 'raises exception when value not exists' do
