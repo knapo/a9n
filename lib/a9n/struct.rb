@@ -5,6 +5,10 @@ module A9n
     def keys
       @table.keys
     end
+    
+    def fetch(name, default = nil)
+      @table[name.to_sym] || default
+    end
 
     def method_missing(name, *args)
       unless @table.key?(name.to_sym)

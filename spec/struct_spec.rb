@@ -36,4 +36,14 @@ describe A9n::Struct do
       subject.non_existing_dwarf
     }.to raise_error(A9n::NoSuchConfigurationVariable)
   end
+
+  describe '#fetch' do
+    it 'return non empty value' do
+      subject.fetch(:non_empty_dwarf).should == 'dwarf'
+    end
+
+    it 'not returns nil for non existing value' do
+      subject.fetch(:non_existing_dwarf).should == nil
+    end
+  end
 end

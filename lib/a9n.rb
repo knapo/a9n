@@ -59,6 +59,10 @@ module A9n
       nil
     end
 
+    def fetch(*args)
+      config.fetch(*args)
+    end
+
     def method_missing(name, *args)
       config.send(name, *args)
     end
