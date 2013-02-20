@@ -12,13 +12,38 @@ describe A9n do
     end
     
     context 'when custom non-rails app is being used' do
-      let(:local_app) { stub(:env => 'test', :root => 'local_app') }
+      let(:local_app) { stub(:env => 'test', :root => '/apps/a9n') }
       before { described_class.local_app = local_app }
 
       specify { described_class.local_app.should == local_app }
     end
 
     after { described_class.local_app = nil }
+  end
+
+  describe '.root' do
+    let(:local_app) { stub(:env => 'test', :root => '/apps/a9n') }
+    before { described_class.local_app = local_app }
+
+    context 'with custom path' do
+      before {
+        described_class.root = '/home/knapo/workspace/a9n'
+      }
+      specify {
+        described_class.root.should == Pathname.new('/home/knapo/workspace/a9n')
+      }
+    end
+
+    context 'with local app path' do
+      specify {
+        described_class.root.should == '/apps/a9n'
+      }
+    end
+
+    after {
+      described_class.root = nil
+      described_class.local_app = nil 
+    }
   end
     
   describe '.load' do
@@ -104,7 +129,7 @@ describe A9n do
     subject {  described_class.load_yml(file_path) }
 
     before do
-      described_class.should_receive(:local_app).at_least(:once).and_return(stub(:root => root))
+      described_class.should_receive(:root).at_least(:once).and_return(root)
     end
 
     context 'when file not exists' do

@@ -27,6 +27,15 @@ module A9n
       @local_app = local_app
     end
 
+    def root
+      @root ||= @local_app.root
+    end
+
+    def root=(path)
+      path = path.to_s
+      @root = path.empty? ? nil : Pathname.new(path.to_s)
+    end
+
     def load
       base  = load_yml('config/configuration.yml.example')
       local = load_yml('config/configuration.yml')
@@ -43,7 +52,7 @@ module A9n
     end
 
     def load_yml(file)
-      path = File.join(local_app.root, file)
+      path = File.join(self.root, file)
       return unless File.exists?(path)
       yml = YAML.load_file(path)
       
