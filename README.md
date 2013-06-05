@@ -22,9 +22,10 @@ all keys existing in example file must exist in base file - in case of missing
 keys`A9n::MissingConfigurationVariables` is thrown with information about 
 missing keys.
 
-Load configuration by adding to your `application.rb` or `environment.rb` right
+Set application root and load configuration by adding to your `application.rb` or `environment.rb` right
 after budler requires:
 
+    A9n.root = File.expand_path('../..', __FILE__)
     A9n.load
 
 This step is not required, but recommended, as it configuration is loaded and
