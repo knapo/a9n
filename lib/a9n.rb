@@ -17,9 +17,13 @@ module A9n
     end
 
     def env
-      @env ||= local_app.env || ENV['RAILS_ENV'] || ENV['RACK_ENV'] || ENV['APP_ENV']
+      @env ||= local_app_env || ENV['RAILS_ENV'] || ENV['RACK_ENV'] || ENV['APP_ENV']
     end
-    
+
+    def local_app_env
+      local_app.env if local_app && local_app.respond_to?(:env)
+    end
+
     def local_app
       @local_app ||= get_rails
     end
