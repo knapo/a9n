@@ -1,6 +1,7 @@
 require 'a9n/version'
 require 'a9n/struct'
 require 'a9n/core_ext/hash'
+require 'yaml'
 
 module A9n
   class ConfigurationNotLoaded < StandardError; end
@@ -16,7 +17,7 @@ module A9n
     end
 
     def env
-      @env ||= ENV['RAILS_ENV'] || ENV['RACK_ENV'] || ENV['APP_ENV']
+      @env ||= local_app.env || ENV['RAILS_ENV'] || ENV['RACK_ENV'] || ENV['APP_ENV']
     end
     
     def local_app
@@ -28,7 +29,7 @@ module A9n
     end
 
     def root
-      @root ||= @local_app.root
+      @root ||= local_app.root
     end
 
     def root=(path)
