@@ -3,6 +3,7 @@ development:
   false_dwarf: false
   true_dwarf: true
   string_dwarf: "dwarf"
+  erb_dwarf: "<%= ENV['DWARF'] %>"
   hash_dwarf:
     dwarf_1: "hello 1"
     dwarf_2: "hello 2"
@@ -11,6 +12,7 @@ test:
   false_dwarf: false
   true_dwarf: true
   string_dwarf: "dwarf"
+  erb_dwarf: "<%= ENV['DWARF'] %>"
   hash_dwarf:
     dwarf_1: "hello 1"
     dwarf_2: "hello 2"

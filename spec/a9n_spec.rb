@@ -143,7 +143,10 @@ describe A9n do
 
     context 'when file exists' do
       let(:file_path) { 'fixtures/configuration.yml'}
-      before { described_class.should_receive(:env).twice.and_return(env) }
+      before { 
+        ENV['DWARF'] = 'erbized dwarf'
+        described_class.should_receive(:env).twice.and_return(env) 
+      }
 
       context 'and has data' do
         let(:env) { 'test' }
@@ -157,6 +160,10 @@ describe A9n do
           subject.keys.first.should be_kind_of(Symbol)
           subject[:hash_dwarf].should be_kind_of(Hash)
           subject[:hash_dwarf].keys.first.should be_kind_of(Symbol)
+        end
+
+        it 'parses erb' do
+          subject[:erb_dwarf].should == 'erbized dwarf'
         end
       end
       

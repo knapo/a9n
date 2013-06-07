@@ -2,6 +2,7 @@ require 'a9n/version'
 require 'a9n/struct'
 require 'a9n/core_ext/hash'
 require 'yaml'
+require 'erb'
 
 module A9n
   class ConfigurationNotLoaded < StandardError; end
@@ -59,7 +60,7 @@ module A9n
     def load_yml(file)
       path = File.join(self.root, file)
       return unless File.exists?(path)
-      yml = YAML.load_file(path)
+      yml = YAML.load(ERB.new(File.read(path)).result)
       
       if yml[self.env].is_a?(Hash)
         return yml[self.env].deep_symbolize_keys
