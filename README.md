@@ -1,6 +1,6 @@
 # A9n
 
-[![Gem Version](https://badge.fury.io/rb/twitter-bootstrap-rails.png)][gem_version]
+[![Gem Version](https://badge.fury.io/rb/a9n.png)][gem_version]
 [![Build status](https://secure.travis-ci.org/knapo/a9n.png)][travis]
 [![Code Climate](https://codeclimate.com/github/knapo/a9n.png)][codeclimate]
 [![Coverage Status](https://coveralls.io/repos/knapo/a9n/badge.png?branch=master)][coveralls]
