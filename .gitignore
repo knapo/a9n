@@ -11,4 +11,4 @@ pkg
 rdoc
 spec/reports
 tmp
-nbproject/
+.coveralls.yml
