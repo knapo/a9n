@@ -1,6 +1,14 @@
 # A9n
 
-[![Build status](https://secure.travis-ci.org/knapo/a9n.png)](https://travis-ci.org/knapo/a9n)
+[![Gem Version](https://badge.fury.io/rb/twitter-bootstrap-rails.png)][gem_version]
+[![Build status](https://secure.travis-ci.org/knapo/a9n.png)][travis]
+[![Code Climate](https://codeclimate.com/github/knapo/a9n.png)][codeclimate]
+[![Coverage Status](https://coveralls.io/repos/knapo/a9n/badge.png?branch=master)][coveralls]
+
+[gem_version]: https://rubygems.org/gems/a9n
+[travis]: http://travis-ci.org/knapo/a9n
+[codeclimate]: https://codeclimate.com/github/knapo/a9n
+[coveralls]: https://coveralls.io/r/knapo/a9n
 
 Simple tool for managing ruby/rails application configurations.
 
