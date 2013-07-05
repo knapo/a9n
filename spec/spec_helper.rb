@@ -1,10 +1,18 @@
+require 'simplecov'
+require 'coveralls'
+
+SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
+  SimpleCov::Formatter::HTMLFormatter,
+  Coveralls::SimpleCov::Formatter
+]
+SimpleCov.start do
+  add_filter '/spec/'
+end
+
 require 'rubygems'
 require 'bundler/setup'
 
 require 'a9n'
-
-require 'coveralls'
-Coveralls.wear!
 
 RSpec.configure do |config|
   config.order = "random"

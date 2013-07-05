@@ -11,6 +11,8 @@ describe A9n::Struct do
       })
   }
 
+  its(:keys) { should == [:non_empty_dwarf, :nil_dwarf, :false_dwarf, :true_dwarf, :hash_dwarf] }
+
   it 'gets non-empty value' do
     subject.non_empty_dwarf.should == 'dwarf'
   end

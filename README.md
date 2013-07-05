@@ -10,7 +10,7 @@
 [codeclimate]: https://codeclimate.com/github/knapo/a9n
 [coveralls]: https://coveralls.io/r/knapo/a9n
 
-Simple tool for managing ruby/rails application configurations. Supports Rails 2.x, 3.x, 4.x.
+Simple tool for managing extra configuration in ruby/rails apps. Supports Rails 2.x, 3.x, 4.x and Ruby 1.9, 2.0. For Ruby 1.8 use version < 1.0
 
 ## Installation
 

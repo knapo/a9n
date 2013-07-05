@@ -11,11 +11,7 @@ module A9n
     end
 
     def method_missing(name, *args)
-      unless @table.key?(name.to_sym)
-        raise NoSuchConfigurationVariable.new(name)
-      end
-
-      return @table[name.to_sym]
+      raise NoSuchConfigurationVariable.new(name)
     end
   end
 end

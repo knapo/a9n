@@ -18,7 +18,7 @@ module A9n
     end
 
     def env
-      @env ||= local_app_env || ENV['RAILS_ENV'] || ENV['RACK_ENV'] || ENV['APP_ENV']
+      @env ||= local_app_env || get_env_var('RAILS_ENV') || get_env_var('RACK_ENV') || get_env_var('APP_ENV')
     end
 
     def local_app_env
@@ -82,6 +82,14 @@ module A9n
       config.send(name, *args)
     end
 
+    def get_rails
+      defined?(Rails) ? Rails : nil
+    end
+
+    def get_env_var(name)
+      ENV[name] 
+    end
+    
     private
 
     def verify!(base, local)
@@ -89,10 +97,6 @@ module A9n
       if missing_keys.any?
         raise MissingConfigurationVariables.new("Following variables are missing in your configuration file: #{missing_keys.join(',')}")
       end
-    end
-
-    def get_rails
-      defined?(Rails) ? Rails : nil
     end
   end
 end
