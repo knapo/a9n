@@ -10,7 +10,7 @@
 [codeclimate]: https://codeclimate.com/github/knapo/a9n
 [coveralls]: https://coveralls.io/r/knapo/a9n
 
-Simple tool for managing ruby/rails application configurations.
+Simple tool for managing ruby/rails application configurations. Supports Rails 2.x, 3.x, 4.x.
 
 ## Installation
 
@@ -40,7 +40,7 @@ This step is not required, but recommended, as it configuration is loaded and
 verified on evironment load.
 
 It works with `Rails` by default. If you want to use `A9n` with non-rails app
-you need to tell it A9n:
+you may need to tell it A9n:
 
     A9n.local_app = MyApp
 
