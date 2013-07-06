@@ -3,11 +3,11 @@ require 'spec_helper'
 describe A9n::Struct do
   subject {
     described_class.new({
-        :non_empty_dwarf => 'dwarf',
-        :nil_dwarf       => nil,
-        :false_dwarf     => false,
-        :true_dwarf      => true,
-        :hash_dwarf      => { :dwarf => 'hello' }
+        non_empty_dwarf: 'dwarf',
+        nil_dwarf:   nil,
+        false_dwarf: false,
+        true_dwarf:  true,
+        hash_dwarf:  { dwarf: 'hello' }
       })
   }
 

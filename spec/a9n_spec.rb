@@ -12,7 +12,7 @@ describe A9n do
     end
     
     context 'when custom non-rails app is being used' do
-      let(:local_app) { double(:env => 'test', :root => '/apps/a9n') }
+      let(:local_app) { double(env: 'test', root: '/apps/a9n') }
       before { described_class.local_app = local_app }
 
       specify { described_class.local_app.should == local_app }
@@ -22,7 +22,7 @@ describe A9n do
   end
 
   describe '.root' do
-    let(:local_app) { double(:env => 'test', :root => '/apps/a9n') }
+    let(:local_app) { double(env: 'test', root: '/apps/a9n') }
     before { described_class.local_app = local_app }
 
     context 'with custom path' do
@@ -48,10 +48,10 @@ describe A9n do
     
   describe '.load' do
     let(:base_sample_config){
-      { :app_url => 'http://127.0.0.1:3000' }
+      { app_url: 'http://127.0.0.1:3000' }
     }
     let(:local_sample_config){
-      { :app_host => '127.0.0.1:3000' }
+      { app_host: '127.0.0.1:3000' }
     }
     subject { described_class }
 
@@ -187,7 +187,7 @@ describe A9n do
 
     context 'local_app_env is set' do
       before { 
-        expect(described_class).to receive(:local_app).and_return(double(:env => 'dwarf_env')).exactly(3).times
+        expect(described_class).to receive(:local_app).and_return(double(env: 'dwarf_env')).exactly(3).times
         expect(described_class).to receive(:get_env_var).never
       }
       its(:env) { should == 'dwarf_env' }
