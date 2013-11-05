@@ -50,12 +50,17 @@ you may need to tell it A9n:
 You can access any variable defined in configuration files but delegating it to 
 `A9n`. E.g:
 
+    defaults:
+      email_from: 'no-reply@knapo.net'
     production:
-      app_host: 'http://knapo.net'
+      app_host: 'knapo.net'
+    development:
+      app_host: 'localhost:3000'
 
 is accessible by:
 
-    A9n.app_host
+    A9n.app_host   # => `knapo.net` in production and `localhost:3000` in development
+    A9n.email_from # => `no-reply@knapo.net` in all envs
 
 ## Contributing
 
