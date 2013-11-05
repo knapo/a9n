@@ -48,17 +48,33 @@ describe A9n do
     
   describe '.load' do
     let(:base_sample_config){
-      { app_url: 'http://127.0.0.1:3000' }
+      { app_url: 'http://127.0.0.1:3000', api_key: 'base1234' }
     }
     let(:local_sample_config){
-      { app_host: '127.0.0.1:3000' }
+      { app_host: '127.0.0.1:3000', api_key: 'local1234' }
     }
-    subject { described_class }
+    let(:base_default_config){
+      { page_title: 'Base Kiełbasa', api_key: 'base1234default'  }
+    }
+    let(:local_default_config){
+      { page_title: 'Local Kiełbasa', api_key: 'local1234default' }
+    }
+    let(:env){
+      'tropical'
+    }
+    subject { 
+      described_class 
+    }
+    before do
+      allow(described_class).to receive(:env).and_return(env)
+    end
 
     context 'when no configuration file exists' do
       before do
-        expect(described_class).to receive(:load_yml).with('config/configuration.yml.example').and_return(nil)
-        expect(described_class).to receive(:load_yml).with('config/configuration.yml').and_return(nil)
+        expect(described_class).to receive(:load_yml).with('config/configuration.yml.example', env).and_return(nil)
+        expect(described_class).to receive(:load_yml).with('config/configuration.yml', env).and_return(nil)
+        expect(described_class).to receive(:load_yml).with('config/configuration.yml.example', 'defaults', false).never
+        expect(described_class).to receive(:load_yml).with('config/configuration.yml', 'defaults', false).never
         expect(described_class).to receive(:verify!).never
       end
       it 'raises expection'  do
@@ -68,44 +84,59 @@ describe A9n do
       end
     end
     
-    context 'when base configuration file exists' do
+    context 'when base configuration file exists with defaults' do
       before do
-        expect(described_class).to receive(:load_yml).with('config/configuration.yml.example').and_return(base_sample_config)
-        expect(described_class).to receive(:load_yml).with('config/configuration.yml').and_return(nil)
+        expect(described_class).to receive(:load_yml).with('config/configuration.yml.example', env).and_return(base_sample_config)
+        expect(described_class).to receive(:load_yml).with('config/configuration.yml', env).and_return(nil)
+        expect(described_class).to receive(:load_yml).with('config/configuration.yml.example', 'defaults', false).and_return(base_default_config)
+        expect(described_class).to receive(:load_yml).with('config/configuration.yml', 'defaults', false).never
+        
         expect(described_class).to receive(:verify!).never
         described_class.load
       end
       
       its(:app_url) { should_not be_nil }
       its(:app_url) { should == subject.fetch(:app_url) }
+      its(:page_title) { should == 'Base Kiełbasa' }
+      its(:api_key) { should == 'base1234' }
       specify {
         expect { subject.app_host }.to raise_error(described_class::NoSuchConfigurationVariable)
       }
     end
 
-    context 'when local configuration file exists' do
+    context 'when local configuration file exists with defaults' do
       before do
-        expect(described_class).to receive(:load_yml).with('config/configuration.yml.example').and_return(nil)
-        expect(described_class).to receive(:load_yml).with('config/configuration.yml').and_return(local_sample_config)
+        expect(described_class).to receive(:load_yml).with('config/configuration.yml.example', env).and_return(nil)
+        expect(described_class).to receive(:load_yml).with('config/configuration.yml', env).and_return(local_sample_config)
+        expect(described_class).to receive(:load_yml).with('config/configuration.yml.example', 'defaults', false).and_return(nil)
+        expect(described_class).to receive(:load_yml).with('config/configuration.yml', 'defaults', false).and_return(local_default_config)
         expect(described_class).to receive(:verify!).never
         described_class.load
       end
       
       its(:app_host) { should_not be_nil }
+      its(:page_title) { should == 'Local Kiełbasa' }
+      its(:api_key) { should == 'local1234' }
       specify {
         expect { subject.app_url }.to raise_error(described_class::NoSuchConfigurationVariable)
       }
     end
 
-    context 'when both local and base configuration file exists' do
+    context 'when both local and base configuration file exists without defaults' do
       context 'with same data' do
         before do
-          expect(described_class).to receive(:load_yml).with('config/configuration.yml.example').and_return(base_sample_config)
-          expect(described_class).to receive(:load_yml).with('config/configuration.yml').and_return(base_sample_config)
+          expect(described_class).to receive(:load_yml).with('config/configuration.yml.example', env).and_return(base_sample_config)
+          expect(described_class).to receive(:load_yml).with('config/configuration.yml', env).and_return(base_sample_config)
+          expect(described_class).to receive(:load_yml).with('config/configuration.yml.example', 'defaults', false).and_return(nil)
+          expect(described_class).to receive(:load_yml).with('config/configuration.yml', 'defaults', false).and_return(nil)
           described_class.load
         end
         
-        its(:app_url) { should_not be_nil }
+        its(:app_url) { should_not be_nil }  
+        its(:api_key) { should == 'base1234' }      
+        specify {
+          expect { subject.page_title }.to raise_error(described_class::NoSuchConfigurationVariable)
+        }
         specify {
           expect { subject.app_host }.to raise_error(described_class::NoSuchConfigurationVariable)
         }
@@ -113,8 +144,10 @@ describe A9n do
 
       context 'with different data' do
         before do
-          expect(described_class).to receive(:load_yml).with('config/configuration.yml.example').and_return(base_sample_config)
-          expect(described_class).to receive(:load_yml).with('config/configuration.yml').and_return(local_sample_config)
+          expect(described_class).to receive(:load_yml).with('config/configuration.yml.example', env).and_return(base_sample_config)
+          expect(described_class).to receive(:load_yml).with('config/configuration.yml', env).and_return(local_sample_config)
+          expect(described_class).to receive(:load_yml).with('config/configuration.yml.example', 'defaults', false).never
+          expect(described_class).to receive(:load_yml).with('config/configuration.yml', 'defaults', false).never
         end
         it 'raises expection'  do
           expect {
@@ -127,14 +160,15 @@ describe A9n do
 
   describe '.load_yml' do
     let(:root) { File.dirname(__FILE__) }
-    subject {  described_class.load_yml(file_path) }
+    let(:env) { 'test' }
+    subject {  described_class.load_yml(file_path, env) }
 
     before do
       expect(described_class).to receive(:root).at_least(:once).and_return(root)
+      expect(described_class).to receive(:env).never
     end
 
     context 'when file not exists' do
-      before { expect(described_class).to receive(:env).never }
       let(:file_path) { 'file_not_existing_in_universe.yml' }
       
       it 'returns nil' do
@@ -146,12 +180,9 @@ describe A9n do
       let(:file_path) { 'fixtures/configuration.yml'}
       before { 
         ENV['DWARF'] = 'erbized dwarf'
-        expect(described_class).to receive(:env).twice.and_return(env) 
       }
 
       context 'and has data' do
-        let(:env) { 'test' }
-
         it 'returns non-empty hash' do
           subject.should be_kind_of(Hash)
           subject.keys.should_not be_empty

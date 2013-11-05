@@ -43,8 +43,17 @@ module A9n
     end
 
     def load
-      base  = load_yml('config/configuration.yml.example')
-      local = load_yml('config/configuration.yml')
+      env_config     = load_env_config
+      default_config = load_default_config
+
+      whole_config   = default_config.merge(env_config)
+
+      @@configuration = Struct.new(whole_config)
+    end
+
+    def load_env_config
+      base     = load_yml('config/configuration.yml.example', env)
+      local    = load_yml('config/configuration.yml', env)
 
       if base.nil? && local.nil?
         raise MissingConfigurationFile.new("Neither config/configuration.yml.example nor config/configuration.yml was found")
@@ -54,18 +63,27 @@ module A9n
         verify!(base, local)
       end
 
-      @@configuration = Struct.new(local || base)
+      local || base
     end
 
-    def load_yml(file)
+    def load_default_config
+      data   = load_yml('config/configuration.yml.example', 'defaults', false)
+      data ||= load_yml('config/configuration.yml', 'defaults', false)
+      data ||= {}
+      return data
+    end
+
+    def load_yml(file, env, raise_when_not_found = true)
       path = File.join(self.root, file)
-      return unless File.exists?(path)
+      return nil unless File.exists?(path)
       yml = YAML.load(ERB.new(File.read(path)).result)
       
-      if yml[self.env].is_a?(Hash)
-        return yml[self.env].deep_symbolize_keys
+      if yml[env].is_a?(Hash)
+        return yml[env].deep_symbolize_keys
+      elsif raise_when_not_found
+        raise MissingConfigurationData.new("Configuration data for #{env} was not found in #{file}")
       else
-        raise MissingConfigurationData.new("Configuration data for #{self.env} was not found in #{file}")
+        return nil
       end
     end
 

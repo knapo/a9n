@@ -1,9 +1,13 @@
+defaults:
+  default_dwarf: "default dwarf"
+  overriden_dwarf: "not yet overriden dwarf"
 development:
   nil_dwarf: ~
   false_dwarf: false
   true_dwarf: true
   string_dwarf: "dwarf"
   erb_dwarf: "<%= ENV['DWARF'] %>"
+  overriden_dwarf: "already overriden dwarf"
   hash_dwarf:
     dwarf_1: "hello 1"
     dwarf_2: "hello 2"
@@ -13,6 +17,7 @@ test:
   true_dwarf: true
   string_dwarf: "dwarf"
   erb_dwarf: "<%= ENV['DWARF'] %>"
+  overriden_dwarf: "already overriden dwarf"
   hash_dwarf:
     dwarf_1: "hello 1"
     dwarf_2: "hello 2"
