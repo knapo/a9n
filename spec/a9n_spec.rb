@@ -97,7 +97,7 @@ describe A9n do
       
       its(:app_url) { should_not be_nil }
       its(:app_url) { should == subject.fetch(:app_url) }
-      its(:page_title) { should == 'Base Kiełbasa' }
+      its(:page_title) { should == 'Base Kielbasa' }
       its(:api_key) { should == 'base1234' }
       specify {
         expect { subject.app_host }.to raise_error(described_class::NoSuchConfigurationVariable)
@@ -115,7 +115,7 @@ describe A9n do
       end
       
       its(:app_host) { should_not be_nil }
-      its(:page_title) { should == 'Local Kiełbasa' }
+      its(:page_title) { should == 'Local Kielbasa' }
       its(:api_key) { should == 'local1234' }
       specify {
         expect { subject.app_url }.to raise_error(described_class::NoSuchConfigurationVariable)
