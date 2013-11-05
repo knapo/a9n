@@ -54,10 +54,10 @@ describe A9n do
       { app_host: '127.0.0.1:3000', api_key: 'local1234' }
     }
     let(:base_default_config){
-      { page_title: 'Base Kiełbasa', api_key: 'base1234default'  }
+      { page_title: 'Base Kielbasa', api_key: 'base1234default'  }
     }
     let(:local_default_config){
-      { page_title: 'Local Kiełbasa', api_key: 'local1234default' }
+      { page_title: 'Local Kielbasa', api_key: 'local1234default' }
     }
     let(:env){
       'tropical'
