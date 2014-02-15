@@ -1,0 +1,4 @@
+defaults: &defaults
+  external_key: "external value"
+tropical:
+  <<: *defaults

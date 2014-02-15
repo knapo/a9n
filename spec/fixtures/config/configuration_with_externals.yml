@@ -1,0 +1,7 @@
+defaults: &defaults
+  config_key: config_value
+  a9n_require:
+    - external_configuration
+tropical:
+  <<: *defaults
+
