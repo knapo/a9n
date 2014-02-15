@@ -10,7 +10,7 @@ module A9n
   class MissingConfigurationData < StandardError; end
   class MissingConfigurationVariables < StandardError; end
   class NoSuchConfigurationVariable < StandardError; end
-  
+
   class << self
 
     def config
@@ -43,20 +43,23 @@ module A9n
     end
 
     def load
-      env_config     = load_env_config
-      default_config = load_default_config
-
-      whole_config   = default_config.merge(env_config)
-
-      @@configuration = Struct.new(whole_config)
+      @@configuration = load_all_configs
     end
 
-    def load_env_config
-      base     = load_yml('config/configuration.yml.example', env)
-      local    = load_yml('config/configuration.yml', env)
+    def load_all_configs(filename = 'configuration')
+      env_config      = load_env_config(filename)
+      default_config  = load_default_config(filename)
+      whole_config    = default_config.merge(env_config)
+      whole_config    = load_external_config(whole_config)
+      Struct.new(whole_config)
+    end
+
+    def load_env_config(filename = 'configuration')
+      base     = load_yml("config/#{filename}.yml.example", env)
+      local    = load_yml("config/#{filename}.yml", env)
 
       if base.nil? && local.nil?
-        raise MissingConfigurationFile.new("Neither config/configuration.yml.example nor config/configuration.yml was found")
+        raise MissingConfigurationFile.new("Neither config/#{filename}.yml.example nor config/#{filename}.yml was found")
       end
 
       if !base.nil? && !local.nil?
@@ -66,9 +69,9 @@ module A9n
       local || base
     end
 
-    def load_default_config
-      data   = load_yml('config/configuration.yml.example', 'defaults', false)
-      data ||= load_yml('config/configuration.yml', 'defaults', false)
+    def load_default_config(filename = 'configuration')
+      data   = load_yml("config/#{filename}.yml.example", 'defaults', false)
+      data ||= load_yml("config/#{filename}.yml", 'defaults', false)
       data ||= {}
       return data
     end
@@ -77,7 +80,7 @@ module A9n
       path = File.join(self.root, file)
       return nil unless File.exists?(path)
       yml = YAML.load(ERB.new(File.read(path)).result)
-      
+
       if yml[env].is_a?(Hash)
         return yml[env].deep_symbolize_keys
       elsif raise_when_not_found
@@ -105,10 +108,19 @@ module A9n
     end
 
     def get_env_var(name)
-      ENV[name] 
+      ENV[name]
     end
-    
+
     private
+
+    def load_external_config(config_hash)
+      externals = Array(config_hash.delete(:a9n_require))
+      externals.each do |filename|
+        config_hash[filename] = load_all_configs(filename)
+      end
+
+      config_hash
+    end
 
     def verify!(base, local)
       missing_keys = base.keys - local.keys
