@@ -62,13 +62,15 @@ is accessible by:
 
 ## Custom and multiple configuration files
 
-If you need to load config from custom files (e.g config/mongo.yml), add:
+If you need to load config from custom files (e.g `config/mongo.yml` and `config/other.yml`), add:
     
-    A9n.load('mongo.yml')
+    A9n.load('mongo.yml', 'other.yml')
     
-and the configuration is availble under `mongo` scope:
+and the configuration is availble under `mongo` and `other` scopes:
 
-    A9n.mongo.host
+    A9n.mongo.varname
+    
+    A9n.other.varname
     
 ## Contributing
 
