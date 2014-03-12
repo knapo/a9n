@@ -1,8 +1,8 @@
-require 'a9n/version'
-require 'a9n/struct'
-require 'a9n/core_ext/hash'
-require 'yaml'
-require 'erb'
+require "a9n/version"
+require "a9n/struct"
+require "a9n/core_ext/hash"
+require "yaml"
+require "erb"
 
 module A9n
   class ConfigurationNotLoaded < StandardError; end
@@ -10,15 +10,10 @@ module A9n
   class MissingConfigurationData < StandardError; end
   class MissingConfigurationVariables < StandardError; end
   class NoSuchConfigurationVariable < StandardError; end
-  
+
   class << self
-
-    def config
-      @@configuration ||= load
-    end
-
     def env
-      @env ||= local_app_env || get_env_var('RAILS_ENV') || get_env_var('RACK_ENV') || get_env_var('APP_ENV')
+      @env ||= local_app_env || get_env_var("RAILS_ENV") || get_env_var("RACK_ENV") || get_env_var("APP_ENV")
     end
 
     def local_app_env
@@ -42,21 +37,25 @@ module A9n
       @root = path.empty? ? nil : Pathname.new(path.to_s)
     end
 
-    def load
-      env_config     = load_env_config
-      default_config = load_default_config
+    def scope(name)
+      instance_variable_get(var_name_for(name))
+    end
+
+    def load(file = "configuration.yml")
+      env_config     = load_env_config(file)
+      default_config = load_default_config(file)
 
       whole_config   = default_config.merge(env_config)
 
-      @@configuration = Struct.new(whole_config)
+      instance_variable_set(var_name_for(file), A9n::Struct.new(whole_config))
     end
 
-    def load_env_config
-      base     = load_yml('config/configuration.yml.example', env)
-      local    = load_yml('config/configuration.yml', env)
+    def load_env_config(file)
+      base     = load_yml("config/#{file}.example", env)
+      local    = load_yml("config/#{file}", env)
 
       if base.nil? && local.nil?
-        raise MissingConfigurationFile.new("Neither config/configuration.yml.example nor config/configuration.yml was found")
+        raise MissingConfigurationFile.new("Neither config/#{file}.example nor config/#{file} was found")
       end
 
       if !base.nil? && !local.nil?
@@ -66,9 +65,9 @@ module A9n
       local || base
     end
 
-    def load_default_config
-      data   = load_yml('config/configuration.yml.example', 'defaults', false)
-      data ||= load_yml('config/configuration.yml', 'defaults', false)
+    def load_default_config(file = "configuration.yml")
+      data   = load_yml("config/#{file}.example", "defaults", false)
+      data ||= load_yml("config/#{file}", "defaults", false)
       data ||= {}
       return data
     end
@@ -77,7 +76,7 @@ module A9n
       path = File.join(self.root, file)
       return nil unless File.exists?(path)
       yml = YAML.load(ERB.new(File.read(path)).result)
-      
+
       if yml[env].is_a?(Hash)
         return yml[env].deep_symbolize_keys
       elsif raise_when_not_found
@@ -93,11 +92,15 @@ module A9n
     end
 
     def fetch(*args)
-      config.fetch(*args)
+      scope(:configuration).fetch(*args)
     end
 
     def method_missing(name, *args)
-      config.send(name, *args)
+      if scope(name).is_a?(A9n::Struct)
+        scope(name)
+      else
+        scope(:configuration).send(name, *args)
+      end
     end
 
     def get_rails
@@ -105,16 +108,20 @@ module A9n
     end
 
     def get_env_var(name)
-      ENV[name] 
+      ENV[name]
     end
-    
+
     private
 
     def verify!(base, local)
       missing_keys = base.keys - local.keys
       if missing_keys.any?
-        raise MissingConfigurationVariables.new("Following variables are missing in your configuration file: #{missing_keys.join(',')}")
+        raise MissingConfigurationVariables.new("Following variables are missing in your configuration file: #{missing_keys.join(",")}")
       end
+    end
+
+    def var_name_for(file)
+      :"@#{file.to_s.split('.').first}"
     end
   end
 end
