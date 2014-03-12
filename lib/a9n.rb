@@ -12,6 +12,7 @@ module A9n
   class NoSuchConfigurationVariable < StandardError; end
 
   DEFAULT_FILE = 'configuration.yml'
+  DEFAULT_SCOPE = :configuration
 
   class << self
     def env
@@ -40,7 +41,7 @@ module A9n
     end
 
     def scope(name)
-      instance_variable_get(var_name_for(name))
+      instance_variable_get(var_name_for(name)) || (name == DEFAULT_SCOPE && load)
     end
 
     def load(*files)
@@ -97,14 +98,14 @@ module A9n
     end
 
     def fetch(*args)
-      scope(:configuration).fetch(*args)
+      scope(DEFAULT_SCOPE).fetch(*args)
     end
 
     def method_missing(name, *args)
       if scope(name).is_a?(A9n::Struct)
         scope(name)
       else
-        scope(:configuration).send(name, *args)
+        scope(DEFAULT_SCOPE).send(name, *args)
       end
     end
 
