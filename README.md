@@ -37,8 +37,6 @@ after budler requires:
     A9n.root = File.expand_path('../..', __FILE__)
     A9n.load
 
-This step is not required, but recommended, as it configuration is loaded and
-verified on evironment load.
 
 It works with `Rails` by default. If you want to use `A9n` with non-rails app
 you may need to tell it A9n:
@@ -62,6 +60,16 @@ is accessible by:
     A9n.app_host   # => `knapo.net` in production and `localhost:3000` in development
     A9n.email_from # => `no-reply@knapo.net` in all envs
 
+## Custom and multiple configuration files
+
+If you need to load config from custom files (e.g config/mongo.yml), add:
+    
+    A9n.load('mongo.yml')
+    
+and the configuration is availble under `mongo` scope:
+
+    A9n.mongo.host
+    
 ## Contributing
 
 1. Fork it
@@ -73,3 +81,4 @@ is accessible by:
 ### Contributors
 
 * [Grzegorz Świrski](https://github.com/sognat)
+* [Jakub Łopusiński](https://github.com/siemakuba)
