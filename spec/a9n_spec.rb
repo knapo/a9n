@@ -47,7 +47,7 @@ describe A9n do
   end
 
   describe '.load' do
-    let(:base_file) { 'configuration.yml' }
+    let(:base_file) { described_class::DEFAULT_FILE }
     let(:extra_file) { 'mongo.yml' }
     let(:base_sample_config){
       { app_url: 'http://127.0.0.1:3000', api_key: 'base1234' }

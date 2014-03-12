@@ -11,6 +11,8 @@ module A9n
   class MissingConfigurationVariables < StandardError; end
   class NoSuchConfigurationVariable < StandardError; end
 
+  DEFAULT_FILE = 'configuration.yml'
+
   class << self
     def env
       @env ||= local_app_env || get_env_var("RAILS_ENV") || get_env_var("RACK_ENV") || get_env_var("APP_ENV")
@@ -41,13 +43,16 @@ module A9n
       instance_variable_get(var_name_for(name))
     end
 
-    def load(file = "configuration.yml")
-      env_config     = load_env_config(file)
-      default_config = load_default_config(file)
+    def load(*files)
+      files = [DEFAULT_FILE] if files.empty?
+      files.each do |file|
+        env_config     = load_env_config(file)
+        default_config = load_default_config(file)
 
-      whole_config   = default_config.merge(env_config)
+        whole_config   = default_config.merge(env_config)
 
-      instance_variable_set(var_name_for(file), A9n::Struct.new(whole_config))
+        instance_variable_set(var_name_for(file), A9n::Struct.new(whole_config))
+      end
     end
 
     def load_env_config(file)
