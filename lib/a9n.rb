@@ -41,12 +41,12 @@ module A9n
     end
 
     def scope(name)
-      instance_variable_get(var_name_for(name)) || (name == DEFAULT_SCOPE && load)
+      instance_variable_get(var_name_for(name)) || (name == DEFAULT_SCOPE && load.first)
     end
 
     def load(*files)
       files = [DEFAULT_FILE] if files.empty?
-      files.each do |file|
+      files.map do |file|
         env_config     = load_env_config(file)
         default_config = load_default_config(file)
 
