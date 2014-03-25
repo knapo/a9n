@@ -1,5 +1,5 @@
 class Hash
-  # Hash#deep_symbolize_keys 
+  # Hash#deep_symbolize_keys
   # based on
   # https://github.com/svenfuchs/i18n/blob/master/lib/i18n/core_ext/hash.rb
   def deep_symbolize_keys
@@ -9,4 +9,9 @@ class Hash
       result
     }
   end unless self.method_defined?(:deep_symbolize_keys)
+
+  def self.merge(*items)
+    return nil if items.compact.empty?
+    items.compact.inject({}){|sum, item| sum.merge!(item)}
+  end
 end

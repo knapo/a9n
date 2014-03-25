@@ -47,35 +47,30 @@ module A9n
     def load(*files)
       files = [DEFAULT_FILE] if files.empty?
       files.map do |file|
-        env_config     = load_env_config(file)
-        default_config = load_default_config(file)
+        default_and_env_config = load_config(file)
 
-        whole_config   = default_config.merge(env_config)
-
-        instance_variable_set(var_name_for(file), A9n::Struct.new(whole_config))
+        instance_variable_set(var_name_for(file), A9n::Struct.new(default_and_env_config))
       end
     end
 
-    def load_env_config(file)
-      base     = load_yml("config/#{file}.example", env)
-      local    = load_yml("config/#{file}", env)
+    def load_config(file)
+      env_example      = load_yml("config/#{file}.example", env)
+      env_local        = load_yml("config/#{file}", env)
+      default_example  = load_yml("config/#{file}.example", "defaults", false)
+      default_local    = load_yml("config/#{file}", "defaults", false)
 
-      if base.nil? && local.nil?
+      if env_example.nil? && env_local.nil? && default_example.nil? && default_local.nil?
         raise MissingConfigurationFile.new("Neither config/#{file}.example nor config/#{file} was found")
       end
 
-      if !base.nil? && !local.nil?
-        verify!(base, local)
+      example = Hash.merge(default_example, env_example)
+      local = Hash.merge( default_local,env_local)
+
+      if !example.nil? && !local.nil?
+        verify!(example, local)
       end
 
-      local || base
-    end
-
-    def load_default_config(file = "configuration.yml")
-      data   = load_yml("config/#{file}.example", "defaults", false)
-      data ||= load_yml("config/#{file}", "defaults", false)
-      data ||= {}
-      return data
+      local || example
     end
 
     def load_yml(file, env, raise_when_not_found = true)
@@ -119,8 +114,8 @@ module A9n
 
     private
 
-    def verify!(base, local)
-      missing_keys = base.keys - local.keys
+    def verify!(example, local)
+      missing_keys = example.keys - local.keys
       if missing_keys.any?
         raise MissingConfigurationVariables.new("Following variables are missing in your configuration file: #{missing_keys.join(",")}")
       end

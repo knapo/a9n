@@ -75,8 +75,8 @@ describe A9n do
       before do
         expect(described_class).to receive(:load_yml).with("config/#{base_file}.example", env).and_return(nil)
         expect(described_class).to receive(:load_yml).with("config/#{base_file}", env).and_return(nil)
-        expect(described_class).to receive(:load_yml).with("config/#{base_file}.example", 'defaults', false).never
-        expect(described_class).to receive(:load_yml).with("config/#{base_file}", 'defaults', false).never
+        expect(described_class).to receive(:load_yml).with("config/#{base_file}.example", 'defaults', false).and_return(nil)
+        expect(described_class).to receive(:load_yml).with("config/#{base_file}", 'defaults', false).and_return(nil)
         expect(described_class).to receive(:verify!).never
       end
       it 'raises expection'  do
@@ -91,7 +91,7 @@ describe A9n do
         expect(described_class).to receive(:load_yml).with("config/#{base_file}.example", env).and_return(base_sample_config)
         expect(described_class).to receive(:load_yml).with("config/#{base_file}", env).and_return(nil)
         expect(described_class).to receive(:load_yml).with("config/#{base_file}.example", 'defaults', false).and_return(base_default_config)
-        expect(described_class).to receive(:load_yml).with("config/#{base_file}", 'defaults', false).never
+        expect(described_class).to receive(:load_yml).with("config/#{base_file}", 'defaults', false).and_return(nil)
 
         expect(described_class).to receive(:verify!).never
         described_class.load
@@ -151,8 +151,8 @@ describe A9n do
         before do
           expect(described_class).to receive(:load_yml).with("config/#{base_file}.example", env).and_return(base_sample_config)
           expect(described_class).to receive(:load_yml).with("config/#{base_file}", env).and_return(local_sample_config)
-          expect(described_class).to receive(:load_yml).with("config/#{base_file}.example", 'defaults', false).never
-          expect(described_class).to receive(:load_yml).with("config/#{base_file}", 'defaults', false).never
+          expect(described_class).to receive(:load_yml).with("config/#{base_file}.example", 'defaults', false).and_return(nil)
+          expect(described_class).to receive(:load_yml).with("config/#{base_file}", 'defaults', false).and_return(nil)
         end
         it 'raises expection'  do
           expect {
@@ -167,7 +167,7 @@ describe A9n do
         expect(described_class).to receive(:load_yml).with("config/#{extra_file}.example", env).and_return(base_sample_config)
         expect(described_class).to receive(:load_yml).with("config/#{extra_file}", env).and_return(nil)
         expect(described_class).to receive(:load_yml).with("config/#{extra_file}.example", 'defaults', false).and_return(base_default_config)
-        expect(described_class).to receive(:load_yml).with("config/#{extra_file}", 'defaults', false).never
+        expect(described_class).to receive(:load_yml).with("config/#{extra_file}", 'defaults', false).and_return(nil)
 
         expect(described_class).to receive(:verify!).never
         described_class.load('mongo.yml')
