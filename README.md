@@ -10,7 +10,7 @@
 [codeclimate]: https://codeclimate.com/github/knapo/a9n
 [coveralls]: https://coveralls.io/r/knapo/a9n
 
-Simple tool for managing extra configuration in ruby/rails apps. Supports Rails 2.x, 3.x, 4.x and Ruby 1.9, 2.0. 
+Simple tool for managing extra configuration in ruby/rails apps. Supports Rails 2.x, 3.x, 4.x and Ruby 1.9, 2.0.
 Ruby 1.8 is not supported in version 0.1.2 and higher.
 
 ## Installation
@@ -28,7 +28,7 @@ directory. When none fo these files exists, `A9n::MissingConfigurationFile`
 exception is thrown.
 If both file exist, content of `configuration.yml` is validated. It means that
 all keys existing in example file must exist in base file - in case of missing
-keys`A9n::MissingConfigurationVariables` is thrown with information about 
+keys`A9n::MissingConfigurationVariables` is thrown with information about
 missing keys.
 
 Set application root and load configuration by adding to your `application.rb` or `environment.rb` right
@@ -45,7 +45,7 @@ you may need to tell it A9n:
 
 ## Usage
 
-You can access any variable defined in configuration files but delegating it to 
+You can access any variable defined in configuration files but delegating it to
 `A9n`. E.g:
 
     defaults:
@@ -62,16 +62,18 @@ is accessible by:
 
 ## Custom and multiple configuration files
 
-If you need to load config from custom files (e.g `config/mongo.yml` and `config/other.yml`), add:
-    
-    A9n.load('mongo.yml', 'other.yml')
-    
-and the configuration is availble under `mongo` and `other` scopes:
+If you need to load config from custom files (e.g `config/mongo.yml`, `config/other.yml` and `config/custom_dir/extra.yml`), add:
+
+    A9n.load('mongo.yml', 'other.yml', 'custom_dir/extra')
+
+and the configuration is availble under `mongo`, `other` and `extra` scopes:
 
     A9n.mongo.varname
-    
+
     A9n.other.varname
-    
+
+    A9n.extra.varname
+
 ## Contributing
 
 1. Fork it

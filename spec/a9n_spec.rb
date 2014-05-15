@@ -278,4 +278,10 @@ describe A9n do
       it { described_class.get_rails.should be_nil }
     end
   end
+
+  describe '.var_name_for' do
+    it { described_class.var_name_for(:configuration).should == :@configuration }
+    it { described_class.var_name_for('configuration.yml').should == :@configuration }
+    it { described_class.var_name_for('custom_dir/extra.yml').should == :@extra }
+  end
 end

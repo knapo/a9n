@@ -5,7 +5,7 @@ module A9n
     def keys
       @table.keys
     end
-    
+
     def fetch(name, default = nil)
       @table[name.to_sym] || default
     end

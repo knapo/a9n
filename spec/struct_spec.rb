@@ -24,7 +24,7 @@ describe A9n::Struct do
   it 'gets true value' do
     subject.true_dwarf.should == true
   end
-  
+
   it 'gets false value' do
     subject.false_dwarf.should == false
   end
@@ -34,7 +34,7 @@ describe A9n::Struct do
   end
 
   it 'raises exception when value not exists' do
-    expect { 
+    expect {
       subject.non_existing_dwarf
     }.to raise_error(A9n::NoSuchConfigurationVariable)
   end
