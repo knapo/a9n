@@ -109,6 +109,10 @@ module A9n
       ENV[name]
     end
 
+    def var_name_for(file)
+      :"@#{file.to_s.split('/').last.split('.').first}"
+    end
+
     private
 
     def verify!(example, local)
@@ -116,10 +120,6 @@ module A9n
       if missing_keys.any?
         raise MissingConfigurationVariables.new("Following variables are missing in your configuration file: #{missing_keys.join(",")}")
       end
-    end
-
-    def var_name_for(file)
-      :"@#{file.to_s.split('.').first}"
     end
   end
 end
