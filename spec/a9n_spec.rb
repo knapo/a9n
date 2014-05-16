@@ -7,7 +7,7 @@ describe A9n do
         expect(described_class).to receive(:get_rails).and_return(nil)
       }
       specify {
-        described_class.local_app.should be_nil
+        expect(described_class.local_app).to be_nil
       }
     end
 
@@ -15,7 +15,7 @@ describe A9n do
       let(:local_app) { double(env: 'test', root: '/apps/a9n') }
       before { described_class.local_app = local_app }
 
-      specify { described_class.local_app.should == local_app }
+      specify { expect(described_class.local_app).to eq(local_app) }
     end
 
     after { described_class.local_app = nil }
@@ -30,13 +30,13 @@ describe A9n do
         described_class.root = '/home/knapo/workspace/a9n'
       }
       specify {
-        described_class.root.should == Pathname.new('/home/knapo/workspace/a9n')
+        expect(described_class.root).to eq(Pathname.new('/home/knapo/workspace/a9n'))
       }
     end
 
     context 'with local app path' do
       specify {
-        described_class.root.should == '/apps/a9n'
+        expect(described_class.root).to eq('/apps/a9n')
       }
     end
 
@@ -80,9 +80,9 @@ describe A9n do
         expect(described_class).to receive(:verify!).never
       end
       it 'raises expection'  do
-        lambda {
+        expect {
           described_class.load
-        }.should raise_error(described_class::MissingConfigurationData)
+        }.to raise_error(described_class::MissingConfigurationData)
       end
     end
 
@@ -215,13 +215,13 @@ describe A9n do
         end
 
         it 'has symbolized keys' do
-          subject.keys.first.should be_kind_of(Symbol)
-          subject[:hash_dwarf].should be_kind_of(Hash)
-          subject[:hash_dwarf].keys.first.should be_kind_of(Symbol)
+          expect(subject.keys.first).to be_kind_of(Symbol)
+          expect(subject[:hash_dwarf]).to be_kind_of(Hash)
+          expect(subject[:hash_dwarf].keys.first).to be_kind_of(Symbol)
         end
 
         it 'parses erb' do
-          subject[:erb_dwarf].should == 'erbized dwarf'
+          expect(subject[:erb_dwarf]).to eq('erbized dwarf')
         end
       end
 
@@ -242,7 +242,11 @@ describe A9n do
         expect(described_class).to receive(:local_app).and_return(double(env: 'dwarf_env')).exactly(3).times
         expect(described_class).to receive(:get_env_var).never
       }
-      its(:env) { should == 'dwarf_env' }
+
+      describe '#env' do
+        subject { super().env }
+        it { should == 'dwarf_env' }
+      end
     end
 
     context "when APP_ENV is set" do
@@ -252,14 +256,18 @@ describe A9n do
         expect(described_class).to receive(:get_env_var).with('RACK_ENV').and_return(nil)
         expect(described_class).to receive(:get_env_var).with('APP_ENV').and_return('dwarf_env')
       }
-      its(:env) { should == 'dwarf_env' }
+
+      describe '#env' do
+        subject { super().env }
+        it { should == 'dwarf_env' }
+      end
     end
   end
 
   describe '.get_env_var' do
     before { ENV['DWARF'] = 'little dwarf' }
-    it { described_class.get_env_var('DWARF').should == 'little dwarf'}
-    it { described_class.get_env_var('IS_DWARF').should be_nil}
+    it { expect(described_class.get_env_var('DWARF')).to eq('little dwarf')}
+    it { expect(described_class.get_env_var('IS_DWARF')).to be_nil}
   end
 
   describe '.get_rails' do
@@ -271,17 +279,17 @@ describe A9n do
         Object.send(:remove_const, :Rails)
       }
       it {
-        described_class.get_rails.should be_kind_of(Module)
+        expect(described_class.get_rails).to be_kind_of(Module)
       }
     end
     context 'when not defined' do
-      it { described_class.get_rails.should be_nil }
+      it { expect(described_class.get_rails).to be_nil }
     end
   end
 
   describe '.var_name_for' do
-    it { described_class.var_name_for(:configuration).should == :@configuration }
-    it { described_class.var_name_for('configuration.yml').should == :@configuration }
-    it { described_class.var_name_for('custom_dir/extra.yml').should == :@extra }
+    it { expect(described_class.var_name_for(:configuration)).to eq(:@configuration) }
+    it { expect(described_class.var_name_for('configuration.yml')).to eq(:@configuration) }
+    it { expect(described_class.var_name_for('custom_dir/extra.yml')).to eq(:@extra) }
   end
 end

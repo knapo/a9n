@@ -11,26 +11,29 @@ describe A9n::Struct do
       })
   }
 
-  its(:keys) { should == [:non_empty_dwarf, :nil_dwarf, :false_dwarf, :true_dwarf, :hash_dwarf] }
+  describe '#keys' do
+    subject { super().keys }
+    it { should == [:non_empty_dwarf, :nil_dwarf, :false_dwarf, :true_dwarf, :hash_dwarf] }
+  end
 
   it 'gets non-empty value' do
-    subject.non_empty_dwarf.should == 'dwarf'
+    expect(subject.non_empty_dwarf).to eq('dwarf')
   end
 
   it 'gets nil value' do
-    subject.nil_dwarf.should == nil
+    expect(subject.nil_dwarf).to eq(nil)
   end
 
   it 'gets true value' do
-    subject.true_dwarf.should == true
+    expect(subject.true_dwarf).to eq(true)
   end
 
   it 'gets false value' do
-    subject.false_dwarf.should == false
+    expect(subject.false_dwarf).to eq(false)
   end
 
   it 'gets hash value' do
-    subject.hash_dwarf.should be_kind_of(Hash)
+    expect(subject.hash_dwarf).to be_kind_of(Hash)
   end
 
   it 'raises exception when value not exists' do
@@ -41,11 +44,11 @@ describe A9n::Struct do
 
   describe '#fetch' do
     it 'return non empty value' do
-      subject.fetch(:non_empty_dwarf).should == 'dwarf'
+      expect(subject.fetch(:non_empty_dwarf)).to eq('dwarf')
     end
 
     it 'not returns nil for non existing value' do
-      subject.fetch(:non_existing_dwarf).should == nil
+      expect(subject.fetch(:non_existing_dwarf)).to eq(nil)
     end
   end
 end
