@@ -10,8 +10,8 @@ module A9n
   class MissingConfigurationVariables < StandardError; end
   class NoSuchConfigurationVariable < StandardError; end
 
-  DEFAULT_FILE = 'configuration.yml'
   DEFAULT_SCOPE = :configuration
+  DEFAULT_FILE = "#{DEFAULT_SCOPE}.yml"
 
   class << self
     def env
