@@ -47,8 +47,20 @@ describe A9n::Struct do
       expect(subject.fetch(:non_empty_dwarf)).to eq('dwarf')
     end
 
-    it 'not returns nil for non existing value' do
+    it 'return false value' do
+      expect(subject.fetch(:false_dwarf)).to eq(false)
+    end
+
+    it 'return nil value' do
+      expect(subject.fetch(:nil_dwarf)).to eq(nil)
+    end
+
+    it 'return nil for non existing value' do
       expect(subject.fetch(:non_existing_dwarf)).to eq(nil)
+    end
+
+    it 'return default for non existing value' do
+      expect(subject.fetch(:non_existing_dwarf, 'default')).to eq('default')
     end
   end
 end
