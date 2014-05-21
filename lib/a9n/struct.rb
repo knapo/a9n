@@ -7,7 +7,7 @@ module A9n
     end
 
     def fetch(name, default = nil)
-      @table[name.to_sym] || default
+      @table.fetch(name.to_sym, default)
     end
 
     def method_missing(name, *args)
