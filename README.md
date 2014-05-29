@@ -60,7 +60,7 @@ is accessible by:
 
 ## Custom and multiple configuration files
 
-If you want to scope configuration you may split to multiple files. All files from `config/a9n` are loaded by default, but you may pass custom paths as an argument to `A9n.load` e.g. `A9n.load('lib/facebook/api.yml')`. In such cases config items are accessialbe via scope consistient with the file name. 
+If you want to scope configuration you may split to multiple files. All files from `config/a9n` are loaded by default, but you may pass custom paths as an argument to `A9n.load` e.g. `A9n.load('lib/facebook/api.yml', 'config/mongoid.yml')`. In such cases config items are accessialbe via scope consistient with the file name. 
 
 E.g. if you have `config/a9n/mandrill.yml`:
      
