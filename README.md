@@ -10,8 +10,7 @@
 [codeclimate]: https://codeclimate.com/github/knapo/a9n
 [coveralls]: https://coveralls.io/r/knapo/a9n
 
-Simple tool for managing extra configuration in ruby/rails apps. Supports Rails 2.x, 3.x, 4.x and Ruby 1.9, 2.0.
-Ruby 1.8 is not supported in version 0.1.2 and higher.
+A9n is a simple tool for managing extra configuration in ruby/rails apps. It supports Rails 2.x, 3.x, 4.x and Ruby 1.9, 2.0. 2.1. Ruby 1.8 is not supported since version 0.1.2.
 
 ## Installation
 
@@ -37,15 +36,14 @@ after budler requires:
     A9n.root = File.expand_path('../..', __FILE__)
     A9n.load
 
-
 It works with `Rails` by default. If you want to use `A9n` with non-rails app
-you may need to tell it A9n:
+you may need to tell that to A9n by:
 
     A9n.local_app = MyApp
 
 ## Usage
 
-You can access any variable defined in configuration files but delegating it to
+You can access any variable defined in configuration files by delegating it to
 `A9n`. E.g:
 
     defaults:
@@ -58,21 +56,22 @@ You can access any variable defined in configuration files but delegating it to
 is accessible by:
 
     A9n.app_host   # => `knapo.net` in production and `localhost:3000` in development
-    A9n.email_from # => `no-reply@knapo.net` in all envs
+    A9n.email_from # => `no-reply@knapo.net` in both envs
 
 ## Custom and multiple configuration files
 
-If you need to load config from custom files (e.g `config/mongo.yml`, `config/other.yml` and `config/custom_dir/extra.yml`), add:
+If you want to scope configuration you may split to multiple files. All files from `config/a9n` are loaded by default, but you may pass custom paths as an argument to `A9n.load` e.g. `A9n.load('lib/facebook/api.yml')`. In such cases config items are accessialbe via scope consistient with the file name. 
 
-    A9n.load('mongo.yml', 'other.yml', 'custom_dir/extra')
+E.g. if you have `config/a9n/mandrill.yml`:
+     
+     defaults:
+       username: "joe"
+       api_key: "1234asdf"
 
-and the configuration is availble under `mongo`, `other` and `extra` scopes:
+you can access it by:
 
-    A9n.mongo.varname
-
-    A9n.other.varname
-
-    A9n.extra.varname
+     A9n.mandrill.username # => `joe`
+     A9n.mandrill.api_key # => `1234asdf`
 
 ## Contributing
 
@@ -82,7 +81,3 @@ and the configuration is availble under `mongo`, `other` and `extra` scopes:
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
 
-### Contributors
-
-* [Grzegorz Świrski](https://github.com/sognat)
-* [Jakub Łopusiński](https://github.com/siemakuba)
