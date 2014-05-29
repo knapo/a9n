@@ -4,6 +4,7 @@ describe A9n do
   subject { described_class }
 
   after {
+    subject.instance_variable_set(:@env, nil)
     subject.root = nil
     subject.app = nil
   }

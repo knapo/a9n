@@ -21,7 +21,7 @@ module A9n
       default_local    = self.class.load_yml(local_file, "defaults")
 
       if env_example.nil? && env_local.nil? && default_example.nil? && default_local.nil?
-        raise A9n::MissingConfigurationData.new("Configuration data was not found in neither #{example_file} nor #{local_file}")
+        raise A9n::MissingConfigurationData.new("Configuration data for *#{env}* env was not found in neither *#{example_file}* nor *#{local_file}*")
       end
 
       example = A9n::HashExt.merge(default_example, env_example)

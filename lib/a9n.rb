@@ -61,7 +61,7 @@ module A9n
     end
 
     def default_files
-      [root.join("#{DEFAULT_SCOPE}.yml").to_s] + Dir[root.join("config/a9n/*.yml")]
+      [root.join("config/#{DEFAULT_SCOPE}.yml").to_s] + Dir[root.join("config/a9n/*.yml")]
     end
 
     def load(*files)
