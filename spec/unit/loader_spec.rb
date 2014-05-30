@@ -13,17 +13,11 @@ describe A9n::Loader do
   end
 
   describe "#load" do
-    let(:example_env_config) {
-      { app_url: "http://127.0.0.1:3000", api_key: "base1234" }
+    let(:example_config) {
+      { app_url: "http://127.0.0.1:3000", api_key: "example1234" }
     }
-    let(:local_env_config) {
+    let(:local_config) {
       { app_host: "127.0.0.1:3000", api_key: "local1234" }
-    }
-    let(:example_default_config) {
-      { page_title: "Base Kielbasa", api_key: "example1234default"  }
-    }
-    let(:local_default_config) {
-      { page_title: "Local Kielbasa", api_key: "local1234default" }
     }
     let(:env){
       "tropical"
@@ -34,8 +28,6 @@ describe A9n::Loader do
       before do
         expect(described_class).to receive(:load_yml).with(subject.example_file, env).and_return(nil)
         expect(described_class).to receive(:load_yml).with(subject.local_file, env).and_return(nil)
-        expect(described_class).to receive(:load_yml).with(subject.example_file, "defaults").and_return(nil)
-        expect(described_class).to receive(:load_yml).with(subject.local_file, "defaults").and_return(nil)
         expect(subject).to receive(:verify!).never
       end
       it "raises expection"  do
@@ -45,37 +37,30 @@ describe A9n::Loader do
       end
     end
 
-    context "when example configuration file exists with defaults" do
+    context "when only example configuration file exists" do
       before do
-        expect(described_class).to receive(:load_yml).with(subject.example_file, env).and_return(example_env_config)
+        expect(described_class).to receive(:load_yml).with(subject.example_file, env).and_return(example_config)
         expect(described_class).to receive(:load_yml).with(subject.local_file, env).and_return(nil)
-        expect(described_class).to receive(:load_yml).with(subject.example_file, "defaults").and_return(example_default_config)
-        expect(described_class).to receive(:load_yml).with(subject.local_file, "defaults").and_return(nil)
-
         expect(described_class).to receive(:verify!).never
         subject.load
       end
 
       it { expect(config.app_url).to eq("http://127.0.0.1:3000") }
-      it { expect(config.page_title).to eq("Base Kielbasa") }
-      it { expect(config.api_key).to eq("base1234") }
+      it { expect(config.api_key).to eq("example1234") }
 
       it {
         expect { config.app_host }.to raise_error(A9n::NoSuchConfigurationVariable)
       }
     end
 
-    context "when local configuration file exists with defaults" do
+    context "when only local configuration file exists" do
       before do
         expect(described_class).to receive(:load_yml).with(subject.example_file, env).and_return(nil)
-        expect(described_class).to receive(:load_yml).with(subject.local_file, env).and_return(local_env_config)
-        expect(described_class).to receive(:load_yml).with(subject.example_file, "defaults").and_return(nil)
-        expect(described_class).to receive(:load_yml).with(subject.local_file, "defaults").and_return(local_default_config)
+        expect(described_class).to receive(:load_yml).with(subject.local_file, env).and_return(local_config)
         expect(described_class).to receive(:verify!).never
         subject.load
       end
       it { expect(config.app_host).to eq("127.0.0.1:3000") }
-      it { expect(config.page_title).to eq("Local Kielbasa") }
       it { expect(config.api_key).to eq("local1234") }
 
       it {
@@ -86,19 +71,14 @@ describe A9n::Loader do
     context "when both local and base configuration file exists without defaults" do
       context "with same data" do
         before do
-          expect(described_class).to receive(:load_yml).with(subject.example_file, env).and_return(example_env_config)
-          expect(described_class).to receive(:load_yml).with(subject.local_file, env).and_return(example_env_config)
-          expect(described_class).to receive(:load_yml).with(subject.example_file, "defaults").and_return(nil)
-          expect(described_class).to receive(:load_yml).with(subject.local_file, "defaults").and_return(nil)
+          expect(described_class).to receive(:load_yml).with(subject.example_file, env).and_return(example_config)
+          expect(described_class).to receive(:load_yml).with(subject.local_file, env).and_return(example_config)
           subject.load
         end
 
         it { expect(config.app_url).to eq("http://127.0.0.1:3000") }
-        it { expect(config.api_key).to eq("base1234") }
+        it { expect(config.api_key).to eq("example1234") }
 
-        it {
-          expect { config.page_title }.to raise_error(A9n::NoSuchConfigurationVariable)
-        }
         it {
           expect { config.app_host }.to raise_error(A9n::NoSuchConfigurationVariable)
         }
@@ -106,10 +86,8 @@ describe A9n::Loader do
 
       context "with different data" do
         before do
-          expect(described_class).to receive(:load_yml).with(subject.example_file, env).and_return(example_env_config)
-          expect(described_class).to receive(:load_yml).with(subject.local_file, env).and_return(local_env_config)
-          expect(described_class).to receive(:load_yml).with(subject.example_file, "defaults").and_return(nil)
-          expect(described_class).to receive(:load_yml).with(subject.local_file, "defaults").and_return(nil)
+          expect(described_class).to receive(:load_yml).with(subject.example_file, env).and_return(example_config)
+          expect(described_class).to receive(:load_yml).with(subject.local_file, env).and_return(local_config)
         end
         it "raises expection"  do
           expect {
@@ -125,22 +103,31 @@ describe A9n::Loader do
     subject {  described_class.load_yml(file_path, env) }
 
     context "when file not exists" do
-      let(:file_path) { "file_not_existing_in_universe.yml" }
+      let(:file_path) { "file_not_existing_in_the_universe.yml" }
 
       it{ expect(subject).to be_nil }
     end
 
     context "when file exists" do
-      let(:file_path) { File.join(root, "config/configuration.yml") }
+      shared_examples "non-empty config file" do
+        it "returns non-empty hash" do
+          expect(subject).to be_kind_of(Hash)
+          expect(subject.keys).to_not be_empty
+        end
+      end
 
       before {
         ENV["DWARF"] = "erbized dwarf"
       }
 
-      context "and has data" do
-        it "returns non-empty hash" do
-          expect(subject).to be_kind_of(Hash)
-          expect(subject.keys).to_not be_empty
+      context "having env and defaults data" do
+        let(:file_path) { File.join(root, "config/configuration.yml") }
+
+        it_behaves_like "non-empty config file"
+
+        it "contains keys from defaults scope" do
+          expect(subject[:default_dwarf]).to eq("default dwarf")
+          expect(subject[:overriden_dwarf]).to eq("already overriden dwarf")
         end
 
         it "has symbolized keys" do
@@ -154,9 +141,30 @@ describe A9n::Loader do
         end
       end
 
-      context "and has no data" do
+      context "having no env and only defaults data" do
+        let(:file_path) { File.join(root, "config/configuration.yml") }
         let(:env) { "production" }
-        it{ expect(subject).to be_nil }
+
+        it_behaves_like "non-empty config file"
+
+        it "contains keys from defaults scope" do
+          expect(subject[:default_dwarf]).to eq("default dwarf")
+          expect(subject[:overriden_dwarf]).to eq("not yet overriden dwarf")
+        end
+      end
+
+      context "having only env and no default data" do
+        let(:file_path) { File.join(root, "config/a9n/no_defaults.yml") }
+
+        context "valid env" do
+          let(:env) { "production" }
+          it_behaves_like "non-empty config file"
+        end
+
+        context "invalid env" do
+          let(:env) { "tropical" }
+          it { expect(subject).to be_nil }
+        end
       end
     end
   end

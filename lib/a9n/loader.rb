@@ -4,6 +4,8 @@ module A9n
   class Loader
     attr_reader :env, :local_file, :example_file
 
+    COMMON_SCOPE = "defaults"
+
     def initialize(file_path, env)
       @env = env.to_s
       @local_file = file_path
@@ -15,33 +17,37 @@ module A9n
     end
 
     def load
-      env_example      = self.class.load_yml(example_file, env)
-      env_local        = self.class.load_yml(local_file, env)
-      default_example  = self.class.load_yml(example_file, "defaults")
-      default_local    = self.class.load_yml(local_file, "defaults")
+      local_config    = self.class.load_yml(local_file, env)
+      example_config  = self.class.load_yml(example_file, env)
 
-      if env_example.nil? && env_local.nil? && default_example.nil? && default_local.nil?
+      if local_config.nil? && example_config.nil?
         raise A9n::MissingConfigurationData.new("Configuration data for *#{env}* env was not found in neither *#{example_file}* nor *#{local_file}*")
       end
 
-      example = A9n::HashExt.merge(default_example, env_example)
-      local   = A9n::HashExt.merge(default_local, env_local)
-
-      if !example.nil? && !local.nil?
-        verify!(example, local)
+      if !local_config.nil? && !example_config.nil?
+        verify!(local_config, example_config)
       end
 
-      @struct = A9n::Struct.new(local || example)
+      @struct = A9n::Struct.new(local_config || example_config)
     end
 
-    def self.load_yml(file_path, env)
-      return nil unless File.exists?(file_path)
-      yml = YAML.load(ERB.new(File.read(file_path)).result)
+    class << self
+      def load_yml(file_path, env)
+        return nil unless File.exists?(file_path)
+        yml = YAML.load(ERB.new(File.read(file_path)).result)
 
-      if yml[env].is_a?(::Hash)
-        A9n::HashExt.deep_symbolize_keys(yml[env])
-      else
-        return nil
+        common_scope = prepare_yml_scope(yml, COMMON_SCOPE)
+        env_scope    = prepare_yml_scope(yml, env)
+
+        A9n::HashExt.merge(common_scope, env_scope)
+      end
+
+      def prepare_yml_scope(yml, env_scope)
+        if yml[env_scope].is_a?(::Hash)
+          A9n::HashExt.deep_symbolize_keys(yml[env_scope])
+        else
+          nil
+        end
       end
     end
 
