@@ -154,7 +154,7 @@ describe A9n::Loader do
       end
 
       context "having only env and no default data" do
-        let(:file_path) { File.join(root, "config/a9n/no_defaults.yml") }
+        let(:file_path) { File.join(root, "config/no_defaults.yml") }
 
         context "valid env" do
           let(:env) { "production" }
