@@ -3,12 +3,12 @@
 [![Gem Version](https://badge.fury.io/rb/a9n.png)][gem_version]
 [![Build status](https://secure.travis-ci.org/knapo/a9n.png)][travis]
 [![Code Climate](https://codeclimate.com/github/knapo/a9n.png)][codeclimate]
-[![Coverage Status](https://coveralls.io/repos/knapo/a9n/badge.png?branch=master)][coveralls]
+[![Coverage Status](https://codeclimate.com/github/knapo/a9n/coverage.png)][coverage]
 
 [gem_version]: https://rubygems.org/gems/a9n
 [travis]: http://travis-ci.org/knapo/a9n
 [codeclimate]: https://codeclimate.com/github/knapo/a9n
-[coveralls]: https://coveralls.io/r/knapo/a9n
+[coverage]: https://codeclimate.com/github/knapo/a9n
 
 A9n is a simple tool for managing extra configuration in ruby/rails applications. It supports Rails 2.x, 3.x, 4.x and Ruby 1.9, 2.0. 2.1. Ruby 1.8 is not supported since version 0.1.2.
 
@@ -62,10 +62,10 @@ is accessible by:
 
 ## Custom and multiple configuration files
 
-If you want to scope configuration you may split to multiple files. All files from `config/a9n` are loaded by default, but you may pass custom paths as an argument to `A9n.load` e.g. `A9n.load('lib/facebook/api.yml', 'config/mongoid.yml')`. In such cases config items are accessialbe via scope consistient with the file name. 
+If you want to scope configuration you may split to multiple files. All files from `config/a9n` are loaded by default, but you may pass custom paths as an argument to `A9n.load` e.g. `A9n.load('lib/facebook/api.yml', 'config/mongoid.yml')`. In such cases config items are accessialbe via scope consistient with the file name.
 
 E.g. if you have `config/a9n/mandrill.yml`:
-     
+
      defaults:
        username: "joe"
        api_key: "1234asdf"
