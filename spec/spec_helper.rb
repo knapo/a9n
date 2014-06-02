@@ -13,6 +13,5 @@ RSpec.configure do |config|
     expect_with.syntax = :expect
   end
   config.order = "random"
-  config.color_enabled = true
   config.tty = true
 end

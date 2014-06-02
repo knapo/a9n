@@ -2,5 +2,5 @@ source 'https://rubygems.org'
 
 gemspec
 gem 'rake'
-gem 'rspec', '~> 2.14.1'
+gem 'rspec', '~> 3.0.0'
 gem 'codeclimate-test-reporter', require: false
