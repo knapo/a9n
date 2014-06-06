@@ -28,9 +28,8 @@ Add `configuration.yml.example` and/or `configuration.yml` file into the config
 directory. When none fo these files exists, `A9n::MissingConfigurationFile`
 exception is thrown.
 If both file exist, content of `configuration.yml` is validated. It means that
-all keys existing in example file must exist in base file - in case of missing
-keys`A9n::MissingConfigurationVariables` is thrown with information about
-missing keys.
+all keys existing in example file must exist in local file - in case of missing
+keys `A9n::MissingConfigurationVariables` is thrown with the explanation what is missing.
 
 Set application root and load configuration by adding to your `application.rb` or `environment.rb` right
 after budler requires:
