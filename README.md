@@ -10,7 +10,7 @@
 [codeclimate]: https://codeclimate.com/github/knapo/a9n
 [coverage]: https://codeclimate.com/github/knapo/a9n
 
-A9n is a simple tool to keep ruby/rails application configuration managable. It supports Rails 2.x, 3.x, 4.x and Ruby 1.9, 2.0. 2.1. Ruby 1.8 is not supported since version 0.1.2.
+A9n is a simple tool to keep ruby/rails application configuration maintanable. It supports Rails 2.x, 3.x, 4.x and Ruby 1.9, 2.0. 2.1. Ruby 1.8 is not supported since version 0.1.2.
 
 Why it's named a9n? It's a numeronym of application (where 9 stands for the number of letters between the first **a** and last **n**, similar to i18n or l10n).
 
