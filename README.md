@@ -74,6 +74,17 @@ you can access it by:
      A9n.mandrill.username # => `joe`
      A9n.mandrill.api_key # => `1234asdf`
 
+    
+## Capistrano
+
+If you use capistrano and you feel safe enough to keep all your instance (e.g. staging or production) configuration in your repository you may use capistrano extentions.
+
+Just add an instance configuration file e.g. `configuration.yml.staging`, `configuration.yml.production` - extension needs to be consistient with capistrano stage, and add
+
+    require 'a9n/capistrano'
+    
+to your deploy.rb file. This way `configuration.yml.<stage>` will be copied and overide `configuration.yml` on each deploy.
+
 ## Contributing
 
 1. Fork it
