@@ -12,7 +12,7 @@
 
 A9n is a simple tool to keep ruby/rails application configuration maintanable. It supports Rails 2.x, 3.x, 4.x and Ruby 1.9, 2.0. 2.1. Ruby 1.8 is not supported since version 0.1.2.
 
-Why it's named a9n? It's a numeronym of application (where 9 stands for the number of letters between the first **a** and last **n**, similar to i18n or l10n).
+Why it's named a9n? It's a numeronym for application (where 9 stands for the number of letters between the first **a** and last **n**, similar to i18n or l10n).
 
 ## Installation
 
@@ -37,6 +37,7 @@ after budler requires:
     A9n.root = File.expand_path('../..', __FILE__)
     A9n.load
 
+This step is not required ,if you don't use `a9n` in the environment settings or initializers.
 It works with `Rails` by default. If you want to use `A9n` with non-rails app
 you may need to tell that to A9n by:
 
@@ -61,7 +62,7 @@ is accessible by:
 
 ## Custom and multiple configuration files
 
-If you want to scope configuration you may split to multiple files. All files from `config/a9n` are loaded by default, but you may pass custom paths as an argument to `A9n.load` e.g. `A9n.load('lib/facebook/api.yml', 'config/mongoid.yml')`. In such cases config items are accessialbe via scope consistient with the file name.
+If you want to split configuration, you can use multiple files. All files from `config/a9n` are loaded by default, but you may pass custom paths as an argument to `A9n.load` e.g. `A9n.load('config/facebook.yml', 'config/mongoid.yml')`. In such cases config items are accessible through the scope consistent with the file name.
 
 E.g. if you have `config/a9n/mandrill.yml`:
 
@@ -69,7 +70,7 @@ E.g. if you have `config/a9n/mandrill.yml`:
        username: "joe"
        api_key: "1234asdf"
 
-you can access it by:
+You can access it by:
 
      A9n.mandrill.username # => `joe`
      A9n.mandrill.api_key # => `1234asdf`
@@ -77,13 +78,12 @@ you can access it by:
     
 ## Capistrano
 
-If you use capistrano and you feel safe enough to keep all your instance (e.g. staging or production) configuration in your repository you may use capistrano extentions.
-
-Just add an instance configuration file e.g. `configuration.yml.staging`, `configuration.yml.production` - extension needs to be consistient with capistrano stage, and add
+If you use capistrano and you feel safe enough to keep all your instance ( staging, production) configuration in the repository, you may find it useful to use capistrano extensions.
+Just add an instance configuration file e.g. `configuration.yml.staging`, `configuration.yml.production` (NOTE: file extension must be consistent with the capistrano stage) and add
 
     require 'a9n/capistrano'
     
-to your deploy.rb file. This way `configuration.yml.<stage>` will be copied and overide `configuration.yml` on each deploy.
+to your deploy.rb file. This way `configuration.yml.<stage>` overrides `configuration.yml` on each deploy.
 
 ## Contributing
 
