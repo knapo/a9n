@@ -57,11 +57,11 @@ module A9n
     end
 
     def var_name_for(file)
-      :"@#{File.basename(file.to_s, '.*')}"
+      :"@#{File.basename(file.to_s).split('.').first}"
     end
 
     def default_files
-      [root.join("config/#{DEFAULT_SCOPE}.yml").to_s] + Dir[root.join("config/a9n/*.yml")]
+      [root.join("config/#{DEFAULT_SCOPE}.yml").to_s] + Dir[root.join("config/a9n/*.{yml,yml.erb}")]
     end
 
     def load(*files)

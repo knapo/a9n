@@ -38,4 +38,12 @@ describe A9n do
       expect(subject.mandrill.api_key).to eq("asdf1234")
     }
   end
+
+  context "extra config file with erb" do
+    it {
+      expect(subject.salesforce).to be_kind_of(A9n::Struct)
+      expect(subject.salesforce.username).to eq("testuser")
+      expect(subject.salesforce.password).to eq("qwerty")
+    }
+  end
 end
