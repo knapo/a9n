@@ -120,6 +120,12 @@ describe A9n::Loader do
         ENV["DWARF"] = "erbized dwarf"
       }
 
+      context 'when file has erb extension' do
+        let(:file_path) { File.join(root, "config/a9n/cloud.yml.erb") }
+
+        it_behaves_like "non-empty config file"
+      end
+
       context "having env and defaults data" do
         let(:file_path) { File.join(root, "config/configuration.yml") }
 
