@@ -41,9 +41,9 @@ describe A9n do
 
   context "extra config file with erb" do
     it {
-      expect(subject.salesforce).to be_kind_of(A9n::Struct)
-      expect(subject.salesforce.username).to eq("testuser")
-      expect(subject.salesforce.password).to eq("qwerty")
+      expect(subject.cloud).to be_kind_of(A9n::Struct)
+      expect(subject.cloud.username).to eq("testuser")
+      expect(subject.cloud.password).to eq("qwerty")
     }
   end
 end
