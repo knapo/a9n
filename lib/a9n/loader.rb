@@ -53,7 +53,7 @@ module A9n
 
     private
 
-    def verify!(example, local)
+    def verify!(local, example)
       missing_keys = example.keys - local.keys
       if missing_keys.any?
         raise A9n::MissingConfigurationVariables.new("Following variables are missing in #{local_file} file: #{missing_keys.join(",")}")

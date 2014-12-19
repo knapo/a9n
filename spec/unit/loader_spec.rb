@@ -89,10 +89,13 @@ describe A9n::Loader do
           expect(described_class).to receive(:load_yml).with(subject.example_file, env).and_return(example_config)
           expect(described_class).to receive(:load_yml).with(subject.local_file, env).and_return(local_config)
         end
-        it "raises expection"  do
+
+        let(:missing_variables_names) { example_config.keys - local_config.keys }
+
+        it "raises expection with missing variables names"  do
           expect {
             subject.load
-          }.to raise_error(A9n::MissingConfigurationVariables)
+          }.to raise_error(A9n::MissingConfigurationVariables, /#{missing_variables_names.join(', ')}/)
         end
       end
     end
