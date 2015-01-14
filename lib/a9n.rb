@@ -12,7 +12,7 @@ module A9n
   class NoSuchConfigurationVariable < StandardError; end
 
   DEFAULT_SCOPE = :configuration
-  DEFAULT_FILE = "#{DEFAULT_SCOPE}.yml"
+  EXTENSION_LIST = "{yml,yml.erb,yml.example,yml.erb.example}"
 
   class << self
     def env
@@ -61,7 +61,9 @@ module A9n
     end
 
     def default_files
-      [root.join("config/#{DEFAULT_SCOPE}.yml").to_s] + Dir[root.join("config/a9n/*.{yml,yml.erb}")]
+      files  = Dir[root.join("config/#{DEFAULT_SCOPE}.#{EXTENSION_LIST}").to_s]
+      files += Dir[root.join("config/a9n/*.#{EXTENSION_LIST}")]
+      files.map{ |f| f.sub(/.example$/,'') }.uniq
     end
 
     def load(*files)

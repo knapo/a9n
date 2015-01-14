@@ -46,4 +46,11 @@ describe A9n do
       expect(subject.cloud.password).to eq("qwerty")
     }
   end
+
+  context "extra config file with example" do
+    it {
+      expect(subject.mailer).to be_kind_of(A9n::Struct)
+      expect(subject.mailer.delivery_method).to eq("test")
+    }
+  end
 end
