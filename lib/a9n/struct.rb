@@ -27,12 +27,5 @@ module A9n
     def method_missing(name, *args)
       raise NoSuchConfigurationVariable.new(name)
     end
-
-    # backward compatibility for ruby < 2.0
-    if RUBY_VERSION < '2.0'
-      def []=(key, value)
-        modifiable[new_ostruct_member(key)] = value
-      end
-    end
   end
 end

@@ -34,6 +34,26 @@ describe A9n::Struct do
       end
     end
 
+    describe '#merge' do
+      before { subject.merge(argument) }
+
+      context 'hash' do
+        let(:argument) { { non_empty_dwarf: 'hello dwarf' } }
+
+        it do
+          expect(subject.non_empty_dwarf).to eq('hello dwarf')
+        end
+      end
+
+      context 'struct' do
+        let(:argument) { described_class.new(non_empty_dwarf: 'hello dwarf') }
+
+        it do
+          expect(subject.non_empty_dwarf).to eq('hello dwarf')
+        end
+      end
+    end
+
     it 'is not empty' do
       expect(subject).not_to be_empty
     end
