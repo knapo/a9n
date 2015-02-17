@@ -105,41 +105,6 @@ describe A9n do
     it { expect(subject.get_env_var("IS_DWARF")).to be_nil}
   end
 
-  describe ".var_name_for" do
-    it { expect(subject.var_name_for(:configuration)).to eq(:@configuration) }
-    it { expect(subject.var_name_for("configuration.yml")).to eq(:@configuration) }
-    it { expect(subject.var_name_for("custom_dir/extra.yml")).to eq(:@extra) }
-  end
-
-  describe ".fetch" do
-    let(:example_config) { A9n::Struct.new({hello: "world"}) }
-    before {
-      expect(subject).to receive(:scope).with(subject::DEFAULT_SCOPE).twice.and_return(example_config)
-    }
-    it {
-      expect(subject.fetch(:hello)).to eq("world")
-      expect(subject.fetch(:wold)).to eq(nil)
-    }
-  end
-
-  describe ".scope" do
-    context "when config has been loaded" do
-      before {
-        subject.instance_variable_set(:@custom1, { api_key: '1234asdf'})
-        expect(subject).to receive(:load).never
-      }
-      it {
-        expect(subject.scope(:custom1)).to eq({ api_key: '1234asdf'})
-      }
-    end
-    context "when config has not been loaded yet" do
-      it {
-        expect(subject).to receive(:load)
-        subject.scope(:custom2)
-      }
-    end
-  end
-
   describe ".default_files" do
     before {
       subject.root = File.expand_path("../../../test_app", __FILE__)

@@ -8,6 +8,7 @@ describe A9n do
   before {
     subject.app = double(env: env)
     subject.root = File.expand_path("../../../test_app", __FILE__)
+    subject.load
   }
 
   after {

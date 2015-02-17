@@ -6,6 +6,8 @@ require "yaml"
 require "erb"
 
 module A9n
+  extend SingleForwardable
+
   class ConfigurationNotLoaded < StandardError; end
   class MissingConfigurationData < StandardError; end
   class MissingConfigurationVariables < StandardError; end
@@ -14,7 +16,10 @@ module A9n
   DEFAULT_SCOPE = :configuration
   EXTENSION_LIST = "{yml,yml.erb,yml.example,yml.erb.example}"
 
+  def_delegators :configuration, :fetch
+
   class << self
+
     def env
       @env ||= app_env || get_env_var("RAILS_ENV") || get_env_var("RACK_ENV") || get_env_var("APP_ENV")
     end
@@ -47,19 +52,6 @@ module A9n
       ENV[name]
     end
 
-    def fetch(*args)
-      scope(DEFAULT_SCOPE).fetch(*args)
-    end
-
-    def scope(name)
-      load unless instance_variable_defined?(var_name_for(name))
-      instance_variable_get(var_name_for(name))
-    end
-
-    def var_name_for(file)
-      :"@#{File.basename(file.to_s).split('.').first}"
-    end
-
     def default_files
       files  = Dir[root.join("config/#{DEFAULT_SCOPE}.#{EXTENSION_LIST}").to_s]
       files += Dir[root.join("config/a9n/*.#{EXTENSION_LIST}")]
@@ -67,28 +59,40 @@ module A9n
     end
 
     def load(*files)
-      if files.empty?
-        files = default_files
-      else
-        files = get_absolute_paths_for(files)
-      end
-      files.map do |file|
-        instance_variable_set(var_name_for(file), A9n::Loader.new(file, env).get)
-      end
+      files = files.empty? ? default_files : get_absolute_paths_for(files)
+      files.map { |file| store_values(file) }
     end
 
     def method_missing(name, *args)
-      if scope(name).is_a?(A9n::Struct)
-        scope(name)
-      else
-        scope(DEFAULT_SCOPE).send(name, *args)
-      end
+      load if configuration.blank?
+      configuration.send(name)
+    end
+
+    def configuration
+      @@configuration ||= A9n::Struct.new
     end
 
     private
 
+    def store_values(file)
+      A9n::Loader.new(file, env).get.tap do |data|
+        store_key = File.basename(file.to_s).split('.').first
+        data_keys = Array(default_scope?(store_key) ? data.keys : store_key.to_sym)
+
+        data_keys.each do |key|
+          configuration[key] = (default_scope?(store_key) ? data.send(key) : data)
+        end
+
+        self.def_delegators :configuration, *data_keys
+      end
+    end
+
     def get_absolute_paths_for(files)
       files.map { |file| Pathname.new(file).absolute? ? file : self.root.join('config', file).to_s }
+    end
+
+    def default_scope?(scope)
+      scope.to_s == DEFAULT_SCOPE.to_s
     end
   end
 end
