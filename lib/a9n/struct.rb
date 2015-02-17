@@ -2,9 +2,8 @@ require 'ostruct'
 
 module A9n
   class Struct < OpenStruct
-
-    def blank?
-      to_h.none?
+    def empty?
+      @table.empty?
     end
 
     def keys
@@ -19,13 +18,21 @@ module A9n
       to_h.key?(key)
     end
 
-    # backward compatibility for ruby < 2.0
-    def []=(key, value)
-      modifiable[new_ostruct_member(key)] = value
+    def merge(key_value)
+      key_value.each_pair do |key, value|
+        self[key] = value
+      end
     end
 
     def method_missing(name, *args)
       raise NoSuchConfigurationVariable.new(name)
+    end
+
+    # backward compatibility for ruby < 2.0
+    if RUBY_VERSION < '2.0'
+      def []=(key, value)
+        modifiable[new_ostruct_member(key)] = value
+      end
     end
   end
 end

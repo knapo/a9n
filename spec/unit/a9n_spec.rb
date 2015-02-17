@@ -4,6 +4,7 @@ describe A9n do
   subject { described_class }
 
   after {
+    subject.instance_variable_set(:@storage, nil)
     subject.instance_variable_set(:@env, nil)
     subject.root = nil
     subject.app = nil
@@ -157,6 +158,26 @@ describe A9n do
       }
       it {
         expect(subject.load(*given_files)).to eq(files.values)
+      }
+    end
+  end
+
+  describe ".method_missing" do
+    context "when storage is empty" do
+      before { expect(subject).to receive(:load).once }
+      it {
+        expect(subject.storage).to be_empty
+        expect { subject.whatever }.to raise_error(A9n::NoSuchConfigurationVariable)
+      }
+    end
+
+    context "when storage is not empty" do
+      before {
+        subject.storage[:whenever] = 'whenever'
+        expect(subject).not_to receive(:load)
+      }
+      it {
+        expect { subject.whatever }.to raise_error(A9n::NoSuchConfigurationVariable)
       }
     end
   end

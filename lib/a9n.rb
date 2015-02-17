@@ -16,10 +16,7 @@ module A9n
   DEFAULT_SCOPE = :configuration
   EXTENSION_LIST = "{yml,yml.erb,yml.example,yml.erb.example}"
 
-  def_delegators :configuration, :fetch
-
   class << self
-
     def env
       @env ||= app_env || get_env_var("RAILS_ENV") || get_env_var("RACK_ENV") || get_env_var("APP_ENV")
     end
@@ -60,31 +57,39 @@ module A9n
 
     def load(*files)
       files = files.empty? ? default_files : get_absolute_paths_for(files)
-      files.map { |file| store_values(file) }
+      files.map { |file| load_file(file) }
+    end
+
+    def storage
+      @storage ||= A9n::Struct.new
     end
 
     def method_missing(name, *args)
-      load if configuration.blank?
-      configuration.send(name)
-    end
-
-    def configuration
-      @@configuration ||= A9n::Struct.new
+      load if storage.empty?
+      storage.send(name)
     end
 
     private
 
-    def store_values(file)
-      A9n::Loader.new(file, env).get.tap do |data|
-        store_key = File.basename(file.to_s).split('.').first
-        data_keys = Array(default_scope?(store_key) ? data.keys : store_key.to_sym)
+    def load_file(file)
+      scope_name = scope_name_from_file(file)
+      scope_data = A9n::Loader.new(file, env).get
+      setup_scope(scope_name, scope_data)
+    end
 
-        data_keys.each do |key|
-          configuration[key] = (default_scope?(store_key) ? data.send(key) : data)
-        end
-
-        self.def_delegators :configuration, *data_keys
+    def setup_scope(name, data)
+      if default_scope?(name)
+        storage.merge(data)
+        def_delegators :storage, *data.keys
+      else
+        storage[name] = data
+        def_delegators :storage, name
       end
+      return data
+    end
+
+    def scope_name_from_file(file)
+      File.basename(file.to_s).split('.').first.to_sym
     end
 
     def get_absolute_paths_for(files)
