@@ -4,7 +4,7 @@ require File.expand_path('../lib/a9n/version', __FILE__)
 Gem::Specification.new do |gem|
   gem.authors       = ["Krzysztof Knapik"]
   gem.email         = ["knapo@knapo.net"]
-  gem.description   = %q{a9n is a tool to keep ruby/rails apps extra configuration easily maintainable and verifiable}
+  gem.description   = %q{a9n - ruby/rails apps extra configuration manager}
   gem.summary       = %q{a9n is a tool to keep ruby/rails apps extra configuration easily maintainable and verifiable}
   gem.homepage      = "https://github.com/knapo/a9n"
   gem.license       = 'MIT'
