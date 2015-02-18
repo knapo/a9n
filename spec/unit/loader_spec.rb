@@ -30,6 +30,7 @@ describe A9n::Loader do
         expect(described_class).to receive(:load_yml).with(subject.local_file, env).and_return(nil)
         expect(subject).to receive(:verify!).never
       end
+
       it "raises expection"  do
         expect {
           subject.load
@@ -48,9 +49,9 @@ describe A9n::Loader do
       it { expect(config.app_url).to eq("http://127.0.0.1:3000") }
       it { expect(config.api_key).to eq("example1234") }
 
-      it {
+      it do
         expect { config.app_host }.to raise_error(A9n::NoSuchConfigurationVariable)
-      }
+      end
     end
 
     context "when only local configuration file exists" do
@@ -60,12 +61,13 @@ describe A9n::Loader do
         expect(described_class).to receive(:verify!).never
         subject.load
       end
+
       it { expect(config.app_host).to eq("127.0.0.1:3000") }
       it { expect(config.api_key).to eq("local1234") }
 
-      it {
+      it do
         expect { config.app_url }.to raise_error(A9n::NoSuchConfigurationVariable)
-      }
+      end
     end
 
     context "when both local and base configuration file exists without defaults" do
@@ -79,9 +81,9 @@ describe A9n::Loader do
         it { expect(config.app_url).to eq("http://127.0.0.1:3000") }
         it { expect(config.api_key).to eq("example1234") }
 
-        it {
+        it do
           expect { config.app_host }.to raise_error(A9n::NoSuchConfigurationVariable)
-        }
+        end
       end
 
       context "with different data" do
@@ -95,7 +97,7 @@ describe A9n::Loader do
         it "raises expection with missing variables names"  do
           expect {
             subject.load
-          }.to raise_error(A9n::MissingConfigurationVariables, /#{missing_variables_names.join(', ')}/)
+          }.to raise_error(A9n::MissingConfigurationVariables, /#{missing_variables_names.join(", ")}/)
         end
       end
     end
@@ -119,11 +121,11 @@ describe A9n::Loader do
         end
       end
 
-      before {
+      before do
         ENV["DWARF"] = "erbized dwarf"
-      }
+      end
 
-      context 'when file has erb extension' do
+      context "when file has erb extension" do
         let(:file_path) { File.join(root, "config/a9n/cloud.yml.erb") }
 
         it_behaves_like "non-empty config file"
