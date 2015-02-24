@@ -15,3 +15,11 @@ RSpec.configure do |config|
   config.order = "random"
   config.tty = true
 end
+
+def clean_singleton(klass)
+  [:@storage, :@env, :@app, :@root].each do |var|
+    if klass.instance_variable_defined?(var)
+      klass.remove_instance_variable(var)
+    end
+  end
+end

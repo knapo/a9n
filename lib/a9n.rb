@@ -66,7 +66,7 @@ module A9n
 
     def method_missing(name, *args)
       load if storage.empty?
-      storage.send(name)
+      storage.send(name, *args)
     end
 
     private
@@ -80,10 +80,11 @@ module A9n
     def setup_scope(name, data)
       if default_scope?(name)
         storage.merge(data)
+        def_delegator :storage, :fetch
         def_delegators :storage, *data.keys
       else
         storage[name] = data
-        def_delegators :storage, name
+        def_delegator :storage, name
       end
       return data
     end

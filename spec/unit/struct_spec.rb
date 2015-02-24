@@ -17,7 +17,19 @@ describe A9n::Struct do
     end
 
     describe "#[]" do
-      it { expect(subject[:dwarf]).to be_nil }
+      it { expect(subject[:dwarf]).to eq(nil) }
+    end
+
+    describe "#fetch" do
+      it do
+        expect {
+          subject.fetch(:dwarf)
+        }.to raise_error(KeyError)
+      end
+
+      it do
+        expect(subject.fetch(:dwarf, "hello")).to eq("hello")
+      end
     end
 
     it "raises error on accessin invalid attribute" do
@@ -100,20 +112,45 @@ describe A9n::Struct do
     end
 
     describe "#[]" do
-      it "return non empty value" do
+      it "returns non empty value" do
         expect(subject[:non_empty_dwarf]).to eq("dwarf")
       end
 
-      it "return false value" do
+      it "returns false value" do
         expect(subject[:false_dwarf]).to eq(false)
       end
 
-      it "return nil value" do
+      it "returns nil value" do
         expect(subject[:nil_dwarf]).to eq(nil)
       end
 
-      it "return nil for non existing value" do
+      it "returns nil for non existing key" do
         expect(subject[:non_existing_dwarf]).to eq(nil)
+      end
+    end
+
+
+    describe "#fetch" do
+      it "returns non empty value" do
+        expect(subject.fetch(:non_empty_dwarf)).to eq("dwarf")
+      end
+
+      it "returns false value" do
+        expect(subject.fetch(:false_dwarf)).to eq(false)
+      end
+
+      it "returns nil value" do
+        expect(subject.fetch(:nil_dwarf)).to eq(nil)
+      end
+
+      it "returns default for non existing value" do
+        expect(subject.fetch(:non_existing_dwarf, "hello")).to eq("hello")
+      end
+
+      it "raises error for non existing key" do
+        expect {
+          subject.fetch(:non_existing_dwarf)
+        }.to raise_error(KeyError)
       end
     end
   end

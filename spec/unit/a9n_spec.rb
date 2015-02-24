@@ -2,14 +2,6 @@ require "spec_helper"
 
 describe A9n do
   subject { described_class }
-
-  def clean_singleton(subject)
-    subject.instance_variable_set(:@storage, nil)
-    subject.instance_variable_set(:@env, nil)
-    subject.root = nil
-    subject.app = nil
-  end
-
   before { clean_singleton(subject) }
   after { clean_singleton(subject) }
 
