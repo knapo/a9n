@@ -2,7 +2,7 @@ defaults:
   default_dwarf: "example default dwarf"
   overriden_dwarf: "example not yet overriden dwarf"
   erb_dwarf: "<%= ENV['ERB_DWARF'] %>"
-  password: :env
+  dwarf_password: :env
 development:
   nil_dwarf: ~
   false_dwarf: false

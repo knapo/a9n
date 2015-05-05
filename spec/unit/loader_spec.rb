@@ -13,15 +13,15 @@ describe A9n::Loader do
   end
 
   describe "#load" do
-    let(:example_config) {
+    let(:example_config) do
       { app_url: "http://127.0.0.1:3000", api_key: "example1234" }
-    }
-    let(:local_config) {
+    end
+
+    let(:local_config) do
       { app_host: "127.0.0.1:3000", api_key: "local1234" }
-    }
-    let(:env){
-      "tropical"
-    }
+    end
+
+    let(:env) { "tropical" }
     let(:config) { subject.get }
 
     context "when no configuration file exists" do
@@ -122,7 +122,13 @@ describe A9n::Loader do
       end
 
       before do
-        ENV["DWARF"] = "erbized dwarf"
+        ENV["ERB_DWARF"] = "erbized dwarf"
+        ENV["DWARF_PASSWORD"] = "dwarf123"
+      end
+
+      after do
+        ENV["ERB_DWARF"] = nil
+        ENV["DWARF_PASSWORD"] = nil
       end
 
       context "when file has erb extension" do
@@ -149,6 +155,11 @@ describe A9n::Loader do
 
         it "parses erb" do
           expect(subject[:erb_dwarf]).to eq("erbized dwarf")
+        end
+
+        it "gets valus from ENV" do
+          p subject
+          expect(subject[:dwarf_password]).to eq("dwarf123")
         end
       end
 

@@ -44,7 +44,7 @@ module A9n
 
       def prepare_yml_scope(yml, env_scope)
         if yml[env_scope].is_a?(::Hash)
-          A9n::HashExt.deep_symbolize_keys(yml[env_scope])
+          A9n::HashExt.deep_prepare(yml[env_scope])
         else
           nil
         end
