@@ -56,6 +56,7 @@ module A9n
     end
 
     def load(*files)
+      require_local_extension
       files = files.empty? ? default_files : get_absolute_paths_for(files)
       files.map { |file| load_file(file) }
     end
@@ -99,6 +100,13 @@ module A9n
 
     def default_scope?(scope)
       scope.to_s == DEFAULT_SCOPE.to_s
+    end
+
+    def require_local_extension
+      return if app.nil? || root.nil?
+      local_extension_file = File.join(root, "config/a9n.rb")
+      return unless File.exists?(local_extension_file)
+      require local_extension_file
     end
   end
 end
