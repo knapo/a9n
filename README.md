@@ -10,7 +10,7 @@
 [codeclimate]: https://codeclimate.com/github/knapo/a9n
 [coverage]: https://codeclimate.com/github/knapo/a9n
 
-A9n is a simple tool to keep ruby/rails apps configuration maintanable and verifiable. It supports Rails 2.x, 3.x, 4.x and Ruby 2.0. 2.1, 2.2. Ruby 1.8 is not supported since version 0.1.2. Ruby 1.9 is not supported since version 0.4.0.
+A9n is a simple tool to keep ruby/rails apps configuration maintanable and verifiable. It supports Rails 3.x, 4.x and Ruby 2.0. 2.1, 2.2. Ruby 1.8 and Rails 2.x are not supported since version 0.1.2. Ruby 1.9 is not supported since version 0.4.0.
 
 Why it's named a9n? It's a numeronym for application (where 9 stands for the number of letters between the first **a** and last **n**, similar to i18n or l10n).
 
@@ -75,6 +75,12 @@ You can access it by:
      A9n.mandrill.username # => `joe`
      A9n.mandrill.api_key # => `1234asdf`
 
+## Mapping ENV variables
+
+Sometimes, you don't want to store a single secret value in the repo and you prefer having it in ENV variable. You can easily map it using `:env` symbol as a value:
+
+     production:
+       access_token: :env
 
 ## Capistrano
 
