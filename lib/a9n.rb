@@ -34,7 +34,11 @@ module A9n
     end
 
     def root
-      @root ||= app.root
+      @root ||= app_root
+    end
+
+    def app_root
+      app.root if app && app.respond_to?(:root)
     end
 
     def root=(path)

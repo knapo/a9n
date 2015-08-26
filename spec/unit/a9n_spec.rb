@@ -72,25 +72,53 @@ describe A9n do
   end
 
   describe ".root" do
-    let(:app) { double(env: "test", root: "/apps/a9n") }
+    context "when app is set" do
+      let(:app) { double(env: "test", root: "/apps/a9n") }
 
-    before do
-      subject.app = app
-    end
-
-    context "with custom path" do
       before do
-        subject.root = "/home/knapo/workspace/a9n"
+        subject.app = app
       end
 
-      it do
-        expect(subject.root).to eq(Pathname.new("/home/knapo/workspace/a9n"))
+      context "with custom path" do
+        before do
+          subject.root = "/home/knapo/workspace/a9n"
+        end
+
+        it do
+          expect(subject.root).to eq(Pathname.new("/home/knapo/workspace/a9n"))
+        end
+      end
+
+      context "with local app path" do
+        it do
+          expect(subject.root).to eq("/apps/a9n")
+        end
       end
     end
 
-    context "with local app path" do
+    context "when app is not set" do
       it do
-        expect(subject.root).to eq("/apps/a9n")
+        expect(subject.root).to eq(nil)
+      end
+
+      context "when setting a custom path when is falsy" do
+        before do
+          subject.root ||= "/home/knapo/workspace/a9n"
+        end
+
+        it do
+          expect(subject.root).to eq(Pathname.new("/home/knapo/workspace/a9n"))
+        end
+      end
+
+      context "when setting a custom path" do
+        before do
+          subject.root = "/home/knapo/workspace/a9n"
+        end
+
+        it do
+          expect(subject.root).to eq(Pathname.new("/home/knapo/workspace/a9n"))
+        end
       end
     end
   end
