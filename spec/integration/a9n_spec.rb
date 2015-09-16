@@ -5,6 +5,8 @@ RSpec.describe A9n do
 
   before do
     clean_singleton(subject)
+    ENV["MANDRILL_API_KEY"] = "ASDF1234"
+    ENV["API_KEY"] = "XYZ999"
     subject.app = double(env: env)
     subject.root = File.expand_path("../../../test_app", __FILE__)
     subject.load
@@ -12,6 +14,8 @@ RSpec.describe A9n do
 
   after do
     clean_singleton(subject)
+    ENV.delete("MANDRILL_API_KEY")
+    ENV.delete("API_KEY")
   end
 
   context "base config file" do
@@ -63,12 +67,12 @@ RSpec.describe A9n do
 
     it do
       expect(subject.mandrill.username).to eq("joe")
-      expect(subject.mandrill.api_key).to eq("asdf1234")
+      expect(subject.mandrill.api_key).to eq("ASDF1234")
     end
 
     it do
       expect(subject.mandrill.fetch(:username)).to eq("joe")
-      expect(subject.mandrill.fetch(:api_key)).to eq("asdf1234")
+      expect(subject.mandrill.fetch(:api_key)).to eq("ASDF1234")
     end
 
     it do

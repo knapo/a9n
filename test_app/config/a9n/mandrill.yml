@@ -1,3 +1,3 @@
 defaults:
   username: "joe"
-  api_key: "asdf1234"
+  api_key: :env
