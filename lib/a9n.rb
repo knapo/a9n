@@ -78,7 +78,7 @@ module A9n
 
     def load_file(file)
       scope = A9n::Scope.form_file_path(file)
-      scope_data = A9n::Loader.new(file, env).get
+      scope_data = A9n::Loader.new(file, scope, env).get
       setup_scope(scope, scope_data)
     end
 

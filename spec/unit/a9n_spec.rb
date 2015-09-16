@@ -175,7 +175,7 @@ RSpec.describe A9n do
       expect(described_class).to receive(:env).exactly(2).times.and_return("dev")
       subject.root = "/apps/test_app"
       files.each do |f, cfg|
-        expect(A9n::Loader).to receive(:new).with(f, "dev").and_return(double(get: cfg))
+        expect(A9n::Loader).to receive(:new).with(f, kind_of(A9n::Scope), "dev").and_return(double(get: cfg))
       end
     end
 

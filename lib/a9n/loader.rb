@@ -2,11 +2,12 @@ require 'ostruct'
 
 module A9n
   class Loader
-    attr_reader :env, :local_file, :example_file
+    attr_reader :scope, :env, :local_file, :example_file
 
     COMMON_SCOPE = "defaults"
 
-    def initialize(file_path, env)
+    def initialize(file_path, scope, env)
+      @scope = scope
       @env = env.to_s
       @local_file = file_path
       @example_file = "#{file_path}.example"

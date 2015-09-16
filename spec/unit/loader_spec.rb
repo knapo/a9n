@@ -1,10 +1,12 @@
 RSpec.describe A9n::Loader do
+  let(:scope) { instance_double(A9n::Scope) }
   let(:env) { "test" }
   let(:root) { File.expand_path("../../../test_app", __FILE__) }
   let(:file_path) { File.join(root, "config/configuration.yml") }
-  subject { described_class.new(file_path, env) }
+  subject { described_class.new(file_path, scope, env) }
 
   describe "#intialize" do
+    it { expect(subject.scope).to eq(scope) }
     it { expect(subject.env).to eq(env) }
     it { expect(subject.local_file).to eq(file_path) }
     it { expect(subject.example_file).to eq("#{file_path}.example") }
