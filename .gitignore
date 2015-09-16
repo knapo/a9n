@@ -12,4 +12,3 @@ rdoc
 spec/reports
 tmp
 .coveralls.yml
-.rspec

@@ -94,10 +94,6 @@ module A9n
       return data
     end
 
-    def scope_name_from_file(file)
-      File.basename(file.to_s).split('.').first.to_sym
-    end
-
     def get_absolute_paths_for(files)
       files.map { |file| Pathname.new(file).absolute? ? file : self.root.join('config', file).to_s }
     end
