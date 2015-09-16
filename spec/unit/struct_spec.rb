@@ -1,6 +1,4 @@
-require "spec_helper"
-
-describe A9n::Struct do
+RSpec.describe A9n::Struct do
   context "without any values" do
     subject { described_class.new }
 

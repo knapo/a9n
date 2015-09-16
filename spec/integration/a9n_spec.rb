@@ -1,6 +1,4 @@
-require "spec_helper"
-
-describe A9n do
+RSpec.describe A9n do
   subject { described_class }
 
   let(:env) { "test" }

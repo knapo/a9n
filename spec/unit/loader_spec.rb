@@ -1,6 +1,4 @@
-require "spec_helper"
-
-describe A9n::Loader do
+RSpec.describe A9n::Loader do
   let(:env) { "test" }
   let(:root) { File.expand_path("../../../test_app", __FILE__) }
   let(:file_path) { File.join(root, "config/configuration.yml") }
@@ -28,7 +26,6 @@ describe A9n::Loader do
       before do
         expect(described_class).to receive(:load_yml).with(subject.example_file, env).and_return(nil)
         expect(described_class).to receive(:load_yml).with(subject.local_file, env).and_return(nil)
-        expect(subject).to receive(:verify!).never
       end
 
       it "raises expection"  do
@@ -42,7 +39,6 @@ describe A9n::Loader do
       before do
         expect(described_class).to receive(:load_yml).with(subject.example_file, env).and_return(example_config)
         expect(described_class).to receive(:load_yml).with(subject.local_file, env).and_return(nil)
-        expect(described_class).to receive(:verify!).never
         subject.load
       end
 
@@ -58,7 +54,6 @@ describe A9n::Loader do
       before do
         expect(described_class).to receive(:load_yml).with(subject.example_file, env).and_return(nil)
         expect(described_class).to receive(:load_yml).with(subject.local_file, env).and_return(local_config)
-        expect(described_class).to receive(:verify!).never
         subject.load
       end
 

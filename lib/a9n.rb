@@ -1,5 +1,6 @@
 require "a9n/version"
 require "a9n/struct"
+require "a9n/scope"
 require "a9n/ext/hash"
 require "a9n/loader"
 require "yaml"

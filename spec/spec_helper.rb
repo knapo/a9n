@@ -1,17 +1,24 @@
-require 'simplecov'
-require 'codeclimate-test-reporter'
+require "simplecov"
+require "codeclimate-test-reporter"
 
 CodeClimate::TestReporter.start
 
-require 'rubygems'
-require 'bundler/setup'
+require "rubygems"
+require "bundler/setup"
 
-require 'a9n'
+require "a9n"
 
 RSpec.configure do |config|
-  config.expect_with :rspec do |expect_with|
-    expect_with.syntax = :expect
+  config.disable_monkey_patching!
+
+  config.expect_with :rspec do |expectations|
+    expectations.include_chain_clauses_in_custom_matcher_descriptions = true
   end
+
+  config.mock_with :rspec do |mocks|
+    mocks.verify_partial_doubles = true
+  end
+
   config.order = "random"
   config.tty = true
 end
