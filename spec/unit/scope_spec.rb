@@ -17,4 +17,11 @@ RSpec.describe A9n::Scope do
       it { expect(subject).not_to be_main }
     end
   end
+
+  describe ".form_file_path" do
+    let(:path) { "config/a9n/mandrill.yml.example" }
+    subject { described_class.form_file_path(path) }
+
+    it { expect(subject.name).to eq(:mandrill) }
+  end
 end

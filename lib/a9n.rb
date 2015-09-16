@@ -14,7 +14,6 @@ module A9n
   class MissingConfigurationVariables < StandardError; end
   class NoSuchConfigurationVariable < StandardError; end
 
-  DEFAULT_SCOPE = :configuration
   EXTENSION_LIST = "{yml,yml.erb,yml.example,yml.erb.example}"
 
   class << self
@@ -55,7 +54,7 @@ module A9n
     end
 
     def default_files
-      files  = Dir[root.join("config/#{DEFAULT_SCOPE}.#{EXTENSION_LIST}").to_s]
+      files  = Dir[root.join("config/#{A9n::Scope::MAIN_NAME}.#{EXTENSION_LIST}").to_s]
       files += Dir[root.join("config/a9n/*.#{EXTENSION_LIST}")]
       files.map{ |f| f.sub(/.example$/,'') }.uniq
     end
@@ -78,19 +77,19 @@ module A9n
     private
 
     def load_file(file)
-      scope_name = scope_name_from_file(file)
+      scope = A9n::Scope.form_file_path(file)
       scope_data = A9n::Loader.new(file, env).get
-      setup_scope(scope_name, scope_data)
+      setup_scope(scope, scope_data)
     end
 
-    def setup_scope(name, data)
-      if default_scope?(name)
+    def setup_scope(scope, data)
+      if scope.main?
         storage.merge(data)
         def_delegator :storage, :fetch
         def_delegators :storage, *data.keys
       else
-        storage[name] = data
-        def_delegator :storage, name
+        storage[scope.name] = data
+        def_delegator :storage, scope.name
       end
       return data
     end
@@ -101,10 +100,6 @@ module A9n
 
     def get_absolute_paths_for(files)
       files.map { |file| Pathname.new(file).absolute? ? file : self.root.join('config', file).to_s }
-    end
-
-    def default_scope?(scope)
-      scope.to_s == DEFAULT_SCOPE.to_s
     end
 
     def require_local_extension

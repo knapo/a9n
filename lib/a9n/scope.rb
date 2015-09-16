@@ -11,5 +11,10 @@ module A9n
     def main?
       name == MAIN_NAME
     end
+
+    def self.form_file_path(path)
+      name = File.basename(path.to_s).split('.').first.to_sym
+      self.new(name)
+    end
   end
 end

@@ -1,5 +1,5 @@
 module A9n
-  class HashExt
+  class Hash
     class << self
       def deep_prepare(hash)
         hash.inject({}) do |result, (key, value)|
