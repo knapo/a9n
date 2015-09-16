@@ -18,8 +18,8 @@ module A9n
     end
 
     def load
-      local_config    = self.class.load_yml(local_file, env)
-      example_config  = self.class.load_yml(example_file, env)
+      local_config    = self.class.load_yml(local_file, scope, env)
+      example_config  = self.class.load_yml(example_file, scope, env)
 
       if local_config.nil? && example_config.nil?
         raise A9n::MissingConfigurationData.new("Configuration data for *#{env}* env was not found in neither *#{example_file}* nor *#{local_file}*")
@@ -33,19 +33,19 @@ module A9n
     end
 
     class << self
-      def load_yml(file_path, env)
+      def load_yml(file_path, scope, env)
         return nil unless File.exists?(file_path)
         yml = YAML.load(ERB.new(File.read(file_path)).result)
 
-        common_scope = prepare_yml_scope(yml, COMMON_SCOPE)
-        env_scope    = prepare_yml_scope(yml, env)
+        common_scope = prepare_yml_scope(yml, scope, COMMON_SCOPE)
+        env_scope    = prepare_yml_scope(yml, scope, env)
 
         A9n::Hash.merge(common_scope, env_scope)
       end
 
-      def prepare_yml_scope(yml, env_scope)
-        if yml[env_scope].is_a?(::Hash)
-          A9n::Hash.deep_prepare(yml[env_scope])
+      def prepare_yml_scope(yml, scope, env)
+        if yml[env].is_a?(::Hash)
+          A9n::Hash.deep_prepare(yml[env], scope)
         else
           nil
         end

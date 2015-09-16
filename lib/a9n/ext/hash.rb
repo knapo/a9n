@@ -1,9 +1,9 @@
 module A9n
   class Hash
     class << self
-      def deep_prepare(hash)
+      def deep_prepare(hash, scope)
         hash.inject({}) do |result, (key, value)|
-          result[(key.to_sym rescue key)] = get_value(key, value)
+          result[(key.to_sym rescue key)] = get_value(key, value, scope)
           result
         end
       end
@@ -15,11 +15,11 @@ module A9n
 
       private
 
-      def get_value(key, value)
+      def get_value(key, value, scope)
         if value.is_a?(::Hash)
-          deep_prepare(value)
+          deep_prepare(value, scope)
         elsif value.is_a?(Symbol) && value == :env
-          ENV[key.to_s.upcase]
+          ENV[scope.full_key_name(key).upcase]
         else
           value
         end

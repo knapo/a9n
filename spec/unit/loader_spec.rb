@@ -1,5 +1,5 @@
 RSpec.describe A9n::Loader do
-  let(:scope) { instance_double(A9n::Scope) }
+  let(:scope) { A9n::Scope.new("configuration") }
   let(:env) { "test" }
   let(:root) { File.expand_path("../../../test_app", __FILE__) }
   let(:file_path) { File.join(root, "config/configuration.yml") }
@@ -26,8 +26,8 @@ RSpec.describe A9n::Loader do
 
     context "when no configuration file exists" do
       before do
-        expect(described_class).to receive(:load_yml).with(subject.example_file, env).and_return(nil)
-        expect(described_class).to receive(:load_yml).with(subject.local_file, env).and_return(nil)
+        expect(described_class).to receive(:load_yml).with(subject.example_file, scope, env).and_return(nil)
+        expect(described_class).to receive(:load_yml).with(subject.local_file, scope, env).and_return(nil)
       end
 
       it "raises expection"  do
@@ -39,8 +39,8 @@ RSpec.describe A9n::Loader do
 
     context "when only example configuration file exists" do
       before do
-        expect(described_class).to receive(:load_yml).with(subject.example_file, env).and_return(example_config)
-        expect(described_class).to receive(:load_yml).with(subject.local_file, env).and_return(nil)
+        expect(described_class).to receive(:load_yml).with(subject.example_file, scope, env).and_return(example_config)
+        expect(described_class).to receive(:load_yml).with(subject.local_file, scope, env).and_return(nil)
         subject.load
       end
 
@@ -54,8 +54,8 @@ RSpec.describe A9n::Loader do
 
     context "when only local configuration file exists" do
       before do
-        expect(described_class).to receive(:load_yml).with(subject.example_file, env).and_return(nil)
-        expect(described_class).to receive(:load_yml).with(subject.local_file, env).and_return(local_config)
+        expect(described_class).to receive(:load_yml).with(subject.example_file, scope, env).and_return(nil)
+        expect(described_class).to receive(:load_yml).with(subject.local_file, scope, env).and_return(local_config)
         subject.load
       end
 
@@ -70,8 +70,8 @@ RSpec.describe A9n::Loader do
     context "when both local and base configuration file exists without defaults" do
       context "with same data" do
         before do
-          expect(described_class).to receive(:load_yml).with(subject.example_file, env).and_return(example_config)
-          expect(described_class).to receive(:load_yml).with(subject.local_file, env).and_return(example_config)
+          expect(described_class).to receive(:load_yml).with(subject.example_file, scope, env).and_return(example_config)
+          expect(described_class).to receive(:load_yml).with(subject.local_file, scope, env).and_return(example_config)
           subject.load
         end
 
@@ -85,8 +85,8 @@ RSpec.describe A9n::Loader do
 
       context "with different data" do
         before do
-          expect(described_class).to receive(:load_yml).with(subject.example_file, env).and_return(example_config)
-          expect(described_class).to receive(:load_yml).with(subject.local_file, env).and_return(local_config)
+          expect(described_class).to receive(:load_yml).with(subject.example_file, scope, env).and_return(example_config)
+          expect(described_class).to receive(:load_yml).with(subject.local_file, scope, env).and_return(local_config)
         end
 
         let(:missing_variables_names) { example_config.keys - local_config.keys }
@@ -102,7 +102,7 @@ RSpec.describe A9n::Loader do
 
   describe ".load_yml" do
     let(:env) { "test" }
-    subject {  described_class.load_yml(file_path, env) }
+    subject {  described_class.load_yml(file_path, scope, env) }
 
     context "when file not exists" do
       let(:file_path) { "file_not_existing_in_the_universe.yml" }
