@@ -33,7 +33,7 @@ RSpec.describe A9n::Struct do
     it "raises error on accessin invalid attribute" do
       expect {
         subject.dwarf
-      }.to raise_error(A9n::NoSuchConfigurationVariable, "dwarf")
+      }.to raise_error(A9n::NoSuchConfigurationVariableError, "dwarf")
     end
   end
 
@@ -106,7 +106,7 @@ RSpec.describe A9n::Struct do
     it "raises exception when value not exists" do
       expect {
         subject.non_existing_dwarf
-      }.to raise_error(A9n::NoSuchConfigurationVariable)
+      }.to raise_error(A9n::NoSuchConfigurationVariableError)
     end
 
     describe "#[]" do

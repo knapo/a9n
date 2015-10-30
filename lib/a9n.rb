@@ -9,10 +9,11 @@ require "erb"
 module A9n
   extend SingleForwardable
 
-  class ConfigurationNotLoaded < StandardError; end
-  class MissingConfigurationData < StandardError; end
-  class MissingConfigurationVariables < StandardError; end
-  class NoSuchConfigurationVariable < StandardError; end
+  class ConfigurationNotLoadedError < StandardError; end
+  class MissingConfigurationDataError < StandardError; end
+  class MissingConfigurationVariablesError < StandardError; end
+  class NoSuchConfigurationVariableError < StandardError; end
+  class MissingEnvVariableError < StandardError; end
 
   EXTENSION_LIST = "{yml,yml.erb,yml.example,yml.erb.example}"
 
@@ -49,7 +50,8 @@ module A9n
       defined?(Rails) ? Rails : nil
     end
 
-    def get_env_var(name)
+    def get_env_var(name, strict = false)
+      raise MissingEnvVariableError.new(name) if strict && !ENV.key?(name)
       ENV[name]
     end
 

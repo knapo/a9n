@@ -13,7 +13,7 @@ module A9n
     end
 
     def method_missing(name, *args)
-      raise NoSuchConfigurationVariable.new(name)
+      raise NoSuchConfigurationVariableError.new(name)
     end
   end
 end

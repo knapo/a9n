@@ -22,7 +22,7 @@ module A9n
       example_config  = self.class.load_yml(example_file, scope, env)
 
       if local_config.nil? && example_config.nil?
-        raise A9n::MissingConfigurationData.new("Configuration data for *#{env}* env was not found in neither *#{example_file}* nor *#{local_file}*")
+        raise A9n::MissingConfigurationDataError.new("Configuration data for *#{env}* env was not found in neither *#{example_file}* nor *#{local_file}*")
       end
 
       if !local_config.nil? && !example_config.nil?
@@ -57,7 +57,7 @@ module A9n
     def verify!(local, example)
       missing_keys = example.keys - local.keys
       if missing_keys.any?
-        raise A9n::MissingConfigurationVariables.new("Following variables are missing in #{local_file} file: #{missing_keys.join(",")}")
+        raise A9n::MissingConfigurationVariablesError.new("Following variables are missing in #{local_file} file: #{missing_keys.join(",")}")
       end
     end
   end

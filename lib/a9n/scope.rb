@@ -12,8 +12,8 @@ module A9n
       name == MAIN_NAME
     end
 
-    def full_key_name(key)
-      main? ? key : "#{name}_#{key}"
+    def env_key_name(key)
+      (main? ? key : "#{name}_#{key}").upcase
     end
 
     def self.form_file_path(path)

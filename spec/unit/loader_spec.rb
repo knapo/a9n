@@ -33,7 +33,7 @@ RSpec.describe A9n::Loader do
       it "raises expection"  do
         expect {
           subject.load
-        }.to raise_error(A9n::MissingConfigurationData)
+        }.to raise_error(A9n::MissingConfigurationDataError)
       end
     end
 
@@ -48,7 +48,7 @@ RSpec.describe A9n::Loader do
       it { expect(config.api_key).to eq("example1234") }
 
       it do
-        expect { config.app_host }.to raise_error(A9n::NoSuchConfigurationVariable)
+        expect { config.app_host }.to raise_error(A9n::NoSuchConfigurationVariableError)
       end
     end
 
@@ -63,7 +63,7 @@ RSpec.describe A9n::Loader do
       it { expect(config.api_key).to eq("local1234") }
 
       it do
-        expect { config.app_url }.to raise_error(A9n::NoSuchConfigurationVariable)
+        expect { config.app_url }.to raise_error(A9n::NoSuchConfigurationVariableError)
       end
     end
 
@@ -79,7 +79,7 @@ RSpec.describe A9n::Loader do
         it { expect(config.api_key).to eq("example1234") }
 
         it do
-          expect { config.app_host }.to raise_error(A9n::NoSuchConfigurationVariable)
+          expect { config.app_host }.to raise_error(A9n::NoSuchConfigurationVariableError)
         end
       end
 
@@ -94,7 +94,7 @@ RSpec.describe A9n::Loader do
         it "raises expection with missing variables names"  do
           expect {
             subject.load
-          }.to raise_error(A9n::MissingConfigurationVariables, /#{missing_variables_names.join(", ")}/)
+          }.to raise_error(A9n::MissingConfigurationVariablesError, /#{missing_variables_names.join(", ")}/)
         end
       end
     end
@@ -124,8 +124,8 @@ RSpec.describe A9n::Loader do
       end
 
       after do
-        ENV["ERB_DWARF"] = nil
-        ENV["DWARF_PASSWORD"] = nil
+        ENV.delete("ERB_DWARF")
+        ENV.delete("DWARF_PASSWORD")
       end
 
       context "when file has erb extension" do
@@ -155,8 +155,17 @@ RSpec.describe A9n::Loader do
         end
 
         it "gets valus from ENV" do
-          p subject
           expect(subject[:dwarf_password]).to eq("dwarf123")
+        end
+
+        it "raises exception when ENV var is not set" do
+          ENV.delete("DWARF_PASSWORD")
+          expect{ subject[:dwarf_password] }.to raise_error(A9n::MissingEnvVariableError)
+        end
+
+        it "raises exception when ENV var is set to nil" do
+          ENV["DWARF_PASSWORD"] = nil
+          expect{ subject[:dwarf_password] }.to raise_error(A9n::MissingEnvVariableError)
         end
       end
 

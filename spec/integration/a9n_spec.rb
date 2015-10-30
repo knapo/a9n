@@ -5,6 +5,8 @@ RSpec.describe A9n do
 
   before do
     clean_singleton(subject)
+    ENV["ERB_DWARF"] = "erbized dwarf"
+    ENV["DWARF_PASSWORD"] = "dwarf123"
     ENV["MANDRILL_API_KEY"] = "ASDF1234"
     ENV["API_KEY"] = "XYZ999"
     subject.app = double(env: env)
@@ -34,7 +36,7 @@ RSpec.describe A9n do
     end
 
     it do
-      expect { subject.invalid }.to raise_error(A9n::NoSuchConfigurationVariable)
+      expect { subject.invalid }.to raise_error(A9n::NoSuchConfigurationVariableError)
     end
 
     it do
