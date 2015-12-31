@@ -1,19 +1,31 @@
-require 'ostruct'
-
 module A9n
-  class Struct < OpenStruct
+  class Struct
     extend Forwardable
 
-    def_delegators :@table, :empty?, :keys, :key?, :fetch
+    def_delegators :@data, :empty?, :keys, :key?, :fetch, :[], :[]=
 
-    def merge(key_value)
-      key_value.each_pair do |key, value|
-        self[key] = value
-      end
+    def initialize(data = {})
+      @data = data
+    end
+
+    def to_hash
+      data
+    end
+
+    def merge(another_data)
+      data.merge!(another_data)
     end
 
     def method_missing(name, *args)
-      raise NoSuchConfigurationVariableError.new(name)
+      if data.key?(name)
+        fetch(name)
+      else
+        raise NoSuchConfigurationVariableError.new(name)
+      end
     end
+
+    private
+
+    attr_reader :data
   end
 end
