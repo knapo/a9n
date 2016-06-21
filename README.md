@@ -1,14 +1,14 @@
 # A9n
 
 [![Gem Version](https://badge.fury.io/rb/a9n.png)][gem_version]
-[![Build status](https://secure.travis-ci.org/kknapik/a9n.png)][travis]
-[![Code Climate](https://codeclimate.com/github/kknapik/a9n.png)][codeclimate]
-[![Coverage Status](https://codeclimate.com/github/kknapik/a9n/coverage.png)][coverage]
+[![Build status](https://secure.travis-ci.org/knapo/a9n.png)][travis]
+[![Code Climate](https://codeclimate.com/github/knapo/a9n.png)][codeclimate]
+[![Coverage Status](https://codeclimate.com/github/knapo/a9n/coverage.png)][coverage]
 
 [gem_version]: https://rubygems.org/gems/a9n
-[travis]: http://travis-ci.org/kknapik/a9n
-[codeclimate]: https://codeclimate.com/github/kknapik/a9n
-[coverage]: https://codeclimate.com/github/kknapik/a9n
+[travis]: http://travis-ci.org/knapo/a9n
+[codeclimate]: https://codeclimate.com/github/knapo/a9n
+[coverage]: https://codeclimate.com/github/knapo/a9n
 
 A9n is a simple tool to keep ruby/rails apps configuration maintanable and verifiable. It supports Rails 3.x, 4.x and Ruby 2.0. 2.1, 2.2, 2.3. Ruby 1.8 and Rails 2.x are not supported since version 0.1.2. Ruby 1.9 is not supported since version 0.4.0.
 
