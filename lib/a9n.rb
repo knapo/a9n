@@ -1,4 +1,5 @@
 require "a9n/version"
+require "a9n/exceptions"
 require "a9n/struct"
 require "a9n/scope"
 require "a9n/ext/hash"
@@ -9,17 +10,11 @@ require "erb"
 module A9n
   extend SingleForwardable
 
-  class ConfigurationNotLoadedError < StandardError; end
-  class MissingConfigurationDataError < StandardError; end
-  class MissingConfigurationVariablesError < StandardError; end
-  class NoSuchConfigurationVariableError < StandardError; end
-  class MissingEnvVariableError < StandardError; end
-
   EXTENSION_LIST = "{yml,yml.erb,yml.example,yml.erb.example}"
 
   class << self
     def env
-      @env ||= app_env || get_env_var("RAILS_ENV") || get_env_var("RACK_ENV") || get_env_var("APP_ENV")
+      @env ||= app_env || env_var("RAILS_ENV") || env_var("RACK_ENV") || env_var("APP_ENV")
     end
 
     def app_env
@@ -27,7 +22,7 @@ module A9n
     end
 
     def app
-      @app ||= get_rails
+      @app ||= rails_app
     end
 
     def app=(app_instance)
@@ -46,12 +41,12 @@ module A9n
       @root = path.to_s.empty? ? nil : Pathname.new(path.to_s)
     end
 
-    def get_rails
+    def rails_app
       defined?(Rails) ? Rails : nil
     end
 
-    def get_env_var(name, strict = false)
-      raise MissingEnvVariableError.new(name) if strict && !ENV.key?(name)
+    def env_var(name, strict = false)
+      raise A9n::MissingEnvVariableError.new(name) if strict && !ENV.key?(name)
       ENV[name]
     end
 
@@ -63,7 +58,7 @@ module A9n
 
     def load(*files)
       require_local_extension
-      files = files.empty? ? default_files : get_absolute_paths_for(files)
+      files = files.empty? ? default_files : absolute_paths_for(files)
       files.map { |file| load_file(file) }
     end
 
@@ -96,14 +91,14 @@ module A9n
       return data
     end
 
-    def get_absolute_paths_for(files)
+    def absolute_paths_for(files)
       files.map { |file| Pathname.new(file).absolute? ? file : self.root.join('config', file).to_s }
     end
 
     def require_local_extension
       return if app.nil? || root.nil?
       local_extension_file = File.join(root, "config/a9n.rb")
-      return unless File.exists?(local_extension_file)
+      return unless File.exist?(local_extension_file)
       require local_extension_file
     end
   end

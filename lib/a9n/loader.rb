@@ -34,7 +34,7 @@ module A9n
 
     class << self
       def load_yml(file_path, scope, env)
-        return nil unless File.exists?(file_path)
+        return nil unless File.exist?(file_path)
         yml = YAML.load(ERB.new(File.read(file_path)).result)
 
         common_scope = prepare_yml_scope(yml, scope, COMMON_SCOPE)

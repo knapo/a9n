@@ -11,7 +11,7 @@ RSpec.describe A9n do
     context "app_env is set" do
       before do
         expect(subject).to receive(:app).and_return(double(env: "dwarf_env")).exactly(3).times
-        expect(subject).to receive(:get_env_var).never
+        expect(subject).to receive(:env_var).never
       end
 
       it do
@@ -22,9 +22,9 @@ RSpec.describe A9n do
     context "when APP_ENV is set" do
       before do
         expect(subject).to receive(:app_env).and_return(nil)
-        expect(subject).to receive(:get_env_var).with("RAILS_ENV").and_return(nil)
-        expect(subject).to receive(:get_env_var).with("RACK_ENV").and_return(nil)
-        expect(subject).to receive(:get_env_var).with("APP_ENV").and_return("dwarf_env")
+        expect(subject).to receive(:env_var).with("RAILS_ENV").and_return(nil)
+        expect(subject).to receive(:env_var).with("RACK_ENV").and_return(nil)
+        expect(subject).to receive(:env_var).with("APP_ENV").and_return("dwarf_env")
       end
 
       it do
@@ -36,7 +36,7 @@ RSpec.describe A9n do
   describe ".app" do
     context "when rails not found" do
       before do
-        expect(subject).to receive(:get_rails).and_return(nil)
+        expect(subject).to receive(:rails_app).and_return(nil)
       end
 
       it do
@@ -48,7 +48,7 @@ RSpec.describe A9n do
       let(:app) { double(env: "test", root: "/apps/a9n") }
 
       before do
-        expect(subject).to receive(:get_rails).and_return(app)
+        expect(subject).to receive(:rails_app).and_return(app)
       end
 
       it do
@@ -121,7 +121,7 @@ RSpec.describe A9n do
     end
   end
 
-  describe ".get_rails" do
+  describe ".rails_app" do
     context "when defined" do
       before do
         Object.const_set(:Rails, Module.new)
@@ -132,28 +132,28 @@ RSpec.describe A9n do
       end
 
       it do
-        expect(subject.get_rails).to be_kind_of(Module)
+        expect(subject.rails_app).to be_kind_of(Module)
       end
     end
 
     context "when not defined" do
       it do
-        expect(subject.get_rails).to be_nil
+        expect(subject.rails_app).to be_nil
       end
     end
   end
 
-  describe ".get_env_var" do
+  describe ".env_var" do
     before do
       ENV["DWARF"] = "little dwarf"
     end
 
     it do
-      expect(subject.get_env_var("DWARF")).to eq("little dwarf")
+      expect(subject.env_var("DWARF")).to eq("little dwarf")
     end
 
     it do
-      expect(subject.get_env_var("IS_DWARF")).to be_nil
+      expect(subject.env_var("IS_DWARF")).to be_nil
     end
   end
 
@@ -189,7 +189,7 @@ RSpec.describe A9n do
 
       before do
         expect(subject).to receive(:default_files).and_return(files.keys)
-        expect(subject).to receive(:get_absolute_paths_for).never
+        expect(subject).to receive(:absolute_paths_for).never
       end
 
       it do
@@ -211,7 +211,7 @@ RSpec.describe A9n do
 
       before do
         expect(subject).to receive(:default_files).never
-        expect(subject).to receive(:get_absolute_paths_for).with(given_files).and_call_original
+        expect(subject).to receive(:absolute_paths_for).with(given_files).and_call_original
       end
 
       it do

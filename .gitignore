@@ -12,3 +12,4 @@ rdoc
 spec/reports
 tmp
 .coveralls.yml
+spec/examples.txt
