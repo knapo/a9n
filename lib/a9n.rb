@@ -1,11 +1,12 @@
+require "ostruct"
+require "yaml"
+require "erb"
 require "a9n/version"
 require "a9n/exceptions"
 require "a9n/struct"
 require "a9n/scope"
 require "a9n/ext/hash"
 require "a9n/loader"
-require "yaml"
-require "erb"
 
 module A9n
   extend SingleForwardable
@@ -45,13 +46,13 @@ module A9n
       defined?(Rails) ? Rails : nil
     end
 
-    def env_var(name, strict = false)
-      raise A9n::MissingEnvVariableError.new(name) if strict && !ENV.key?(name)
+    def env_var(name, strict: false)
+      fail A9n::MissingEnvVariableError.new(name) if strict && !ENV.key?(name)
       ENV[name]
     end
 
     def default_files
-      files  = Dir[root.join("config/#{A9n::Scope::MAIN_NAME}.#{EXTENSION_LIST}").to_s]
+      files  = Dir[root.join("config/#{A9n::Scope::ROOT_NAME}.#{EXTENSION_LIST}").to_s]
       files += Dir[root.join("config/a9n/*.#{EXTENSION_LIST}")]
       files.map{ |f| f.sub(/.example$/,'') }.uniq
     end
@@ -80,13 +81,13 @@ module A9n
     end
 
     def setup_scope(scope, data)
-      if scope.main?
+      if scope.root?
         storage.merge(data)
-        def_delegator :storage, :fetch
-        def_delegators :storage, *data.keys
+        safe_def_delegator :storage, :fetch
+        safe_def_delegator :storage, *data.keys
       else
         storage[scope.name] = data
-        def_delegator :storage, scope.name
+        safe_def_delegator :storage, scope.name
       end
       return data
     end
@@ -100,6 +101,13 @@ module A9n
       local_extension_file = File.join(root, "config/a9n.rb")
       return unless File.exist?(local_extension_file)
       require local_extension_file
+    end
+
+    def safe_def_delegator(target, *names)
+      names.each do |name|
+        next if respond_to?(name)
+        def_delegator :storage, name
+      end
     end
   end
 end

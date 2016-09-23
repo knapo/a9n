@@ -1,6 +1,6 @@
 module A9n
   class Scope
-    MAIN_NAME = :configuration
+    ROOT_NAME = :configuration
 
     attr_reader :name
 
@@ -8,12 +8,12 @@ module A9n
       @name = name.to_sym
     end
 
-    def main?
-      name == MAIN_NAME
+    def root?
+      name == ROOT_NAME
     end
 
     def env_key_name(key)
-      (main? ? key : "#{name}_#{key}").upcase
+      (root? ? key : "#{name}_#{key}").upcase
     end
 
     def self.form_file_path(path)

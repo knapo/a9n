@@ -20,7 +20,7 @@ module A9n
       if data.key?(name)
         fetch(name)
       else
-        raise NoSuchConfigurationVariableError.new(name)
+        fail NoSuchConfigurationVariableError.new(name)
       end
     end
 

@@ -19,7 +19,7 @@ module A9n
         if value.is_a?(::Hash)
           deep_prepare(value, scope)
         elsif value.is_a?(Symbol) && value == :env
-          A9n.env_var(scope.env_key_name(key), true)
+          A9n.env_var(scope.env_key_name(key), strict: true)
         else
           value
         end
