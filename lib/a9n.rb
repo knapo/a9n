@@ -83,11 +83,11 @@ module A9n
     def setup_scope(scope, data)
       if scope.root?
         storage.merge(data)
-        safe_def_delegator :storage, :fetch
-        safe_def_delegator :storage, *data.keys
+        def_delegator(:storage, :fetch) unless respond_to?(:fetch)
+        define_root_geters(*data.keys)
       else
         storage[scope.name] = data
-        safe_def_delegator :storage, scope.name
+        define_root_geters(scope.name)
       end
       return data
     end
@@ -103,10 +103,10 @@ module A9n
       require local_extension_file
     end
 
-    def safe_def_delegator(target, *names)
+    def define_root_geters(*names)
       names.each do |name|
         next if respond_to?(name)
-        def_delegator :storage, name
+        define_singleton_method(name) { storage.fetch(name) }
       end
     end
   end

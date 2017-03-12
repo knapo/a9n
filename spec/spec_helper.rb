@@ -7,6 +7,7 @@ require "rubygems"
 require "bundler/setup"
 
 require "a9n"
+require "pry"
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate

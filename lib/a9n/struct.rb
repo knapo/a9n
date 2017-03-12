@@ -2,7 +2,7 @@ module A9n
   class Struct
     extend Forwardable
 
-    def_delegators :@data, :empty?, :keys, :key?, :fetch, :[], :[]=
+    def_delegators :data, :empty?, :keys, :key?, :fetch, :[], :[]=
 
     def initialize(data = {})
       @data = data

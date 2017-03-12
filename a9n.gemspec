@@ -16,7 +16,8 @@ Gem::Specification.new do |gem|
 
   gem.required_ruby_version = ">= 2.0"
 
-  gem.add_development_dependency 'rake', '~> 11.3'
+  gem.add_development_dependency 'rake', '~> 12.0'
   gem.add_development_dependency 'rspec', '~> 3.5'
   gem.add_development_dependency 'codeclimate-test-reporter', '~> 0.6'
+  gem.add_development_dependency 'pry'
 end
