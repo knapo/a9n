@@ -69,7 +69,7 @@ module A9n
     end
 
     def mode
-      @mode ||= ENV['A9N_MODE'] || STRICT_MODE
+      ENV['A9N_MODE'] || STRICT_MODE
     end
 
     def strict?
