@@ -12,6 +12,7 @@ module A9n
   extend SingleForwardable
 
   EXTENSION_LIST = "{yml,yml.erb,yml.example,yml.erb.example}"
+  STRICT_MODE = "strict"
 
   class << self
     def env
@@ -65,6 +66,14 @@ module A9n
 
     def storage
       @storage ||= A9n::Struct.new
+    end
+
+    def mode
+      @mode ||= ENV['A9N_MODE'] || STRICT_MODE
+    end
+
+    def strict?
+      mode == STRICT_MODE
     end
 
     def method_missing(name, *args)
