@@ -99,3 +99,4 @@ to your Capfile. This way `configuration.yml.<stage>` overrides `configuration.y
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
 
+test
