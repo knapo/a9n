@@ -49,6 +49,7 @@ module A9n
 
     def env_var(name, strict: false)
       fail A9n::MissingEnvVariableError.new(name) if strict && !ENV.key?(name)
+      return ENV[name].force_encoding("utf-8") if ENV[name].is_a?(::String)
       ENV[name]
     end
 
