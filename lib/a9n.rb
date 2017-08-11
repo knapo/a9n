@@ -49,7 +49,11 @@ module A9n
 
     def env_var(name, strict: false)
       fail A9n::MissingEnvVariableError.new(name) if strict && !ENV.key?(name)
-      ENV[name]
+      if ENV[name].is_a?(::String)
+        ENV[name].dup.force_encoding(Encoding::UTF_8)
+      else
+        ENV[name]
+      end
     end
 
     def default_files
