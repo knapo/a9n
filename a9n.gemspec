@@ -14,10 +14,10 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = A9n::VERSION
 
-  gem.required_ruby_version = ">= 2.1"
+  gem.required_ruby_version = ">= 2.2"
 
-  gem.add_development_dependency 'rake', '~> 12.0'
-  gem.add_development_dependency 'rspec', '~> 3.5'
-  gem.add_development_dependency 'codeclimate-test-reporter', '~> 0.6'
+  gem.add_development_dependency 'rake'
+  gem.add_development_dependency 'rspec'
+  gem.add_development_dependency 'codeclimate-test-reporter'
   gem.add_development_dependency 'pry'
 end
