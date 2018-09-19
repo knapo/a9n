@@ -49,16 +49,16 @@ You can access any variable defined in configuration files by delegating it to
 `A9n`. E.g:
 
     defaults:
-      email_from: 'no-reply@knapik.cc'
+      email_from: 'no-reply@knapo.net'
     production:
-      app_host: 'knapik.cc'
+      app_host: 'knapo.net'
     development:
       app_host: 'localhost:3000'
 
 is accessible by:
 
-    A9n.app_host   # => `knapik.cc` in production and `localhost:3000` in development
-    A9n.email_from # => `no-reply@knapik.cc` in both envs
+    A9n.app_host   # => `knapo.net` in production and `localhost:3000` in development
+    A9n.email_from # => `no-reply@knapo.net` in both envs
 
 ## Custom and multiple configuration files
 
