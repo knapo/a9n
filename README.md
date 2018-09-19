@@ -2,8 +2,8 @@
 
 [![Gem Version](https://badge.fury.io/rb/a9n.png)][gem_version]
 [![Build status](https://secure.travis-ci.org/knapo/a9n.png)][travis]
-[![Code Climate](https://codeclimate.com/github/knapo/a9n.png)][codeclimate]
-[![Coverage Status](https://codeclimate.com/github/knapo/a9n/coverage.png)][coverage]
+[![Maintainability](https://api.codeclimate.com/v1/badges/4deae86e0cb581aae0e3/maintainability)](https://codeclimate.com/github/kknapik/a9n/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/4deae86e0cb581aae0e3/test_coverage)](https://codeclimate.com/github/kknapik/a9n/test_coverage)
 
 [gem_version]: https://rubygems.org/gems/a9n
 [travis]: http://travis-ci.org/knapo/a9n
