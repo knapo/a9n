@@ -1,3 +1,5 @@
+require "forwardable"
+require "pathname"
 require "ostruct"
 require "yaml"
 require "erb"
