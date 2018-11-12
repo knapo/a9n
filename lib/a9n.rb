@@ -21,6 +21,10 @@ module A9n
       @env ||= app_env || env_var("RAILS_ENV") || env_var("RACK_ENV") || env_var("APP_ENV")
     end
 
+    def env=(value)
+      @env = value
+    end
+
     def app_env
       app.env if app && app.respond_to?(:env)
     end
