@@ -23,7 +23,7 @@ module A9n
     end
 
     def env=(value)
-      @env = value
+      @env = ::A9n::StringInquirer.new(value)
     end
 
     def app_env
