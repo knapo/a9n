@@ -7,6 +7,7 @@ require "a9n/version"
 require "a9n/exceptions"
 require "a9n/struct"
 require "a9n/scope"
+require "a9n/ext/string_inquirer"
 require "a9n/ext/hash"
 require "a9n/loader"
 
@@ -18,7 +19,7 @@ module A9n
 
   class << self
     def env
-      @env ||= app_env || env_var("RAILS_ENV") || env_var("RACK_ENV") || env_var("APP_ENV")
+      @env ||= ::A9n::StringInquirer.new(app_env || env_var("RAILS_ENV") || env_var("RACK_ENV") || env_var("APP_ENV"))
     end
 
     def env=(value)

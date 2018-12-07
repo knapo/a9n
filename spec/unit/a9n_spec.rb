@@ -10,12 +10,14 @@ RSpec.describe A9n do
 
     context "app_env is set" do
       before do
-        expect(subject).to receive(:app).and_return(double(env: "dwarf_env")).exactly(3).times
+        expect(subject).to receive(:app).and_return(double(env: ::A9n::StringInquirer.new("dwarf_env"))).exactly(3).times
         expect(subject).to receive(:env_var).never
       end
 
       it do
         expect(subject.env).to eq("dwarf_env")
+        expect(subject.env.dwarf_env?).to eq(true)
+        expect(subject.env.production?).to eq(false)
       end
     end
 
@@ -29,6 +31,8 @@ RSpec.describe A9n do
 
       it do
         expect(subject.env).to eq("dwarf_env")
+        expect(subject.env.dwarf_env?).to eq(true)
+        expect(subject.env.production?).to eq(false)
       end
     end
   end

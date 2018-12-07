@@ -6,7 +6,7 @@ module A9n
 
     def initialize(file_path, scope, env)
       @scope = scope
-      @env = env.to_s
+      @env = ::A9n::StringInquirer.new(env.to_s)
       @local_file = file_path
       @example_file = "#{file_path}.example"
     end
