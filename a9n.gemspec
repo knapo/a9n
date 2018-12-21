@@ -14,7 +14,7 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.version       = A9n::VERSION
 
-  gem.required_ruby_version = ">= 2.2"
+  gem.required_ruby_version = ">= 2.3"
 
   gem.add_development_dependency 'rake'
   gem.add_development_dependency 'rspec'

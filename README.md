@@ -26,7 +26,7 @@ And then execute:
 
 Add `configuration.yml.example` and/or `configuration.yml` file into the config
 directory. When none fo these files exists, `A9n::MissingConfigurationFile`
-exception is thrown.
+exception is thrown. You can also use `a9n.yml`, which is loaded by default.
 If both file exist, content of `configuration.yml` is validated. It means that
 all keys existing in example file must exist in local file - in case of missing
 keys `A9n::MissingConfigurationVariablesError` is thrown with the explanation what is missing.

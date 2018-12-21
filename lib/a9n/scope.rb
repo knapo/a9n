@@ -1,6 +1,6 @@
 module A9n
   class Scope
-    ROOT_NAME = :configuration
+    ROOT_NAMES = [:configuration, :a9n]
 
     attr_reader :name
 
@@ -9,7 +9,7 @@ module A9n
     end
 
     def root?
-      name == ROOT_NAME
+      ROOT_NAMES.include?(name)
     end
 
     def env_key_name(key)
