@@ -12,6 +12,8 @@ module A9n
       data
     end
 
+    alias_method :to_h, :to_hash
+
     def merge(another_data)
       data.merge!(another_data)
     end

@@ -1,3 +1,3 @@
 module A9n
-  VERSION = "0.6.2"
+  VERSION = "0.6.3"
 end

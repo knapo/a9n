@@ -38,19 +38,35 @@ RSpec.describe A9n::Struct do
   end
 
   context "with values" do
-    subject {
-      described_class.new({
-          non_empty_dwarf: "dwarf",
-          nil_dwarf:   nil,
-          false_dwarf: false,
-          true_dwarf:  true,
-          hash_dwarf:  { dwarf: "hello" }
-        })
-    }
+    let(:data) do
+      {
+        non_empty_dwarf: "dwarf",
+        nil_dwarf:   nil,
+        false_dwarf: false,
+        true_dwarf:  true,
+        hash_dwarf:  { dwarf: "hello" }
+      }
+    end
+
+    subject { described_class.new(data) }
 
     describe "#keys" do
       it do
         expect(subject.keys).to eq [:non_empty_dwarf, :nil_dwarf, :false_dwarf, :true_dwarf, :hash_dwarf]
+      end
+    end
+
+    describe "#to_h" do
+      it do
+        expect(subject.to_h).to be_kind_of(Hash)
+        expect(subject.to_h).to eq(data)
+      end
+    end
+
+    describe "#to_hash" do
+      it do
+        expect(subject.to_hash).to be_kind_of(Hash)
+        expect(subject.to_hash).to eq(data)
       end
     end
 
