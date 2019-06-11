@@ -1,25 +1,25 @@
-require "forwardable"
-require "pathname"
-require "ostruct"
-require "yaml"
-require "erb"
-require "a9n/version"
-require "a9n/exceptions"
-require "a9n/struct"
-require "a9n/scope"
-require "a9n/ext/string_inquirer"
-require "a9n/ext/hash"
-require "a9n/loader"
+require 'forwardable'
+require 'pathname'
+require 'ostruct'
+require 'yaml'
+require 'erb'
+require 'a9n/version'
+require 'a9n/exceptions'
+require 'a9n/struct'
+require 'a9n/scope'
+require 'a9n/ext/string_inquirer'
+require 'a9n/ext/hash'
+require 'a9n/loader'
 
 module A9n
   extend SingleForwardable
 
-  EXTENSION_LIST = "{yml,yml.erb,yml.example,yml.erb.example}"
-  STRICT_MODE = "strict"
+  EXTENSION_LIST = '{yml,yml.erb,yml.example,yml.erb.example}'.freeze
+  STRICT_MODE = 'strict'.freeze
 
   class << self
     def env
-      @env ||= ::A9n::StringInquirer.new(app_env || env_var("RAILS_ENV") || env_var("RACK_ENV") || env_var("APP_ENV"))
+      @env ||= ::A9n::StringInquirer.new(app_env || env_var('RAILS_ENV') || env_var('RACK_ENV') || env_var('APP_ENV'))
     end
 
     def env=(value)
@@ -27,7 +27,7 @@ module A9n
     end
 
     def app_env
-      app.env if app && app.respond_to?(:env)
+      app&.env
     end
 
     def app
@@ -43,7 +43,7 @@ module A9n
     end
 
     def app_root
-      app.root if app && app.respond_to?(:root)
+      app&.root
     end
 
     def root=(path)
@@ -55,7 +55,8 @@ module A9n
     end
 
     def env_var(name, strict: false)
-      fail A9n::MissingEnvVariableError.new(name) if strict && !ENV.key?(name)
+      raise A9n::MissingEnvVariableError, name if strict && !ENV.key?(name)
+
       if ENV[name].is_a?(::String)
         ENV[name].dup.force_encoding(Encoding::UTF_8)
       else
@@ -66,7 +67,7 @@ module A9n
     def default_files
       files  = Dir[root.join("config/{#{A9n::Scope::ROOT_NAMES.join(',')}}.#{EXTENSION_LIST}").to_s]
       files += Dir[root.join("config/a9n/*.#{EXTENSION_LIST}")]
-      files.map{ |f| f.sub(/.example$/,'') }.uniq
+      files.map { |f| f.sub(/.example$/, '') }.uniq
     end
 
     def load(*files)
@@ -109,23 +110,28 @@ module A9n
         storage[scope.name] = data
         define_root_geters(scope.name)
       end
-      return data
+
+      data
     end
 
     def absolute_paths_for(files)
-      files.map { |file| Pathname.new(file).absolute? ? file : self.root.join('config', file).to_s }
+      files.map { |file| Pathname.new(file).absolute? ? file : root.join('config', file).to_s }
     end
 
     def require_local_extension
-      return if app.nil? || root.nil?
-      local_extension_file = File.join(root, "config/a9n.rb")
+      return if root.nil?
+
+      local_extension_file = File.join(root, 'config/a9n.rb')
+
       return unless File.exist?(local_extension_file)
+
       require local_extension_file
     end
 
     def define_root_geters(*names)
       names.each do |name|
         next if respond_to?(name)
+
         define_singleton_method(name) { storage.fetch(name) }
       end
     end

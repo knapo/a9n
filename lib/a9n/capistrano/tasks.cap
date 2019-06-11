@@ -1,12 +1,12 @@
 namespace :a9n do
-  desc "Copy stage configuration to the base file."
+  desc 'Copy stage configuration to the base file.'
   task :copy_stage_config do
     on roles(:app) do
       within fetch(:release_path) do
-        execute :cp, "config/configuration.yml.#{fetch(:stage)}", "config/configuration.yml"
+        execute :cp, 'config/configuration.yml.#{fetch(:stage)}', 'config/configuration.yml'
       end
     end
   end
 end
 
-after "deploy:updating", "a9n:copy_stage_config"
+after 'deploy:updating', 'a9n:copy_stage_config'

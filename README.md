@@ -10,7 +10,7 @@
 [codeclimate]: https://codeclimate.com/github/knapo/a9n
 [coverage]: https://codeclimate.com/github/knapo/a9n
 
-A9n is a simple tool to keep ruby/rails apps configuration maintanable and verifiable. It supports Rails 3.x, 4.x and Ruby 2.0. 2.1, 2.2, 2.3. Ruby 1.8 and Rails 2.x are not supported since version 0.1.2. Ruby 1.9 is not supported since version 0.4.0.
+A9n is a simple tool to keep ruby/rails apps configuration maintanable and verifiable. It supports Rails 4+ and Ruby 2.4+.
 
 Why it's named a9n? It's a numeronym for application (where 9 stands for the number of letters between the first **a** and last **n**, similar to i18n or l10n).
 
@@ -34,7 +34,7 @@ keys `A9n::MissingConfigurationVariablesError` is thrown with the explanation wh
 Set application root and load configuration by adding to your `application.rb` or `environment.rb` right
 after budler requires:
 
-    A9n.root = File.expand_path('../..', __FILE__)
+    A9n.root = File.expand_path('..', __dir__)
     A9n.load
 
 This step is not required ,if you don't use `a9n` in the environment settings or initializers.
@@ -64,16 +64,16 @@ is accessible by:
 
 If you want to split configuration, you can use multiple files. All files from `config/a9n` are loaded by default, but you may pass custom paths as an argument to `A9n.load` e.g. `A9n.load('config/facebook.yml', 'config/mongoid.yml')`. In such cases config items are accessible through the scope consistent with the file name.
 
-E.g. if you have `config/a9n/mandrill.yml`:
+E.g. if you have `config/a9n/mail.yml`:
 
      defaults:
-       username: "joe"
-       api_key: "1234asdf"
+       email_from: 'knapo@knapo.net'
+       delivery_method: 'smtp'
 
 You can access it by:
 
-     A9n.mandrill.username # => `joe`
-     A9n.mandrill.api_key # => `1234asdf`
+     A9n.mail.email_from # => `knapo@knapo.net`
+     A9n.mail.delivery_method # => `smtp`
 
 ## Mapping ENV variables
 

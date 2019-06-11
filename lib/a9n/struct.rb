@@ -12,17 +12,17 @@ module A9n
       data
     end
 
-    alias_method :to_h, :to_hash
+    alias to_h to_hash
 
     def merge(another_data)
       data.merge!(another_data)
     end
 
-    def method_missing(name, *args)
+    def method_missing(name, *_args)
       if data.key?(name)
         fetch(name)
       else
-        fail NoSuchConfigurationVariableError.new(name)
+        raise NoSuchConfigurationVariableError.new, name
       end
     end
 
