@@ -1,11 +1,11 @@
-require "simplecov"
+require 'simplecov'
 SimpleCov.start
 
-require "rubygems"
-require "bundler/setup"
+require 'rubygems'
+require 'bundler/setup'
 
-require "a9n"
-require "pry"
+require 'a9n'
+require 'pry'
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
@@ -16,9 +16,9 @@ RSpec.configure do |config|
     # and `failure_message` of custom matchers include text for helper methods
     # defined using `chain`, e.g.:
     #     be_bigger_than(2).and_smaller_than(4).description
-    #     # => "be bigger than 2 and smaller than 4"
+    #     # => 'be bigger than 2 and smaller than 4'
     # ...rather than:
-    #     # => "be bigger than 2"
+    #     # => 'be bigger than 2'
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
   end
 
@@ -48,7 +48,7 @@ RSpec.configure do |config|
   # Allows RSpec to persist some state between runs in order to support
   # the `--only-failures` and `--next-failure` CLI options. We recommend
   # you configure your source control system to ignore this file.
-  config.example_status_persistence_file_path = "spec/examples.txt"
+  config.example_status_persistence_file_path = 'spec/examples.txt'
 
   # Limits the available syntax to the non-monkey patched syntax that is
   # recommended. For more details, see:
@@ -91,9 +91,6 @@ end
 
 def clean_singleton(klass)
   [:@storage, :@env, :@app, :@root].each do |var|
-    if klass.instance_variable_defined?(var)
-      klass.remove_instance_variable(var)
-    end
+    klass.instance_variable_defined?(var) && klass.remove_instance_variable(var)
   end
 end
-

@@ -1,6 +1,6 @@
 module A9n
   class Scope
-    ROOT_NAMES = [:configuration, :a9n]
+    ROOT_NAMES = [:configuration, :a9n].freeze
 
     attr_reader :name
 
@@ -17,8 +17,7 @@ module A9n
     end
 
     def self.form_file_path(path)
-      name = File.basename(path.to_s).split('.').first.to_sym
-      self.new(name)
+      new(File.basename(path.to_s).split('.').first.to_sym)
     end
   end
 end

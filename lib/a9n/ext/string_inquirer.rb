@@ -4,11 +4,11 @@ module A9n
     private
 
     def respond_to_missing?(method_name, include_private = false)
-      (method_name[-1] == "?") || super
+      (method_name[-1] == '?') || super
     end
 
     def method_missing(method_name, *arguments)
-      if method_name[-1] == "?"
+      if method_name[-1] == '?'
         self == method_name[0..-2]
       else
         super

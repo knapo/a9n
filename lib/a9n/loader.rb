@@ -1,8 +1,8 @@
 module A9n
   class Loader
-    attr_reader :scope, :env, :local_file, :example_file
+    attr_reader :scope, :env, :local_file, :example_file, :struct
 
-    COMMON_SCOPE = "defaults"
+    COMMON_SCOPE = 'defaults'.freeze
 
     def initialize(file_path, scope, env)
       @scope = scope
@@ -12,20 +12,15 @@ module A9n
     end
 
     def get
-      @struct ||= load
+      struct || load
     end
 
     def load
       local_config    = self.class.load_yml(local_file, scope, env)
       example_config  = self.class.load_yml(example_file, scope, env)
 
-      if local_config.nil? && example_config.nil?
-        fail A9n::MissingConfigurationDataError.new("Configuration data for *#{env}* env was not found in neither *#{example_file}* nor *#{local_file}*")
-      end
-
-      if !local_config.nil? && !example_config.nil?
-        verify!(local_config, example_config)
-      end
+      ensure_data_presence!(local_config, example_config)
+      ensure_keys_presence!(local_config, example_config)
 
       @struct = A9n::Struct.new(local_config || example_config)
     end
@@ -33,6 +28,7 @@ module A9n
     class << self
       def load_yml(file_path, scope, env)
         return nil unless File.exist?(file_path)
+
         yml = YAML.load(ERB.new(File.read(file_path)).result)
 
         common_scope = prepare_yml_scope(yml, scope, COMMON_SCOPE)
@@ -42,21 +38,30 @@ module A9n
       end
 
       def prepare_yml_scope(yml, scope, env)
-        if yml[env].is_a?(::Hash)
-          A9n::Hash.deep_prepare(yml[env], scope)
-        else
-          nil
-        end
+        return nil unless yml[env].is_a?(::Hash)
+
+        A9n::Hash.deep_prepare(yml[env], scope)
       end
     end
 
     private
 
-    def verify!(local, example)
+    def ensure_data_presence!(local, example)
+      return unless local.nil?
+      return unless example.nil?
+
+      raise A9n::MissingConfigurationDataError, "Configuration data for *#{env}* env was not found in neither *#{example}* nor *#{local}*"
+    end
+
+    def ensure_keys_presence!(local, example)
+      return if local.nil?
+      return if example.nil?
+
       missing_keys = example.keys - local.keys
-      if missing_keys.any?
-        fail A9n::MissingConfigurationVariablesError.new("Following variables are missing in #{local_file} file: #{missing_keys.join(',')}")
-      end
+
+      return if missing_keys.empty?
+
+      raise A9n::MissingConfigurationVariablesError, "Following variables are missing in #{local_file} file: #{missing_keys.join(',')}"
     end
   end
 end

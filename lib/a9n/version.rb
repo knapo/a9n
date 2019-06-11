@@ -1,3 +1,3 @@
 module A9n
-  VERSION = "0.6.3"
+  VERSION = '0.7.0'.freeze
 end

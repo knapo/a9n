@@ -3,14 +3,16 @@ module A9n
     class << self
       def deep_prepare(hash, scope)
         hash.inject({}) do |result, (key, value)|
-          result[(key.to_sym rescue key)] = get_value(key, value, scope)
+          key_name = key.respond_to?(:to_sym) ? key.to_sym : key
+          result[key_name] = get_value(key, value, scope)
           result
         end
       end
 
       def merge(*items)
         return nil if items.compact.empty?
-        items.compact.inject({}){|sum, item| sum.merge!(item)}
+
+        items.compact.inject({}) { |sum, item| sum.merge!(item) }
       end
 
       private

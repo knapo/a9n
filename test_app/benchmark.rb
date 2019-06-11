@@ -22,8 +22,10 @@ end
 A9n.app = SampleBenchmarkApp.new
 results = []
 
-(1..10).each do
+10.times do
   results << Benchmark.realtime { A9n.app.run }
 end
 
-puts (results.reduce(&:+) / 10).round(4)
+human_result = (results.reduce(&:+) / 10).round(4)
+
+puts human_result
