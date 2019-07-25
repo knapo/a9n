@@ -167,9 +167,9 @@ RSpec.describe A9n do
     end
 
     it do
-      expect(subject.default_files[0]).to include('configuration.yml')
+      expect(subject.default_files[0]).to include('a9n.yml')
       expect(Pathname.new(subject.default_files[0])).to be_absolute
-      expect(subject.default_files[1]).to include('a9n/mandrill.yml')
+      expect(subject.default_files[1]).to include('a9n/aws.yml')
       expect(Pathname.new(subject.default_files[1])).to be_absolute
     end
   end

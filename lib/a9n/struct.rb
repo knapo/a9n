@@ -2,17 +2,16 @@ module A9n
   class Struct
     extend Forwardable
 
+    attr_reader :data
+
     def_delegators :data, :empty?, :keys, :key?, :fetch, :[], :[]=
 
     def initialize(data = {})
       @data = data
     end
 
-    def to_hash
-      data
-    end
-
-    alias to_h to_hash
+    alias to_hash data
+    alias to_h data
 
     def merge(another_data)
       data.merge!(another_data)
@@ -26,8 +25,8 @@ module A9n
       end
     end
 
-    private
-
-    attr_reader :data
+    def set(key, value)
+      data[key.to_sym] = value
+    end
   end
 end

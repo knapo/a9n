@@ -1,8 +1,8 @@
 RSpec.describe A9n::Loader do
-  let(:scope) { A9n::Scope.new('configuration') }
+  let(:scope) { A9n::Scope.new('a9n') }
   let(:env) { 'test' }
   let(:root) { File.expand_path('../../test_app', __dir__) }
-  let(:file_path) { File.join(root, 'config/configuration.yml') }
+  let(:file_path) { File.join(root, 'config/a9n.yml') }
   subject { described_class.new(file_path, scope, env) }
 
   describe '#intialize' do
@@ -135,7 +135,7 @@ RSpec.describe A9n::Loader do
       end
 
       context 'having env and defaults data' do
-        let(:file_path) { File.join(root, 'config/configuration.yml') }
+        let(:file_path) { File.join(root, 'config/a9n.yml') }
 
         it_behaves_like 'non-empty config file'
 
@@ -170,7 +170,7 @@ RSpec.describe A9n::Loader do
       end
 
       context 'having no env and only defaults data' do
-        let(:file_path) { File.join(root, 'config/configuration.yml') }
+        let(:file_path) { File.join(root, 'config/a9n.yml') }
         let(:env) { 'production' }
 
         it_behaves_like 'non-empty config file'

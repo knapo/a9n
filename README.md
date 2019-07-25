@@ -75,6 +75,17 @@ You can access it by:
      A9n.mail.email_from # => `knapo@knapo.net`
      A9n.mail.delivery_method # => `smtp`
 
+## Setting variables manually
+
+You can set variables manually using `A9n.set` method
+
+     A9n.set(:app_host, "localhost:3000")
+     A9n.app_host # => `localhost:3000`
+
+To reload/restore configuration:
+
+     A9n.load
+
 ## Mapping ENV variables
 
 Sometimes, you don't want to store a single secret value in the repo and you prefer having it in ENV variable. You can easily map it using `:env` symbol as a value:

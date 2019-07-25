@@ -7,7 +7,7 @@ RSpec.describe A9n do
     clean_singleton(subject)
     ENV['ERB_DWARF'] = 'erbized dwarf'
     ENV['DWARF_PASSWORD'] = 'dwarf123'
-    ENV['MANDRILL_API_KEY'] = 'ASDF1234'
+    ENV['AWS_API_KEY'] = 'ASDF1234'
     ENV['API_KEY'] = 'XYZ999'
     subject.app = double(env: env)
     subject.root = File.expand_path('../../test_app', __dir__)
@@ -16,7 +16,7 @@ RSpec.describe A9n do
 
   after do
     clean_singleton(subject)
-    ENV.delete('MANDRILL_API_KEY')
+    ENV.delete('GOOGLE_API_KEY')
     ENV.delete('API_KEY')
   end
 
@@ -26,6 +26,13 @@ RSpec.describe A9n do
     end
 
     it do
+      expect(subject.default_dwarf).to eq('default dwarf')
+      expect(subject.overriden_dwarf).to eq('already overriden dwarf')
+      subject.set(:default_dwarf, 'lazy dwarf')
+      subject.set(:overriden_dwarf, 'hard working dwarf')
+      expect(subject.default_dwarf).to eq('lazy dwarf')
+      expect(subject.overriden_dwarf).to eq('hard working dwarf')
+      subject.load
       expect(subject.default_dwarf).to eq('default dwarf')
       expect(subject.overriden_dwarf).to eq('already overriden dwarf')
     end
@@ -64,21 +71,21 @@ RSpec.describe A9n do
 
   context 'extra config file' do
     before do
-      expect(subject.mandrill).to be_kind_of(A9n::Struct)
+      expect(subject.aws).to be_kind_of(A9n::Struct)
     end
 
     it do
-      expect(subject.mandrill.username).to eq('joe')
-      expect(subject.mandrill.api_key).to eq('ASDF1234')
+      expect(subject.aws.username).to eq('joe')
+      expect(subject.aws.api_key).to eq('ASDF1234')
     end
 
     it do
-      expect(subject.mandrill.fetch(:username)).to eq('joe')
-      expect(subject.mandrill.fetch(:api_key)).to eq('ASDF1234')
+      expect(subject.aws.fetch(:username)).to eq('joe')
+      expect(subject.aws.fetch(:api_key)).to eq('ASDF1234')
     end
 
     it do
-      expect(subject.fetch(:mandrill)).to eq(subject.mandrill)
+      expect(subject.fetch(:aws)).to eq(subject.aws)
     end
   end
 
