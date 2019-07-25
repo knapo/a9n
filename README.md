@@ -24,10 +24,10 @@ And then execute:
 
     $ bundle
 
-Add `configuration.yml.example` and/or `configuration.yml` file into the config
+Add `a9n.yml.example` and/or `a9n.yml` file into the config
 directory. When none fo these files exists, `A9n::MissingConfigurationFile`
-exception is thrown. You can also use `a9n.yml`, which is loaded by default.
-If both file exist, content of `configuration.yml` is validated. It means that
+exception is thrown. You can also use `configuration.yml(.example)`.
+If both file exist, content of `a9n.yml` is validated. It means that
 all keys existing in example file must exist in local file - in case of missing
 keys `A9n::MissingConfigurationVariablesError` is thrown with the explanation what is missing.
 
@@ -62,7 +62,7 @@ is accessible by:
 
 ## Custom and multiple configuration files
 
-If you want to split configuration, you can use multiple files. All files from `config/a9n` are loaded by default, but you may pass custom paths as an argument to `A9n.load` e.g. `A9n.load('config/facebook.yml', 'config/mongoid.yml')`. In such cases config items are accessible through the scope consistent with the file name.
+If you want to split configuration, you can use multiple files. All files from `config/a9n` are loaded by default, but you may pass custom paths as an argument to `A9n.load` e.g. `A9n.load('config/aws.yml', 'config/mail.yml')`. In such cases config items are accessible through the scope consistent with the file name.
 
 E.g. if you have `config/a9n/mail.yml`:
 
@@ -100,7 +100,7 @@ Just add an instance configuration file e.g. `configuration.yml.staging`, `confi
 
     require 'a9n/capistrano'
 
-to your Capfile. This way `configuration.yml.<stage>` overrides `configuration.yml` on each deploy.
+to your Capfile. This way `a9n.yml.<stage>` overrides `a9n.yml` on each deploy.
 
 ## Contributing
 
