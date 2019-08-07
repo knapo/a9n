@@ -10,13 +10,13 @@ RSpec.describe A9n do
 
     context 'app_env is set' do
       before do
-        expect(subject).to receive(:app).and_return(double(env: ::A9n::StringInquirer.new('dwarf_env')))
+        expect(subject).to receive(:app).and_return(double(env: ::A9n::StringInquirer.new('foo_env')))
         expect(subject).to receive(:env_var).never
       end
 
       it do
-        expect(subject.env).to eq('dwarf_env')
-        expect(subject.env.dwarf_env?).to eq(true)
+        expect(subject.env).to eq('foo_env')
+        expect(subject.env.foo_env?).to eq(true)
         expect(subject.env.production?).to eq(false)
       end
     end
@@ -26,12 +26,12 @@ RSpec.describe A9n do
         expect(subject).to receive(:app_env).and_return(nil)
         expect(subject).to receive(:env_var).with('RAILS_ENV').and_return(nil)
         expect(subject).to receive(:env_var).with('RACK_ENV').and_return(nil)
-        expect(subject).to receive(:env_var).with('APP_ENV').and_return('dwarf_env')
+        expect(subject).to receive(:env_var).with('APP_ENV').and_return('foo_env')
       end
 
       it do
-        expect(subject.env).to eq('dwarf_env')
-        expect(subject.env.dwarf_env?).to eq(true)
+        expect(subject.env).to eq('foo_env')
+        expect(subject.env.foo_env?).to eq(true)
         expect(subject.env.production?).to eq(false)
       end
     end
@@ -149,15 +149,15 @@ RSpec.describe A9n do
 
   describe '.env_var' do
     before do
-      ENV['DWARF'] = 'little dwarf'
+      ENV['FOO'] = 'little foo'
     end
 
     it do
-      expect(subject.env_var('DWARF')).to eq('little dwarf')
+      expect(subject.env_var('FOO')).to eq('little foo')
     end
 
     it do
-      expect(subject.env_var('IS_DWARF')).to be_nil
+      expect(subject.env_var('IS_FOO')).to be_nil
     end
   end
 

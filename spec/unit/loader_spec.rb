@@ -119,13 +119,15 @@ RSpec.describe A9n::Loader do
       end
 
       before do
-        ENV['ERB_DWARF'] = 'erbized dwarf'
-        ENV['DWARF_PASSWORD'] = 'dwarf123'
+        ENV['ERB_FOO'] = 'erbized foo'
+        ENV['FOO_PASSWORD'] = 'foo123'
+        ENV['FOO_KEY'] = 'key123'
       end
 
       after do
-        ENV.delete('ERB_DWARF')
-        ENV.delete('DWARF_PASSWORD')
+        ENV.delete('ERB_FOO')
+        ENV.delete('FOO_PASSWORD')
+        ENV.delete('FOO_KEY')
       end
 
       context 'when file has erb extension' do
@@ -140,32 +142,33 @@ RSpec.describe A9n::Loader do
         it_behaves_like 'non-empty config file'
 
         it 'contains keys from defaults scope' do
-          expect(subject[:default_dwarf]).to eq('default dwarf')
-          expect(subject[:overriden_dwarf]).to eq('already overriden dwarf')
+          expect(subject[:default_foo]).to eq('default foo')
+          expect(subject[:overriden_foo]).to eq('already overriden foo')
         end
 
         it 'has symbolized keys' do
           expect(subject.keys.first).to be_kind_of(Symbol)
-          expect(subject[:hash_dwarf]).to be_kind_of(Hash)
-          expect(subject[:hash_dwarf].keys.first).to be_kind_of(Symbol)
+          expect(subject[:hash_foo]).to be_kind_of(Hash)
+          expect(subject[:hash_foo].keys.first).to be_kind_of(Symbol)
+          expect(subject[:hash_foo]).to eq(foo_1: 'hello 1', foo_2: 'hello 2', foo_key: 'key123')
         end
 
         it 'parses erb' do
-          expect(subject[:erb_dwarf]).to eq('erbized dwarf')
+          expect(subject[:erb_foo]).to eq('erbized foo')
         end
 
         it 'gets valus from ENV' do
-          expect(subject[:dwarf_password]).to eq('dwarf123')
+          expect(subject[:foo_password]).to eq('foo123')
         end
 
         it 'raises exception when ENV var is not set' do
-          ENV.delete('DWARF_PASSWORD')
-          expect { subject[:dwarf_password] }.to raise_error(A9n::MissingEnvVariableError)
+          ENV.delete('FOO_PASSWORD')
+          expect { subject[:foo_password] }.to raise_error(A9n::MissingEnvVariableError)
         end
 
         it 'raises exception when ENV var is set to nil' do
-          ENV['DWARF_PASSWORD'] = nil
-          expect { subject[:dwarf_password] }.to raise_error(A9n::MissingEnvVariableError)
+          ENV['FOO_PASSWORD'] = nil
+          expect { subject[:foo_password] }.to raise_error(A9n::MissingEnvVariableError)
         end
       end
 
@@ -176,8 +179,8 @@ RSpec.describe A9n::Loader do
         it_behaves_like 'non-empty config file'
 
         it 'contains keys from defaults scope' do
-          expect(subject[:default_dwarf]).to eq('default dwarf')
-          expect(subject[:overriden_dwarf]).to eq('not yet overriden dwarf')
+          expect(subject[:default_foo]).to eq('default foo')
+          expect(subject[:overriden_foo]).to eq('not yet overriden foo')
         end
       end
 

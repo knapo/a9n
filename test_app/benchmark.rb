@@ -6,7 +6,7 @@ require 'a9n'
 class SampleBenchmarkApp
   def run
     0.upto(1_000).map do |index|
-      "#{index} #{::A9n.string_dwarf} #{::A9n.overriden_dwarf}"
+      "#{index} #{::A9n.string_foo} #{::A9n.overriden_foo}"
     end
   end
 

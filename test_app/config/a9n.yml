@@ -1,23 +1,25 @@
 defaults:
-  default_dwarf: "default dwarf"
-  overriden_dwarf: "not yet overriden dwarf"
-  erb_dwarf: "<%= ENV['ERB_DWARF'] %>"
-  dwarf_password: :env
+  default_foo: "default foo"
+  overriden_foo: "not yet overriden foo"
+  erb_foo: "<%= ENV['ERB_FOO'] %>"
+  foo_password: :env
 development:
-  nil_dwarf: ~
-  false_dwarf: false
-  true_dwarf: true
-  string_dwarf: "dwarf"
-  overriden_dwarf: "already overriden dwarf"
-  hash_dwarf:
-    dwarf_1: "hello 1"
-    dwarf_2: "hello 2"
+  nil_foo: ~
+  false_foo: false
+  true_foo: true
+  string_foo: "foo"
+  overriden_foo: "already overriden foo"
+  hash_foo:
+    foo_1: "hello 1"
+    foo_2: "hello 2"
+    foo_key: :env
 test:
-  nil_dwarf: ~
-  false_dwarf: false
-  true_dwarf: true
-  string_dwarf: "dwarf"
-  overriden_dwarf: "already overriden dwarf"
-  hash_dwarf:
-    dwarf_1: "hello 1"
-    dwarf_2: "hello 2"
+  nil_foo: ~
+  false_foo: false
+  true_foo: true
+  string_foo: "foo"
+  overriden_foo: "already overriden foo"
+  hash_foo:
+    foo_1: "hello 1"
+    foo_2: "hello 2"
+    foo_key: :env

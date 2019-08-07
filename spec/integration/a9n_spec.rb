@@ -5,8 +5,9 @@ RSpec.describe A9n do
 
   before do
     clean_singleton(subject)
-    ENV['ERB_DWARF'] = 'erbized dwarf'
-    ENV['DWARF_PASSWORD'] = 'dwarf123'
+    ENV['ERB_FOO'] = 'erbized foo'
+    ENV['FOO_PASSWORD'] = 'foo123'
+    ENV['FOO_KEY'] = 'key123'
     ENV['AWS_API_KEY'] = 'ASDF1234'
     ENV['API_KEY'] = 'XYZ999'
     subject.app = double(env: env)
@@ -16,7 +17,10 @@ RSpec.describe A9n do
 
   after do
     clean_singleton(subject)
-    ENV.delete('GOOGLE_API_KEY')
+    ENV.delete('ERB_FOO')
+    ENV.delete('FOO_PASSWORD')
+    ENV.delete('FOO_KEY')
+    ENV.delete('AWS_API_KEY')
     ENV.delete('API_KEY')
   end
 
@@ -26,20 +30,20 @@ RSpec.describe A9n do
     end
 
     it do
-      expect(subject.default_dwarf).to eq('default dwarf')
-      expect(subject.overriden_dwarf).to eq('already overriden dwarf')
-      subject.set(:default_dwarf, 'lazy dwarf')
-      subject.set(:overriden_dwarf, 'hard working dwarf')
-      expect(subject.default_dwarf).to eq('lazy dwarf')
-      expect(subject.overriden_dwarf).to eq('hard working dwarf')
+      expect(subject.default_foo).to eq('default foo')
+      expect(subject.overriden_foo).to eq('already overriden foo')
+      subject.set(:default_foo, 'lazy foo')
+      subject.set(:overriden_foo, 'hard working foo')
+      expect(subject.default_foo).to eq('lazy foo')
+      expect(subject.overriden_foo).to eq('hard working foo')
       subject.load
-      expect(subject.default_dwarf).to eq('default dwarf')
-      expect(subject.overriden_dwarf).to eq('already overriden dwarf')
+      expect(subject.default_foo).to eq('default foo')
+      expect(subject.overriden_foo).to eq('already overriden foo')
     end
 
     it do
-      expect(subject.fetch(:default_dwarf)).to eq('default dwarf')
-      expect(subject.fetch(:overriden_dwarf)).to eq('already overriden dwarf')
+      expect(subject.fetch(:default_foo)).to eq('default foo')
+      expect(subject.fetch(:overriden_foo)).to eq('already overriden foo')
     end
 
     it do
@@ -59,13 +63,13 @@ RSpec.describe A9n do
     let(:env) { 'tropical' }
 
     it do
-      expect(subject.default_dwarf).to eq('default dwarf')
-      expect(subject.overriden_dwarf).to eq('not yet overriden dwarf')
+      expect(subject.default_foo).to eq('default foo')
+      expect(subject.overriden_foo).to eq('not yet overriden foo')
     end
 
     it do
-      expect(subject.fetch(:default_dwarf)).to eq('default dwarf')
-      expect(subject.fetch(:overriden_dwarf)).to eq('not yet overriden dwarf')
+      expect(subject.fetch(:default_foo)).to eq('default foo')
+      expect(subject.fetch(:overriden_foo)).to eq('not yet overriden foo')
     end
   end
 
