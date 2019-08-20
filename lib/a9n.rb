@@ -27,7 +27,7 @@ module A9n
     end
 
     def app_env
-      app&.env
+      app.env if app.respond_to?(:env)
     end
 
     def app
@@ -43,7 +43,7 @@ module A9n
     end
 
     def app_root
-      app&.root
+      app.env if app.respond_to?(:root)
     end
 
     def root=(path)
