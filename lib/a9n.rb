@@ -19,7 +19,7 @@ module A9n
 
   class << self
     def env
-      @env ||= ::A9n::StringInquirer.new(app_env || env_var('RAILS_ENV') || env_var('RACK_ENV') || env_var('APP_ENV'))
+      @env ||= ::A9n::StringInquirer.new(app_env || env_var('RAILS_ENV') || env_var('RACK_ENV') || env_var('APP_ENV') || fail(UnknownEnvError))
     end
 
     def env=(value)
@@ -48,6 +48,10 @@ module A9n
 
     def root=(path)
       @root = path.to_s.empty? ? nil : Pathname.new(path.to_s)
+    end
+
+    def groups
+      ['default', env].compact
     end
 
     def rails_app

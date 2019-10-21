@@ -4,4 +4,5 @@ module A9n
   class MissingConfigurationVariablesError < StandardError; end
   class NoSuchConfigurationVariableError < StandardError; end
   class MissingEnvVariableError < StandardError; end
+  class UnknownEnvError < StandardError; end
 end

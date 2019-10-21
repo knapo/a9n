@@ -37,6 +37,22 @@ RSpec.describe A9n do
         expect(subject.env.production?).to eq(false)
       end
     end
+
+    context 'unknown env' do
+      it do
+        expect { subject.env }.to raise_error(A9n::UnknownEnvError)
+      end
+    end
+  end
+
+  describe '.groups' do
+    before do
+      subject.env = 'development'
+    end
+
+    it do
+      expect(subject.groups).to eq(['default', 'development'])
+    end
   end
 
   describe '.app' do
