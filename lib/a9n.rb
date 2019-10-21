@@ -19,7 +19,13 @@ module A9n
 
   class << self
     def env
-      @env ||= ::A9n::StringInquirer.new(app_env || env_var('RAILS_ENV') || env_var('RACK_ENV') || env_var('APP_ENV') || fail(UnknownEnvError))
+      @env ||= ::A9n::StringInquirer.new(
+        app_env ||
+        env_var('RAILS_ENV') ||
+        env_var('RACK_ENV') ||
+        env_var('APP_ENV') ||
+        raise(UnknownEnvError)
+      )
     end
 
     def env=(value)

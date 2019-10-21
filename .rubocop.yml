@@ -1,6 +1,5 @@
 Gemspec/RequiredRubyVersion:
   Include:
-    - 2.4
     - 2.5
     - 2.6
 
@@ -11,6 +10,9 @@ Metrics/BlockLength:
 
 Metrics/LineLength:
   Max: 140
+
+Metrics/ModuleLength:
+  Max: 120
 
 Security/YAMLLoad:
   Enabled: false

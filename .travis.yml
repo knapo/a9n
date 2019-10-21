@@ -1,8 +1,14 @@
+---
+sudo: false
 language: ruby
+cache: bundler
 rvm:
-  - 2.4.6
-  - 2.5.5
-  - 2.6.3
+  - 2.5.7
+  - 2.6.5
+before_install: gem install bundler -v 2.0.2
+script:
+  - bundle exec rspec
+  - bundle exec rubocop
 addons:
   code_climate:
     repo_token: 9aa2aa2432639c57772b6917ad9da468709e5536b75617575b02b35201a2eaf8

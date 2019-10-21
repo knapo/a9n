@@ -39,6 +39,13 @@ RSpec.describe A9n do
     end
 
     context 'unknown env' do
+      before do
+        expect(subject).to receive(:app_env).and_return(nil)
+        expect(subject).to receive(:env_var).with('RAILS_ENV').and_return(nil)
+        expect(subject).to receive(:env_var).with('RACK_ENV').and_return(nil)
+        expect(subject).to receive(:env_var).with('APP_ENV').and_return(nil)
+      end
+
       it do
         expect { subject.env }.to raise_error(A9n::UnknownEnvError)
       end
@@ -51,7 +58,7 @@ RSpec.describe A9n do
     end
 
     it do
-      expect(subject.groups).to eq(['default', 'development'])
+      expect(subject.groups).to eq(%w[default development])
     end
   end
 
