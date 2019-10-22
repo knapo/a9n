@@ -34,13 +34,13 @@ module A9n
         common_scope = prepare_yml_scope(yml, scope, COMMON_SCOPE)
         env_scope    = prepare_yml_scope(yml, scope, env)
 
-        A9n::Hash.merge(common_scope, env_scope)
+        A9n::Hash.merge(common_scope, env_scope).freeze
       end
 
       def prepare_yml_scope(yml, scope, env)
         return nil unless yml[env].is_a?(::Hash)
 
-        A9n::Hash.deep_prepare(yml[env], scope)
+        A9n::Hash.deep_prepare(yml[env], scope).freeze
       end
     end
 

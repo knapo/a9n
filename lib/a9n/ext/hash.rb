@@ -19,11 +19,11 @@ module A9n
 
       def get_value(key, value, scope)
         if value.is_a?(::Hash)
-          deep_prepare(value, scope)
+          deep_prepare(value, scope).freeze
         elsif value.is_a?(Symbol) && value == :env
           A9n.env_var(scope.env_key_name(key), strict: A9n.strict?)
         else
-          value
+          value.freeze
         end
       end
     end
