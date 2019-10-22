@@ -114,6 +114,7 @@ RSpec.describe A9n::Loader do
       shared_examples 'non-empty config file' do
         it 'returns non-empty hash' do
           expect(subject).to be_kind_of(Hash)
+          expect(subject).to be_frozen
           expect(subject.keys).to_not be_empty
         end
       end
@@ -140,6 +141,10 @@ RSpec.describe A9n::Loader do
         let(:file_path) { File.join(root, 'config/a9n.yml') }
 
         it_behaves_like 'non-empty config file'
+
+        it 'contains only frozen values' do
+          expect(subject.values.reject(&:frozen?)).to eq([])
+        end
 
         it 'contains keys from defaults scope' do
           expect(subject[:default_foo]).to eq('default foo')

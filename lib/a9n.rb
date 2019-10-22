@@ -53,11 +53,11 @@ module A9n
     end
 
     def root=(path)
-      @root = path.to_s.empty? ? nil : Pathname.new(path.to_s)
+      @root = path.to_s.empty? ? nil : Pathname.new(path.to_s).freeze
     end
 
     def groups
-      ['default', env].compact
+      ['default', env].compact.freeze
     end
 
     def rails_app
@@ -68,9 +68,9 @@ module A9n
       raise A9n::MissingEnvVariableError, name if strict && !ENV.key?(name)
 
       if ENV[name].is_a?(::String)
-        ENV[name].dup.force_encoding(Encoding::UTF_8)
+        ENV[name].dup.force_encoding(Encoding::UTF_8).freeze
       else
-        ENV[name]
+        ENV[name].dup.freeze
       end
     end
 

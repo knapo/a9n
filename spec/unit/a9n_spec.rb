@@ -59,6 +59,7 @@ RSpec.describe A9n do
 
     it do
       expect(subject.groups).to eq(%w[default development])
+      expect(subject.groups).to be_frozen
     end
   end
 
@@ -113,6 +114,7 @@ RSpec.describe A9n do
 
         it do
           expect(subject.root).to eq(Pathname.new('/home/knapo/workspace/a9n'))
+          expect(subject.root).to be_frozen
         end
       end
 
@@ -179,6 +181,7 @@ RSpec.describe A9n do
 
     it do
       expect(subject.env_var('FOO')).to eq('little foo')
+      expect(subject.env_var('FOO')).to be_frozen
     end
 
     it do
