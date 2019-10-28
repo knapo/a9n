@@ -5,4 +5,5 @@ module A9n
   class NoSuchConfigurationVariableError < StandardError; end
   class MissingEnvVariableError < StandardError; end
   class UnknownEnvError < StandardError; end
+  class RootNotSetError < StandardError; end
 end

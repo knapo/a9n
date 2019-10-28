@@ -45,11 +45,18 @@ module A9n
     end
 
     def root
-      @root ||= app_root
+      @root ||= app_root || root_from_bundle_env || fail(RootNotSetError)
     end
 
     def app_root
       app.root if app.respond_to?(:root)
+    end
+
+    def root_from_bundle_env
+      return nil unless ENV['BUNDLE_GEMFILE']
+      dir = File.dirname(ENV['BUNDLE_GEMFILE'])
+      return nil unless File.directory?(dir)
+      Pathname.new(dir)
     end
 
     def root=(path)
