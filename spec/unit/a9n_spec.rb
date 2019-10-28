@@ -127,17 +127,7 @@ RSpec.describe A9n do
 
     context 'when app is not set' do
       it do
-        expect(subject.root).to eq(nil)
-      end
-
-      context 'when setting a custom path when is falsy' do
-        before do
-          subject.root ||= '/home/knapo/workspace/a9n'
-        end
-
-        it do
-          expect(subject.root).to eq(Pathname.new('/home/knapo/workspace/a9n'))
-        end
+        expect(subject.root).to eq(A9n.root_from_bundle_env)
       end
 
       context 'when setting a custom path' do
