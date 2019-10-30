@@ -1,4 +1,4 @@
-# https://github.com/rails/rails/edit/master/activesupport/lib/active_support/string_inquirer.rb
+# Based on https://github.com/rails/rails/blob/master/activesupport/lib/active_support/string_inquirer.rb
 module A9n
   class StringInquirer < String
     private

@@ -130,4 +130,21 @@ RSpec.describe A9n do
       expect(subject.fetch(:mailer)).to eq(subject.mailer)
     end
   end
+
+  context 'extra config file without known namspaces' do
+    before do
+      expect(subject.emails).to be_kind_of(A9n::Struct)
+    end
+
+    it do
+      expect(subject.emails.knapo).to eq('knapo@a9n.local')
+      expect(subject.emails.admin).to eq('admin@a9n.local')
+      expect { subject.emails.foo }.to raise_error(A9n::NoSuchConfigurationVariableError)
+    end
+
+    it do
+      expect(subject.emails.fetch(:knapo)).to eq('knapo@a9n.local')
+      expect(subject.emails.fetch(:admin)).to eq('admin@a9n.local')
+    end
+  end
 end

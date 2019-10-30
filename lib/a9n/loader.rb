@@ -2,7 +2,8 @@ module A9n
   class Loader
     attr_reader :scope, :env, :local_file, :example_file, :struct
 
-    COMMON_SCOPE = 'defaults'.freeze
+    COMMON_NAMESPACE = 'defaults'.freeze
+    KNOWN_NAMESPACES = [COMMON_NAMESPACE, 'development', 'test', 'staging', 'production'].freeze
 
     def initialize(file_path, scope, env)
       @scope = scope
@@ -31,16 +32,24 @@ module A9n
 
         yml = YAML.load(ERB.new(File.read(file_path)).result)
 
-        common_scope = prepare_yml_scope(yml, scope, COMMON_SCOPE)
-        env_scope    = prepare_yml_scope(yml, scope, env)
+        if no_known_namespaces?(yml)
+          prepare_hash(yml, scope).freeze
+        else
+          common_namespace = prepare_hash(yml[COMMON_NAMESPACE], scope)
+          env_namespace    = prepare_hash(yml[env], scope)
 
-        A9n::Hash.merge(common_scope, env_scope).freeze
+          A9n::Hash.merge(common_namespace, env_namespace).freeze
+        end
       end
 
-      def prepare_yml_scope(yml, scope, env)
-        return nil unless yml[env].is_a?(::Hash)
+      def prepare_hash(data, scope)
+        return nil unless data.is_a?(::Hash)
 
-        A9n::Hash.deep_prepare(yml[env], scope).freeze
+        A9n::Hash.deep_prepare(data, scope).freeze
+      end
+
+      def no_known_namespaces?(yml)
+        (yml.keys & KNOWN_NAMESPACES).empty?
       end
     end
 

@@ -87,7 +87,7 @@ module A9n
     def default_files
       files  = Dir[root.join("config/{#{A9n::Scope::ROOT_NAMES.join(',')}}.#{EXTENSION_LIST}").to_s]
       files += Dir[root.join("config/a9n/*.#{EXTENSION_LIST}")]
-      files.map { |f| f.sub(/.example$/, '') }.uniq
+      files.map { |f| f.sub(/.example$/, '') }.uniq.sort
     end
 
     def load(*files)
