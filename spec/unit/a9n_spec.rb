@@ -242,6 +242,13 @@ RSpec.describe A9n do
     end
   end
 
+  describe '.logger' do
+    it do
+      expect(subject.logger).to be_a(Logger)
+      expect(subject.logger.level).to eq(1)
+    end
+  end
+
   describe '.method_missing' do
     context 'when storage is empty' do
       before do

@@ -3,6 +3,7 @@ require 'pathname'
 require 'ostruct'
 require 'yaml'
 require 'erb'
+require 'logger'
 require 'a9n/version'
 require 'a9n/exceptions'
 require 'a9n/struct'
@@ -16,6 +17,7 @@ module A9n
 
   EXTENSION_LIST = '{yml,yml.erb,yml.example,yml.erb.example}'.freeze
   STRICT_MODE = 'strict'.freeze
+  DEFAULT_LOG_LEVEL = 'info'.freeze
 
   class << self
     def env
@@ -106,6 +108,10 @@ module A9n
 
     def strict?
       mode == STRICT_MODE
+    end
+
+    def logger
+      @logger ||= ::Logger.new(STDOUT, level: fetch(:log_level, DEFAULT_LOG_LEVEL))
     end
 
     def method_missing(name, *args)
