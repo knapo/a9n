@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    a9n (1.2.0)
+    a9n (1.2.1)
 
 GEM
   remote: https://rubygems.org/
