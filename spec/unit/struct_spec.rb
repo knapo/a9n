@@ -156,7 +156,7 @@ RSpec.describe A9n::Struct do
       end
 
       it 'returns false value' do
-        expect(subject.find(:false_foo)).to eq(false)
+        expect(subject.find('false_foo')).to eq(false)
       end
 
       it 'returns nil value' do

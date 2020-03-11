@@ -18,8 +18,8 @@ module A9n
     end
 
     def find(key)
-      if data.key?(key)
-        fetch(key)
+      if key && data.key?(key.to_sym)
+        fetch(key.to_sym)
       else
         raise KeyNotFoundError.new, "Could not find #{key} in #{data.keys.inspect}"
       end
