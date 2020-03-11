@@ -2,14 +2,15 @@ Gemspec/RequiredRubyVersion:
   Include:
     - 2.5
     - 2.6
+    - 2.7
+
+Layout/LineLength:
+  Max: 140
 
 Metrics/BlockLength:
   Max: 30
   Exclude:
     - '**/*_spec.rb'
-
-Metrics/LineLength:
-  Max: 140
 
 Metrics/ModuleLength:
   Max: 120
@@ -25,6 +26,15 @@ Style/Documentation:
 
 Style/GuardClause:
   Enabled: false
+
+Style/HashEachMethods:
+  Enabled: true
+
+Style/HashTransformKeys:
+  Enabled: true
+
+Style/HashTransformValues:
+  Enabled: true
 
 Style/EachWithObject:
   Enabled: false

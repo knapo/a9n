@@ -17,12 +17,16 @@ module A9n
       data.merge!(another_data)
     end
 
-    def method_missing(name, *_args)
-      if data.key?(name)
-        fetch(name)
+    def find(key)
+      if data.key?(key)
+        fetch(key)
       else
-        raise NoSuchConfigurationVariableError.new, name
+        raise KeyNotFoundError.new, "Could not find #{key} in #{data.keys.inspect}"
       end
+    end
+
+    def method_missing(key, *_args)
+      find(key)
     end
 
     def set(key, value)

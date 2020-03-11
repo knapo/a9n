@@ -47,7 +47,7 @@ RSpec.describe A9n do
     end
 
     it do
-      expect { subject.invalid }.to raise_error(A9n::NoSuchConfigurationVariableError)
+      expect { subject.invalid }.to raise_error(A9n::KeyNotFoundError)
     end
 
     it do
@@ -139,7 +139,7 @@ RSpec.describe A9n do
     it do
       expect(subject.emails.knapo).to eq('knapo@a9n.local')
       expect(subject.emails.admin).to eq('admin@a9n.local')
-      expect { subject.emails.foo }.to raise_error(A9n::NoSuchConfigurationVariableError)
+      expect { subject.emails.foo }.to raise_error(A9n::KeyNotFoundError)
     end
 
     it do

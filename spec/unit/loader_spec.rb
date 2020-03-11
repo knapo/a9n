@@ -48,7 +48,7 @@ RSpec.describe A9n::Loader do
       it { expect(config.api_key).to eq('example1234') }
 
       it do
-        expect { config.app_host }.to raise_error(A9n::NoSuchConfigurationVariableError)
+        expect { config.app_host }.to raise_error(A9n::KeyNotFoundError)
       end
     end
 
@@ -63,7 +63,7 @@ RSpec.describe A9n::Loader do
       it { expect(config.api_key).to eq('local1234') }
 
       it do
-        expect { config.app_url }.to raise_error(A9n::NoSuchConfigurationVariableError)
+        expect { config.app_url }.to raise_error(A9n::KeyNotFoundError)
       end
     end
 
@@ -79,7 +79,7 @@ RSpec.describe A9n::Loader do
         it { expect(config.api_key).to eq('example1234') }
 
         it do
-          expect { config.app_host }.to raise_error(A9n::NoSuchConfigurationVariableError)
+          expect { config.app_host }.to raise_error(A9n::KeyNotFoundError)
         end
       end
 

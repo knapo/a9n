@@ -28,10 +28,16 @@ RSpec.describe A9n::Struct do
       end
     end
 
+    describe '#find' do
+      it do
+        expect { subject.find(:foo) }.to raise_error(A9n::KeyNotFoundError)
+      end
+    end
+
     it 'raises error on accessin invalid attribute' do
       expect {
         subject.foo
-      }.to raise_error(A9n::NoSuchConfigurationVariableError, 'foo')
+      }.to raise_error(A9n::KeyNotFoundError, 'Could not find foo in []')
     end
   end
 
@@ -120,7 +126,10 @@ RSpec.describe A9n::Struct do
     it 'raises exception when value not exists' do
       expect {
         subject.non_existing_foo
-      }.to raise_error(A9n::NoSuchConfigurationVariableError)
+      }.to raise_error(
+        A9n::KeyNotFoundError,
+        'Could not find non_existing_foo in [:non_empty_foo, :nil_foo, :false_foo, :true_foo, :hash_foo]'
+      )
     end
 
     describe '#[]' do
@@ -138,6 +147,26 @@ RSpec.describe A9n::Struct do
 
       it 'returns nil for non existing key' do
         expect(subject[:non_existing_foo]).to eq(nil)
+      end
+    end
+
+    describe '#find' do
+      it 'returns non empty value' do
+        expect(subject.find(:non_empty_foo)).to eq('foo')
+      end
+
+      it 'returns false value' do
+        expect(subject.find(:false_foo)).to eq(false)
+      end
+
+      it 'returns nil value' do
+        expect(subject.find(:nil_foo)).to eq(nil)
+      end
+
+      it 'raises error for non existing key' do
+        expect {
+          subject.find(:non_existing_foo)
+        }.to raise_error(A9n::KeyNotFoundError)
       end
     end
 

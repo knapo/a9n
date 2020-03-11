@@ -257,7 +257,7 @@ RSpec.describe A9n do
 
       it do
         expect(subject.storage).to be_empty
-        expect { subject.whatever }.to raise_error(A9n::NoSuchConfigurationVariableError)
+        expect { subject.whatever }.to raise_error(A9n::KeyNotFoundError)
       end
     end
 
@@ -268,7 +268,7 @@ RSpec.describe A9n do
       end
 
       it do
-        expect { subject.whatever }.to raise_error(A9n::NoSuchConfigurationVariableError)
+        expect { subject.whatever }.to raise_error(A9n::KeyNotFoundError)
       end
     end
   end

@@ -1,9 +1,11 @@
 module A9n
-  class ConfigurationNotLoadedError < StandardError; end
-  class MissingConfigurationDataError < StandardError; end
-  class MissingConfigurationVariablesError < StandardError; end
-  class NoSuchConfigurationVariableError < StandardError; end
-  class MissingEnvVariableError < StandardError; end
-  class UnknownEnvError < StandardError; end
-  class RootNotSetError < StandardError; end
+  Error = Class.new(StandardError)
+  ConfigurationNotLoadedError = Class.new(Error)
+  MissingConfigurationDataError = Class.new(Error)
+  MissingConfigurationVariablesError = Class.new(Error)
+  NoSuchConfigurationVariableError = Class.new(Error)
+  KeyNotFoundError = Class.new(NoSuchConfigurationVariableError)
+  MissingEnvVariableError = Class.new(Error)
+  UnknownEnvError = Class.new(Error)
+  RootNotSetError = Class.new(Error)
 end
