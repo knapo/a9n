@@ -1,7 +1,7 @@
 # A9n
 
-[![Gem Version](https://badge.fury.io/rb/a9n.png)][gem_version]
-[![Build status](https://secure.travis-ci.org/knapo/a9n.png)][travis]
+[![Gem Version](https://badge.fury.io/rb/a9n.svg)][gem_version]
+[![Build status](https://secure.travis-ci.org/knapo/a9n.svg)][travis]
 [![Maintainability](https://api.codeclimate.com/v1/badges/566c2c51f1a383d18be8/maintainability)](https://codeclimate.com/github/knapo/a9n/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/566c2c51f1a383d18be8/test_coverage)](https://codeclimate.com/github/knapo/a9n/test_coverage)
 
