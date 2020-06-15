@@ -20,6 +20,8 @@ module A9n
   DEFAULT_LOG_LEVEL = 'info'.freeze
 
   class << self
+    attr_writer :logger
+
     def env
       @env ||= ::A9n::StringInquirer.new(
         app_env ||
