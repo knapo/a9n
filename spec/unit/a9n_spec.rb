@@ -249,6 +249,18 @@ RSpec.describe A9n do
     end
   end
 
+  describe '.logger=' do
+    it do
+      old_logger = subject.logger
+      new_logger = Logger.new(IO::NULL, level: :debug)
+      subject.logger = new_logger
+      expect(subject.logger).not_to eq(old_logger)
+      expect(subject.logger).to eq(new_logger)
+      expect(subject.logger).to be_a(Logger)
+      subject.logger = old_logger
+    end
+  end
+
   describe '.method_missing' do
     context 'when storage is empty' do
       before do
