@@ -1,11 +1,20 @@
+require:
+  - rubocop-rake
+
+AllCops:
+  NewCops: enable
+
 Gemspec/RequiredRubyVersion:
   Include:
-    - 2.5
     - 2.6
     - 2.7
+    - 3.0
 
 Layout/LineLength:
   Max: 140
+
+Lint/MissingSuper:
+  Enabled: false
 
 Metrics/BlockLength:
   Max: 30
@@ -37,9 +46,6 @@ Style/HashTransformValues:
   Enabled: true
 
 Style/EachWithObject:
-  Enabled: false
-
-Style/MethodMissingSuper:
   Enabled: false
 
 Style/MissingRespondToMissing:

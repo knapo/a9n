@@ -1,9 +1,10 @@
 RSpec.describe A9n::Loader do
+  subject { described_class.new(file_path, scope, env) }
+
   let(:scope) { A9n::Scope.new('a9n') }
   let(:env) { 'test' }
   let(:root) { File.expand_path('../../test_app', __dir__) }
   let(:file_path) { File.join(root, 'config/a9n.yml') }
-  subject { described_class.new(file_path, scope, env) }
 
   describe '#intialize' do
     it { expect(subject.scope).to eq(scope) }
@@ -101,8 +102,9 @@ RSpec.describe A9n::Loader do
   end
 
   describe '.load_yml' do
-    let(:env) { 'test' }
     subject { described_class.load_yml(file_path, scope, env) }
+
+    let(:env) { 'test' }
 
     context 'when file not exists' do
       let(:file_path) { 'file_not_existing_in_the_universe.yml' }
@@ -115,7 +117,7 @@ RSpec.describe A9n::Loader do
         it 'returns non-empty hash' do
           expect(subject).to be_kind_of(Hash)
           expect(subject).to be_frozen
-          expect(subject.keys).to_not be_empty
+          expect(subject.keys).not_to be_empty
         end
       end
 
@@ -155,7 +157,7 @@ RSpec.describe A9n::Loader do
           expect(subject.keys.first).to be_kind_of(Symbol)
           expect(subject[:hash_foo]).to be_kind_of(Hash)
           expect(subject[:hash_foo].keys.first).to be_kind_of(Symbol)
-          expect(subject[:hash_foo]).to eq(foo_1: 'hello 1', foo_2: 'hello 2', foo_key: 'key123')
+          expect(subject[:hash_foo]).to eq(foo1: 'hello 1', foo2: 'hello 2', foo_key: 'key123')
         end
 
         it 'parses erb' do
@@ -194,11 +196,13 @@ RSpec.describe A9n::Loader do
 
         context 'valid env' do
           let(:env) { 'production' }
+
           it_behaves_like 'non-empty config file'
         end
 
         context 'invalid env' do
           let(:env) { 'tropical' }
+
           it { expect(subject).to be_nil }
         end
       end

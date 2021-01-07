@@ -42,6 +42,8 @@ RSpec.describe A9n::Struct do
   end
 
   context 'with values' do
+    subject { described_class.new(data) }
+
     let(:data) do
       {
         non_empty_foo: 'foo',
@@ -51,8 +53,6 @@ RSpec.describe A9n::Struct do
         hash_foo: { foo: 'hello' }
       }
     end
-
-    subject { described_class.new(data) }
 
     describe '#keys' do
       it do

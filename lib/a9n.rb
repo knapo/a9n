@@ -113,7 +113,7 @@ module A9n
     end
 
     def logger
-      @logger ||= ::Logger.new(STDOUT, level: fetch(:log_level, DEFAULT_LOG_LEVEL))
+      @logger ||= ::Logger.new($stdout, level: fetch(:log_level, DEFAULT_LOG_LEVEL))
     end
 
     def method_missing(name, *args)

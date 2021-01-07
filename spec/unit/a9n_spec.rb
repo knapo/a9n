@@ -1,6 +1,8 @@
 RSpec.describe A9n do
   subject { described_class }
+
   before { clean_singleton(subject) }
+
   after { clean_singleton(subject) }
 
   describe '.env' do
@@ -13,7 +15,7 @@ RSpec.describe A9n do
 
       before do
         allow(subject).to receive(:app).and_return(app)
-        expect(subject).to receive(:env_var).never
+        expect(subject).not_to receive(:env_var)
       end
 
       it do
@@ -127,7 +129,7 @@ RSpec.describe A9n do
 
     context 'when app is not set' do
       it do
-        expect(subject.root).to eq(A9n.root_from_bundle_env)
+        expect(subject.root).to eq(described_class.root_from_bundle_env)
       end
 
       context 'when setting a custom path' do
@@ -194,7 +196,7 @@ RSpec.describe A9n do
 
   describe '.load' do
     before do
-      expect(described_class).to receive(:env).exactly(2).times.and_return('dev')
+      expect(described_class).to receive(:env).twice.and_return('dev')
       subject.root = '/apps/test_app'
       files.each do |f, cfg|
         expect(A9n::Loader).to receive(:new).with(f, kind_of(A9n::Scope), 'dev').and_return(double(get: cfg))
@@ -211,7 +213,7 @@ RSpec.describe A9n do
 
       before do
         expect(subject).to receive(:default_files).and_return(files.keys)
-        expect(subject).to receive(:absolute_paths_for).never
+        expect(subject).not_to receive(:absolute_paths_for)
       end
 
       it do
@@ -232,7 +234,7 @@ RSpec.describe A9n do
       end
 
       before do
-        expect(subject).to receive(:default_files).never
+        expect(subject).not_to receive(:default_files)
         expect(subject).to receive(:absolute_paths_for).with(given_files).and_call_original
       end
 

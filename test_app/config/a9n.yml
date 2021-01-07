@@ -10,8 +10,8 @@ development:
   string_foo: "foo"
   overriden_foo: "already overriden foo"
   hash_foo:
-    foo_1: "hello 1"
-    foo_2: "hello 2"
+    foo1: "hello 1"
+    foo2: "hello 2"
     foo_key: :env
 test:
   nil_foo: ~
@@ -20,6 +20,6 @@ test:
   string_foo: "foo"
   overriden_foo: "already overriden foo"
   hash_foo:
-    foo_1: "hello 1"
-    foo_2: "hello 2"
+    foo1: "hello 1"
+    foo2: "hello 2"
     foo_key: :env
