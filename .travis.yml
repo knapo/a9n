@@ -9,6 +9,3 @@ rvm:
 before_install: gem install bundler
 script:
   - bundle exec rake
-addons:
-  code_climate:
-    repo_token: 42ad3aef34fcfd740fc41ae4cf16723fb11d6535
