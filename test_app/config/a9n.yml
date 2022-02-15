@@ -3,7 +3,11 @@ defaults:
   overriden_foo: "not yet overriden foo"
   erb_foo: "<%= ENV['ERB_FOO'] %>"
   foo_password: :env
+&foo_alias:
+  false_foo: false
+  true_foo: true
 development:
+  <<: *foo_alias
   nil_foo: ~
   false_foo: false
   true_foo: true
