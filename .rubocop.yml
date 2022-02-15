@@ -62,3 +62,6 @@ Style/TrivialAccessors:
 
 Style/OpenStructUse:
   Enabled: false
+
+Style/HashSyntax:
+  Enabled: false
