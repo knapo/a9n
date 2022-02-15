@@ -6,9 +6,9 @@ AllCops:
 
 Gemspec/RequiredRubyVersion:
   Include:
-    - 2.6
     - 2.7
     - 3.0
+    - 3.1
 
 Layout/LineLength:
   Max: 140
