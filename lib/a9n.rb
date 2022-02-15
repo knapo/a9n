@@ -10,6 +10,7 @@ require 'a9n/struct'
 require 'a9n/scope'
 require 'a9n/ext/string_inquirer'
 require 'a9n/ext/hash'
+require 'a9n/yaml_loader'
 require 'a9n/loader'
 
 module A9n

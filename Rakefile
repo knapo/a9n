@@ -5,4 +5,7 @@ require 'rubocop/rake_task'
 RSpec::Core::RakeTask.new(:spec)
 RuboCop::RakeTask.new
 
-task default: %i[rubocop spec]
+desc 'Default task to run on ci'
+task ci: %i[spec rubocop]
+
+task default: %i[spec rubocop:auto_correct]

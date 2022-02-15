@@ -30,7 +30,7 @@ module A9n
       def load_yml(file_path, scope, env)
         return nil unless File.exist?(file_path)
 
-        yml = YAML.load(ERB.new(File.read(file_path)).result, aliases: true)
+        yml = A9n::YamlLoader.load(file_path)
 
         if no_known_namespaces?(yml)
           prepare_hash(yml, scope).freeze
