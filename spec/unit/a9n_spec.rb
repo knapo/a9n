@@ -28,9 +28,9 @@ RSpec.describe A9n do
     context 'when APP_ENV is set' do
       before do
         expect(subject).to receive(:app_env).and_return(nil)
-        expect(subject).to receive(:env_var).with('RAILS_ENV').and_return(nil)
-        expect(subject).to receive(:env_var).with('RACK_ENV').and_return(nil)
         expect(subject).to receive(:env_var).with('APP_ENV').and_return('foo_env')
+        expect(subject).not_to receive(:env_var).with('RAILS_ENV')
+        expect(subject).not_to receive(:env_var).with('RACK_ENV')
       end
 
       it do
