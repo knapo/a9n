@@ -49,7 +49,7 @@ module A9n
       end
 
       def no_known_namespaces?(yml)
-        !yml.keys.intersect?(KNOWN_NAMESPACES)
+        (yml.keys & KNOWN_NAMESPACES).empty?
       end
     end
 

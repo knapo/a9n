@@ -3,6 +3,7 @@ require:
 
 AllCops:
   NewCops: enable
+  TargetRubyVersion: 3.0
 
 Gemspec/RequiredRubyVersion:
   Include:
