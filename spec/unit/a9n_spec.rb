@@ -11,7 +11,7 @@ RSpec.describe A9n do
     end
 
     context 'app_env is set' do
-      let(:app) { OpenStruct.new(env: ::A9n::StringInquirer.new('foo_env')) }
+      let(:app) { OpenStruct.new(env: A9n::StringInquirer.new('foo_env')) }
 
       before do
         allow(subject).to receive(:app).and_return(app)

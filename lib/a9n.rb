@@ -60,7 +60,7 @@ module A9n
     def root_from_bundle_env
       return nil unless ENV['BUNDLE_GEMFILE']
 
-      dir = File.dirname(ENV['BUNDLE_GEMFILE'])
+      dir = File.dirname(ENV.fetch('BUNDLE_GEMFILE', nil))
 
       return nil unless File.directory?(dir)
 

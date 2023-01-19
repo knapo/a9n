@@ -51,7 +51,7 @@ RSpec.describe A9n do
     end
 
     it do
-      expect { subject.fetch(:invalid) }.to raise_error(::KeyError)
+      expect { subject.fetch(:invalid) }.to raise_error(KeyError)
     end
 
     it do
