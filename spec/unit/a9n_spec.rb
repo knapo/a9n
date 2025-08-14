@@ -20,8 +20,8 @@ RSpec.describe A9n do
 
       it do
         expect(subject.env).to eq('foo_env')
-        expect(subject.env.foo_env?).to eq(true)
-        expect(subject.env.production?).to eq(false)
+        expect(subject.env.foo_env?).to be(true)
+        expect(subject.env.production?).to be(false)
       end
     end
 
@@ -35,8 +35,8 @@ RSpec.describe A9n do
 
       it do
         expect(subject.env).to eq('foo_env')
-        expect(subject.env.foo_env?).to eq(true)
-        expect(subject.env.production?).to eq(false)
+        expect(subject.env.foo_env?).to be(true)
+        expect(subject.env.production?).to be(false)
       end
     end
 
@@ -155,7 +155,7 @@ RSpec.describe A9n do
       end
 
       it do
-        expect(subject.rails_app).to be_kind_of(Module)
+        expect(subject.rails_app).to be_a(Module)
       end
     end
 

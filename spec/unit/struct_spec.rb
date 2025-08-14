@@ -11,11 +11,11 @@ RSpec.describe A9n::Struct do
     end
 
     describe '#key?' do
-      it { expect(subject.key?(:foo)).to eq(false) }
+      it { expect(subject.key?(:foo)).to be(false) }
     end
 
     describe '#[]' do
-      it { expect(subject[:foo]).to eq(nil) }
+      it { expect(subject[:foo]).to be_nil }
     end
 
     describe '#fetch' do
@@ -62,21 +62,21 @@ RSpec.describe A9n::Struct do
 
     describe '#to_h' do
       it do
-        expect(subject.to_h).to be_kind_of(Hash)
+        expect(subject.to_h).to be_a(Hash)
         expect(subject.to_h).to eq(data)
       end
     end
 
     describe '#to_hash' do
       it do
-        expect(subject.to_hash).to be_kind_of(Hash)
+        expect(subject.to_hash).to be_a(Hash)
         expect(subject.to_hash).to eq(data)
       end
     end
 
     describe '#key?' do
-      it { expect(subject.key?(:nil_foo)).to eq(true) }
-      it { expect(subject.key?(:unknown)).to eq(false) }
+      it { expect(subject.key?(:nil_foo)).to be(true) }
+      it { expect(subject.key?(:unknown)).to be(false) }
     end
 
     describe '#merge' do
@@ -108,19 +108,19 @@ RSpec.describe A9n::Struct do
     end
 
     it 'gets nil value' do
-      expect(subject.nil_foo).to eq(nil)
+      expect(subject.nil_foo).to be_nil
     end
 
     it 'gets true value' do
-      expect(subject.true_foo).to eq(true)
+      expect(subject.true_foo).to be(true)
     end
 
     it 'gets false value' do
-      expect(subject.false_foo).to eq(false)
+      expect(subject.false_foo).to be(false)
     end
 
     it 'gets hash value' do
-      expect(subject.hash_foo).to be_kind_of(Hash)
+      expect(subject.hash_foo).to be_a(Hash)
     end
 
     it 'raises exception when value not exists' do
@@ -138,15 +138,15 @@ RSpec.describe A9n::Struct do
       end
 
       it 'returns false value' do
-        expect(subject[:false_foo]).to eq(false)
+        expect(subject[:false_foo]).to be(false)
       end
 
       it 'returns nil value' do
-        expect(subject[:nil_foo]).to eq(nil)
+        expect(subject[:nil_foo]).to be_nil
       end
 
       it 'returns nil for non existing key' do
-        expect(subject[:non_existing_foo]).to eq(nil)
+        expect(subject[:non_existing_foo]).to be_nil
       end
     end
 
@@ -156,11 +156,11 @@ RSpec.describe A9n::Struct do
       end
 
       it 'returns false value' do
-        expect(subject.find('false_foo')).to eq(false)
+        expect(subject.find('false_foo')).to be(false)
       end
 
       it 'returns nil value' do
-        expect(subject.find(:nil_foo)).to eq(nil)
+        expect(subject.find(:nil_foo)).to be_nil
       end
 
       it 'raises error for non existing key' do
@@ -176,11 +176,11 @@ RSpec.describe A9n::Struct do
       end
 
       it 'returns false value' do
-        expect(subject.fetch(:false_foo)).to eq(false)
+        expect(subject.fetch(:false_foo)).to be(false)
       end
 
       it 'returns nil value' do
-        expect(subject.fetch(:nil_foo)).to eq(nil)
+        expect(subject.fetch(:nil_foo)).to be_nil
       end
 
       it 'returns default for non existing value' do

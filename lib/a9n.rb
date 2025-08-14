@@ -117,9 +117,9 @@ module A9n
       @logger ||= ::Logger.new($stdout, level: fetch(:log_level, DEFAULT_LOG_LEVEL))
     end
 
-    def method_missing(name, *args)
+    def method_missing(name, *)
       load if storage.empty?
-      storage.send(name, *args)
+      storage.send(name, *)
     end
 
     private

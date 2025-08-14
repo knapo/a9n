@@ -115,7 +115,7 @@ RSpec.describe A9n::Loader do
     context 'when file exists' do
       shared_examples 'non-empty config file' do
         it 'returns non-empty hash' do
-          expect(subject).to be_kind_of(Hash)
+          expect(subject).to be_a(Hash)
           expect(subject).to be_frozen
           expect(subject.keys).not_to be_empty
         end
@@ -154,9 +154,9 @@ RSpec.describe A9n::Loader do
         end
 
         it 'has symbolized keys' do
-          expect(subject.keys.first).to be_kind_of(Symbol)
-          expect(subject[:hash_foo]).to be_kind_of(Hash)
-          expect(subject[:hash_foo].keys.first).to be_kind_of(Symbol)
+          expect(subject.keys.first).to be_a(Symbol)
+          expect(subject[:hash_foo]).to be_a(Hash)
+          expect(subject[:hash_foo].keys.first).to be_a(Symbol)
           expect(subject[:hash_foo]).to eq(foo1: 'hello 1', foo2: 'hello 2', foo_key: 'key123')
         end
 

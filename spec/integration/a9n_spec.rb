@@ -26,7 +26,7 @@ RSpec.describe A9n do
 
   context 'base config file' do
     it do
-      expect(subject.storage).to be_kind_of(A9n::Struct)
+      expect(subject.storage).to be_a(A9n::Struct)
     end
 
     it do
@@ -75,7 +75,7 @@ RSpec.describe A9n do
 
   context 'extra config file' do
     before do
-      expect(subject.aws).to be_kind_of(A9n::Struct)
+      expect(subject.aws).to be_a(A9n::Struct)
     end
 
     it do
@@ -95,7 +95,7 @@ RSpec.describe A9n do
 
   context 'extra config file with erb' do
     before do
-      expect(subject.cloud).to be_kind_of(A9n::Struct)
+      expect(subject.cloud).to be_a(A9n::Struct)
     end
 
     it do
@@ -115,7 +115,7 @@ RSpec.describe A9n do
 
   context 'extra config file with example' do
     before do
-      expect(subject.mailer).to be_kind_of(A9n::Struct)
+      expect(subject.mailer).to be_a(A9n::Struct)
     end
 
     it do
@@ -133,7 +133,7 @@ RSpec.describe A9n do
 
   context 'extra config file without known namspaces' do
     before do
-      expect(subject.emails).to be_kind_of(A9n::Struct)
+      expect(subject.emails).to be_a(A9n::Struct)
     end
 
     it do
