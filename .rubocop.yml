@@ -3,12 +3,12 @@ plugins:
 
 AllCops:
   NewCops: enable
-  TargetRubyVersion: 3.3
+  TargetRubyVersion: 3.4
 
 Gemspec/RequiredRubyVersion:
   Include:
-    - 3.3
     - 3.4
+    - 4.0
 
 Layout/LineLength:
   Max: 140
