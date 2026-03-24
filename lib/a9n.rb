@@ -1,24 +1,24 @@
-require 'forwardable'
-require 'pathname'
-require 'ostruct'
-require 'yaml'
-require 'erb'
-require 'logger'
-require 'a9n/version'
-require 'a9n/exceptions'
-require 'a9n/struct'
-require 'a9n/scope'
-require 'a9n/ext/string_inquirer'
-require 'a9n/ext/hash'
-require 'a9n/yaml_loader'
-require 'a9n/loader'
+require "forwardable"
+require "pathname"
+require "ostruct"
+require "yaml"
+require "erb"
+require "logger"
+require "a9n/version"
+require "a9n/exceptions"
+require "a9n/struct"
+require "a9n/scope"
+require "a9n/ext/string_inquirer"
+require "a9n/ext/hash"
+require "a9n/yaml_loader"
+require "a9n/loader"
 
 module A9n
   extend SingleForwardable
 
-  EXTENSION_LIST = '{yml,yml.erb,yml.example,yml.erb.example}'.freeze
-  STRICT_MODE = 'strict'.freeze
-  DEFAULT_LOG_LEVEL = 'info'.freeze
+  EXTENSION_LIST = "{yml,yml.erb,yml.example,yml.erb.example}".freeze
+  STRICT_MODE = "strict".freeze
+  DEFAULT_LOG_LEVEL = "info".freeze
 
   class << self
     attr_writer :logger
@@ -26,9 +26,9 @@ module A9n
     def env
       @env ||= ::A9n::StringInquirer.new(
         app_env ||
-        env_var('APP_ENV') ||
-        env_var('RACK_ENV') ||
-        env_var('RAILS_ENV') ||
+        env_var("APP_ENV") ||
+        env_var("RACK_ENV") ||
+        env_var("RAILS_ENV") ||
         raise(UnknownEnvError)
       )
     end
@@ -45,9 +45,7 @@ module A9n
       @app ||= rails_app
     end
 
-    def app=(app_instance)
-      @app = app_instance
-    end
+    attr_writer :app
 
     def root
       @root ||= app_root || root_from_bundle_env || raise(RootNotSetError)
@@ -58,9 +56,9 @@ module A9n
     end
 
     def root_from_bundle_env
-      return nil unless ENV['BUNDLE_GEMFILE']
+      return nil unless ENV["BUNDLE_GEMFILE"]
 
-      dir = File.dirname(ENV.fetch('BUNDLE_GEMFILE', nil))
+      dir = File.dirname(ENV.fetch("BUNDLE_GEMFILE", nil))
 
       return nil unless File.directory?(dir)
 
@@ -72,7 +70,7 @@ module A9n
     end
 
     def groups
-      ['default', env].compact.freeze
+      ["default", env].compact.freeze
     end
 
     def rails_app
@@ -90,9 +88,9 @@ module A9n
     end
 
     def default_files
-      files  = Dir[root.join("config/{#{A9n::Scope::ROOT_NAMES.join(',')}}.#{EXTENSION_LIST}").to_s]
+      files = Dir[root.join("config/{#{A9n::Scope::ROOT_NAMES.join(",")}}.#{EXTENSION_LIST}").to_s]
       files += Dir[root.join("config/a9n/*.#{EXTENSION_LIST}")]
-      files.map { |f| f.sub(/.example$/, '') }.uniq.sort
+      files.map { |f| f.sub(/.example$/, "") }.uniq.sort
     end
 
     def load(*files)
@@ -106,7 +104,7 @@ module A9n
     end
 
     def mode
-      ENV['A9N_MODE'] || STRICT_MODE
+      ENV["A9N_MODE"] || STRICT_MODE
     end
 
     def strict?
@@ -120,6 +118,11 @@ module A9n
     def method_missing(name, *)
       load if storage.empty?
       storage.send(name, *)
+    end
+
+    def respond_to_missing?(name, include_private = false)
+      load if storage.empty?
+      storage.respond_to?(name, include_private) || super
     end
 
     private
@@ -144,13 +147,13 @@ module A9n
     end
 
     def absolute_paths_for(files)
-      files.map { |file| Pathname.new(file).absolute? ? file : root.join('config', file).to_s }
+      files.map { |file| Pathname.new(file).absolute? ? file : root.join("config", file).to_s }
     end
 
     def require_local_extension
       return if root.nil?
 
-      local_extension_file = File.join(root, 'config/a9n.rb')
+      local_extension_file = File.join(root, "config/a9n.rb")
 
       return unless File.exist?(local_extension_file)
 

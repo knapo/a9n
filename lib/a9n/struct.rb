@@ -10,8 +10,8 @@ module A9n
       @data = data
     end
 
-    alias to_hash data
-    alias to_h data
+    alias_method :to_hash, :data
+    alias_method :to_h, :data
 
     def merge(another_data)
       data.merge!(another_data)
@@ -27,6 +27,10 @@ module A9n
 
     def method_missing(key, *_args)
       find(key)
+    end
+
+    def respond_to_missing?(key, include_private = false)
+      data.key?(key.to_sym) || super
     end
 
     def set(key, value)

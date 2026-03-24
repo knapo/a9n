@@ -1,10 +1,9 @@
-source 'https://rubygems.org'
+source "https://rubygems.org"
 
 gemspec
 
-gem 'pry'
-gem 'rake'
-gem 'rspec'
-gem 'rubocop'
-gem 'rubocop-rake'
-gem 'rubocop-rspec'
+gem "pry"
+gem "rake"
+gem "rspec"
+gem "standard", ">= 1.35.1"
+gem "standard-rspec"
