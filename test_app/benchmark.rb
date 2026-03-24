@@ -1,7 +1,7 @@
-require 'rubygems'
-require 'bundler/setup'
-require 'benchmark'
-require 'a9n'
+require "rubygems"
+require "bundler/setup"
+require "benchmark"
+require "a9n"
 
 class SampleBenchmarkApp
   def run
@@ -11,7 +11,7 @@ class SampleBenchmarkApp
   end
 
   def root
-    Pathname.new('./test_app').expand_path
+    Pathname.new("./test_app").expand_path
   end
 
   def env

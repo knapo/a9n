@@ -17,7 +17,7 @@ module A9n
     end
 
     def self.form_file_path(path)
-      new(File.basename(path.to_s).split('.').first.to_sym)
+      new(File.basename(path.to_s).split(".").first.to_sym)
     end
   end
 end

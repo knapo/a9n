@@ -2,8 +2,8 @@ module A9n
   class Loader
     attr_reader :scope, :env, :local_file, :example_file, :struct
 
-    COMMON_NAMESPACE = 'defaults'.freeze
-    KNOWN_NAMESPACES = [COMMON_NAMESPACE, 'development', 'test', 'staging', 'production'].freeze
+    COMMON_NAMESPACE = "defaults".freeze
+    KNOWN_NAMESPACES = [COMMON_NAMESPACE, "development", "test", "staging", "production"].freeze
 
     def initialize(file_path, scope, env)
       @scope = scope
@@ -17,8 +17,8 @@ module A9n
     end
 
     def load
-      local_config    = self.class.load_yml(local_file, scope, env)
-      example_config  = self.class.load_yml(example_file, scope, env)
+      local_config = self.class.load_yml(local_file, scope, env)
+      example_config = self.class.load_yml(example_file, scope, env)
 
       ensure_data_presence!(local_config, example_config)
       ensure_keys_presence!(local_config, example_config)
@@ -36,7 +36,7 @@ module A9n
           prepare_hash(yml, scope).freeze
         else
           common_namespace = prepare_hash(yml[COMMON_NAMESPACE], scope)
-          env_namespace    = prepare_hash(yml[env], scope)
+          env_namespace = prepare_hash(yml[env], scope)
 
           A9n::Hash.merge(common_namespace, env_namespace).freeze
         end
@@ -70,7 +70,7 @@ module A9n
 
       return if missing_keys.empty?
 
-      raise A9n::MissingConfigurationVariablesError, "Following variables are missing in #{local_file} file: #{missing_keys.join(',')}"
+      raise A9n::MissingConfigurationVariablesError, "Following variables are missing in #{local_file} file: #{missing_keys.join(",")}"
     end
   end
 end
